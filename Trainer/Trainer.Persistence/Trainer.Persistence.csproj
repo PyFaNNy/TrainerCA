@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="Configurations\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,6 +23,11 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Trainer.Application\Trainer.Application.csproj" />
+    <ProjectReference Include="..\Trainer.Domain\Trainer.Domain.csproj" />
   </ItemGroup>
 
 </Project>

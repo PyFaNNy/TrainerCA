@@ -1,12 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Trainer.Persistence
+﻿namespace Trainer.Persistence
 {
-    internal class DependenciesBootstrapper
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Application.Interfaces;
+
+    public static class DependenciesBootstrapper
     {
+        public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddDbContext<TrainerDbContext>(options =>
+            {
+                options.UseSqlServer(
+                        configuration.GetConnectionString("DefaultConnection"),
+                        b => b.MigrationsAssembly(typeof(TrainerDbContext).Assembly.FullName));
+
+                options.EnableDetailedErrors();
+                options.EnableSensitiveDataLogging();
+            });
+
+            services.AddScoped<ITrainerDbContext>(provider => provider.GetService<TrainerDbContext>());
+
+            return services;
+        }
     }
 }
