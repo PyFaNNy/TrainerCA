@@ -1,0 +1,47 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model Trainer.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = @Localizer["SingIn"];
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <section>
+            <form method="post" asp-controller="Account" asp-action="Login">
+                <h3>@Localizer["SingIn"]</h3>
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="UserName">@Localizer["Login"]</label>
+                    <input asp-for="UserName" class="form-control" />
+                    <span class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password">@Localizer["Password"]</label>
+                    <input asp-for="Password" class="form-control" type="password" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label asp-for="RememberMe">@Localizer["RememberMe"]</label>
+                        <input asp-for="RememberMe" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary mt-1">@Localizer["SingIn"]</button>
+                </div>
+            </form>
+        </section>
+    </div>
+    <div class="col-md-6 col-md-offset-2">
+        <section>
+            <h3>@Localizer["ExternalLogin"]</h3>
+            <hr />
+            <div>
+                <span>@Localizer["NoImplementation"]</span>
+            </div>
+        </section>
+    </div>
+</div>

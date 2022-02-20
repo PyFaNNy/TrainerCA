@@ -1,0 +1,177 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = @Localizer["Profil"];
+}
+
+@model PatientViewModel
+<div class="row my-2">
+    <div class="col-lg-8 order-lg-2">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a href="" data-target="#profile" data-toggle="tab" class="nav-link active">@Localizer["Profil"]</a>
+            </li>
+            <li class="nav-item">
+                <a href="" data-target="#edit" data-toggle="tab" class="nav-link">@Localizer["Info"]</a>
+            </li>
+        </ul>
+        <div class="tab-content py-4">
+            <div class="tab-pane active" id="profile">
+                <h5 class="mb-3">@Model.LastName @Model.FirstName @Model.MiddleName, @Model.Age @Localizer["Age"]</h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>@Localizer["AboutMe"]</h6>
+                        <p>
+                            @if (Model.About != null)
+                                @Model.About
+                        </p>
+                        <h6>@Localizer["Hobby"]</h6>
+                        <p>
+                            @if (Model.Hobbies != null)
+                                @Model.Hobbies
+                        </p>
+                    </div>
+                    <div class="col-md-12">
+                        <h5 class="mt-2"><span class="fa fa-clock-o ion-clock float-right"></span>@Localizer["RecentExamination"]</h5>
+                        @if (ViewBag.Results != null)
+                        {
+                            <table class="table table table-hover table-striped">
+                                <thead>
+                                <th>@Localizer["TypePhysicalActive"]</th>
+                                <th>@Localizer["Date"]</th>
+                                <th>@Localizer["Dia"]</th>
+                                <th>@Localizer["Sis"]</th>
+                                <th>@Localizer["Oxigen"]</th>
+                                <th>@Localizer["Temperature"]</th>
+                                <th>@Localizer["HeartRate"]</th>
+                                </thead>
+                                <tbody>
+                                    @foreach (var active in ViewBag.Results)
+                                    {
+                                        <tr>
+                                            <td>@active.Examination.TypePhysicalActive</td>
+                                            <td>@active.Examination.Date.ToString()</td>
+                                            <td>@active.AverageDia</td>
+                                            <td>@active.AverageSis</td>
+                                            <td>@active.AverageOxigen</td>
+                                            <td>@Math.Round(active.AverageTemperature, 2)</td>
+                                            <td>@active.AverageHeartRate</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="edit">
+                <form method="post" asp-controller="Patient" asp-action="UpdateModel" asp-route-id="@Model.Id">
+                    <div class="form-group row">
+                        <label asp-for="LastName" class="col-lg-3 col-form-label form-control-label">@Localizer["LastName"]</label>
+                        <div class="col-lg-9">
+                            @if (User.IsInRole("Admin, Manager"))
+                            {
+                                <input asp-for="LastName" class="form-control" type="text" value="@Model.LastName">
+                            }
+                            else
+                            {
+                                <input asp-for="LastName" class="form-control" type="text" value="@Model.LastName" readonly>
+                            }
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="FirstName" class="col-lg-3 col-form-label form-control-label">@Localizer["FirstName"]</label>
+                        <div class="col-lg-9">
+                            @if (User.IsInRole("Admin, Manager"))
+                            {
+                                <input asp-for="FirstName" class="form-control" type="text" value="@Model.FirstName">
+                            }
+                            else
+                            {
+                                <input asp-for="FirstName" class="form-control" type="text" value="@Model.FirstName" readonly>
+                            }
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="MiddleName" class="col-lg-3 col-form-label form-control-label">@Localizer["MiddleName"]</label>
+                        <div class="col-lg-9">
+                            @if (User.IsInRole("Admin, Manager"))
+                            {
+                                <input asp-for="MiddleName" class="form-control" type="text" value="@Model.MiddleName">
+                            }
+                            else
+                            {
+                                <input asp-for="MiddleName" class="form-control" type="text" value="@Model.MiddleName" readonly>
+                            }
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Email" class="col-lg-3 col-form-label form-control-label">@Localizer["Email"]</label>
+                        <div class="col-lg-9">
+                            @if (User.IsInRole("Admin, Manager"))
+                            {
+                                <input asp-for="Email" class="form-control" type="text" value="@Model.Email">
+                            }
+                            else
+                            {
+                                <input asp-for="Email" class="form-control" type="text" value="@Model.Email" readonly>
+                            }
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Age" class="col-lg-3 col-form-label form-control-label">@Localizer["Age"]</label>
+                        <div class="col-lg-9">
+                            @if (User.IsInRole("Admin, Manager"))
+                            {
+                                <input asp-for="Age" class="form-control" value="@Model.Age">
+                            }
+                            else
+                            {
+                                <input asp-for="Age" class="form-control" value="@Model.Age" readonly>
+                            }
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="About" class="col-lg-3 col-form-label form-control-label">@Localizer["AboutMe"]</label>
+                        <div class="col-lg-9">
+                            @if (User.IsInRole("Admin, Manager"))
+                            {
+                                <input asp-for="About" class="form-control" type="text" value="@Model.About">
+                            }
+                            else
+                            {
+                                <input asp-for="About" class="form-control" type="text" value="@Model.About" readonly>
+                            }
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Hobbies" class="col-lg-3 col-form-label form-control-label">@Localizer["Hobby"]</label>
+                        <div class="col-lg-9">
+                            @if (User.IsInRole("Admin, Manager"))
+                            {
+                                <input asp-for="Hobbies" class="form-control" type="text" value="@Model.Hobbies">
+                            }
+                            else
+                            {
+                                <input asp-for="Hobbies" class="form-control" type="text" value="@Model.Hobbies" readonly>
+                            }
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label form-control-label"></label>
+                        <div class="col-lg-9">
+                            @if (User.IsInRole("Admin, Manager"))
+                            {
+                                <button type="submit" class="btn btn-primary">@Localizer["Change"]</button>
+                            }
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 order-lg-1 text-center">
+        <img src="~/picture/icons/256x256/256_15.png" class="mx-auto img-fluid img-circle d-block" alt="avatar">
+    </div>
+</div>
+

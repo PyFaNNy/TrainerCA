@@ -1,0 +1,133 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Http;
+@inject IViewLocalizer Localizer
+@inject IHttpContextAccessor HttpContextAccessor
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - @Localizer["Trainer"]</title>
+
+    @if (HttpContextAccessor.HttpContext.Request.Cookies.TryGetValue("theme", out string str))
+    {
+        <link rel="stylesheet" href=@str id="ref-css" />
+    }
+    else
+    {
+        <link rel="stylesheet" href="../lib/bootstrap/dist/css/bootstrap-light.min.css" id="ref-css" />
+    }
+
+    <link href="~/lib/bootstrap/dist/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand text-success" asp-area="" asp-controller="Home" asp-action="Index">Trainer</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-success"> @User.Identity.Name</a>
+                            </li>
+                            <li class="nav-item">
+                                <form class="form-inline" asp-controller="Account" asp-action="Logout">
+                                    <button type="submit" class="nav-link btn btn-link text-success">@Localizer["Logout"]</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-success" asp-controller="Account" asp-action="Register">@Localizer["Registration"]</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-success" asp-controller="Account" asp-action="Login">@Localizer["SingIn"]</a>
+                            </li>
+                        }
+
+                    </ul>
+                    <ul class="navbar-nav flex-grow-1">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-success" asp-controller="Patient" asp-action="GetModels">@Localizer["Patients"]</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-success" asp-controller="Examination" asp-action="GetModels">@Localizer["Examinations"]</a>
+                            </li>
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-success" asp-controller="Account" asp-action="GetModels">@Localizer["Admin"]</a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+                @if (HttpContextAccessor.HttpContext.Request.Cookies["theme"]?.ToString() == "../lib/bootstrap/dist/css/bootstrap-dark.min.css")
+                {
+                    <input type="checkbox" id="toggle-event"  data-toggle="toggle" data-on=@Localizer["Light"] data-off="@Localizer["Dark"]">
+                }
+                else
+                {
+                    <input type="checkbox" id="toggle-event" checked data-toggle="toggle" data-on=@Localizer["Light"] data-off="@Localizer["Dark"]">
+                }
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            <div class="row">
+                <div>
+                    &copy; 2021 - Тренажёр. Сделал Пузырёв Артём
+                </div>
+                @await Html.PartialAsync("_SelectLanguagePartial")
+            </div>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap-toggle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+    <script>
+        $(function () {
+            $('#toggle-event').change(function () {
+                if ($(this).prop('checked')) {
+                    $("#ref-css").attr("href", "../lib/bootstrap/dist/css/bootstrap-light.min.css");
+                    $.post("/Home/SetTheme",
+                        {
+                            theme: "../lib/bootstrap/dist/css/bootstrap-light.min.css",
+                            returnUrl: "@Context.Request.Path.ToString()"
+                        });
+                } else {
+                    $("#ref-css").attr("href", "../lib/bootstrap/dist/css/bootstrap-dark.min.css");
+                    $.post("/Home/SetTheme",
+                        {
+                            theme: "../lib/bootstrap/dist/css/bootstrap-dark.min.css",
+                            returnUrl: "@Context.Request.Path.ToString()"
+                        });
+                }
+            })
+        })
+    </script>
+</body>
+</html>

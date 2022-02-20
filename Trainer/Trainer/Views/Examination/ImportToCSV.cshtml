@@ -1,0 +1,17 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model CSV
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = @Localizer["Import To CSV"];
+}
+
+
+<form method="post" enctype="multipart/form-data" asp-controller="Examination" asp-action="ImportToCSV">
+    <div class="form-group">
+        <label class="form-label" asp-for="File">Choose file</label>
+        <input type="file" asp-for="File" class="form-control" />
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary mt-1">@Localizer["Set"]</button>
+    </div>
+</form>

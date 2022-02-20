@@ -1,0 +1,20 @@
+﻿@model IEnumerable<Trainer.DAL.Entities.Role>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+<h2>@Localizer["ListRoles"]</h2>
+<table class="table table-bordered table-checks">
+    @foreach (var role in Model)
+    {
+        <tr>
+            <td>@role.Name</td>
+            <td>
+                <form asp-action="Delete" asp-route-id="@role.Id" method="post">
+                    <button type="submit" class="btn btn-sm btn-danger">
+                        @Localizer["BtnDelete"]
+                    </button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>
+<a class="btn btn-sm btn-primary" asp-controller="Roles" asp-action="Create">@Localizer["BtnAddrole"]</a>

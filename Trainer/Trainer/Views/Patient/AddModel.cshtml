@@ -1,0 +1,47 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = @Localizer["SetPatient"];
+}
+@model PatientViewModel
+<h2>@Localizer["SetPatient"]</h2>
+<form method="post" enctype="multipart/form-data" asp-controller="Patient" asp-action="AddModel">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label asp-for="FirstName">@Localizer["FirstName"]</label><br />
+            <input asp-for="FirstName" class="form-control" />
+            <span asp-validation-for="FirstName"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="MiddleName">@Localizer["MiddleName"]</label><br />
+            <input asp-for="MiddleName" class="form-control" />
+            <span asp-validation-for="MiddleName"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="LastName">@Localizer["LastName"]</label><br />
+            <input asp-for="LastName" class="form-control" />
+            <span asp-validation-for="LastName"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Email">@Localizer["Email"]</label><br />
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Age">@Localizer["Age"]</label><br />
+            <input asp-for="Age" class="form-control" />
+            <span asp-validation-for="Age"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Sex">@Localizer["Sex"]</label><br />
+            <select asp-for="Sex" class="form-control">
+                <option value="0">@Localizer["Female"]</option>
+                <option value="1">@Localizer["Male"]</option>
+            </select>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary mt-1">@Localizer["Set"]</button>
+        </div>
+    </div>
+</form>
