@@ -1,9 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Trainer.Application.Aggregates.Examination.Commands.UpdateExamination
 @inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = @Localizer["UpdateExamination"];
 }
-@model ExaminationViewModel
+@model UpdateExaminationCommand
 <h2>@Localizer["UpdateExamination"]</h2>
 <form method="post" enctype="multipart/form-data" asp-controller="Examination" asp-action="UpdateModel" asp-route-id="@ViewBag.Examination.Id">
     <div asp-validation-summary="ModelOnly"></div>

@@ -1,10 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Trainer.Application.Aggregates.Patient.Queries.GetPatient
 @inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = @Localizer["Profil"];
 }
 
-@model PatientViewModel
+@model Patient
 <div class="row my-2">
     <div class="col-lg-8 order-lg-2">
         <ul class="nav nav-tabs">

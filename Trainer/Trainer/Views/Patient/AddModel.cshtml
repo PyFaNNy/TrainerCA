@@ -1,9 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Trainer.Application.Aggregates.Patient.Commands.CreatePatient
 @inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = @Localizer["SetPatient"];
 }
-@model PatientViewModel
+@model CreatePatientCommand
 <h2>@Localizer["SetPatient"]</h2>
 <form method="post" enctype="multipart/form-data" asp-controller="Patient" asp-action="AddModel">
     <div asp-validation-summary="ModelOnly"></div>

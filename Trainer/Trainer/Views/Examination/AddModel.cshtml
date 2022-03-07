@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Trainer.Application.Aggregates.Examination.Commands.CreateExamination
 @inject IViewLocalizer Localizer
-@model ExaminationViewModel
+@model CreateExaminationCommand
 @{
     ViewData["Title"] = @Localizer["SetExamination"];
 }

@@ -1,9 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Trainer.Application.Aggregates.Patient.Commands.UpdatePatient
 @inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = @Localizer["UpdatePatient"];
 }
-@model PatientViewModel
+@model UpdatePatientCommand
 <h2>@Localizer["UpdatePatient"]</h2>
 <form method="post" enctype="multipart/form-data" asp-controller="Patient" asp-action="UpdateModel" asp-route-id="@ViewBag.Patient.Id">
     <div asp-validation-summary="ModelOnly"></div>
