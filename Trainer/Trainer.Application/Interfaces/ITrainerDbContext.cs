@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Trainer.Domain.Entities.Examination;
 using Trainer.Domain.Entities.Patient;
 using Trainer.Domain.Entities.Result;
+using Trainer.Domain.Entities.Role;
+using Trainer.Domain.Entities.User;
 
 namespace Trainer.Application.Interfaces
 {
@@ -30,6 +32,17 @@ namespace Trainer.Application.Interfaces
             set;
         }
 
+        DbSet<User> Users
+        {
+            get;
+            set;
+        }
+
+        DbSet<Role> Roles
+        {
+            get;
+            set;
+        }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 

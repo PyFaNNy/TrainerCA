@@ -7,9 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Abstractions\" />
-    <Folder Include="Aggregates\" />
-    <Folder Include="Mappings\" />
+    <Folder Include="Aggregates\Results\Commands\" />
+    <Folder Include="Aggregates\Results\Queries\" />
+    <Folder Include="Aggregates\Roles\Commands\" />
+    <Folder Include="Aggregates\Roles\Queries\" />
     <Folder Include="Extensions\" />
   </ItemGroup>
 
@@ -19,12 +20,14 @@
     <PackageReference Include="FluentValidation" Version="10.3.6" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.6" />
     <PackageReference Include="MediatR" Version="10.0.1" />
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.14" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Trainer.Common\Trainer.Common.csproj" />
     <ProjectReference Include="..\Trainer.Domain\Trainer.Domain.csproj" />
   </ItemGroup>
 

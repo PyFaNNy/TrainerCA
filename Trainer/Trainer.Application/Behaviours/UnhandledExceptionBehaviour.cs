@@ -1,12 +1,9 @@
-﻿namespace Trainer.Application.Behaviours
-{
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using MediatR;
-    using Microsoft.Extensions.Logging;
+﻿using MediatR;
+using Microsoft.Extensions.Logging;
 
-    public class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+namespace Trainer.Application.Behaviours
+{
+    public class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {
         private readonly ILogger<TRequest> logger;
 
@@ -25,7 +22,7 @@
             {
                 var requestName = typeof(TRequest).Name;
 
-                this.logger.LogError(ex, "Prixy Request: Unhandled Exception for Request {Name} {@Request}", requestName, request);
+                this.logger.LogError(ex, "Trainer Request: Unhandled Exception for Request {Name} {@Request}", requestName, request);
 
                 throw;
             }
