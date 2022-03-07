@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Trainer.Application.Aggregates.CSV.Queries.PatientToCSV;
 using Trainer.Application.Aggregates.Patient.Commands.CreatePatient;
 using Trainer.Application.Aggregates.Patient.Commands.DeletePatient;
 using Trainer.Application.Aggregates.Patient.Commands.UpdatePatient;
@@ -87,9 +88,8 @@ namespace Trainer.Controllers
         [Authorize(Roles = "admin, manager")]
         public async Task<IActionResult> ExportToCSV()
         {
-            IEnumerable<PatientDTO> patientsDTO = await _contextService.GetPatients(SortState.LastNameSort);
-            var memoryStream = await _csvService.WriteNewCsvFile(patientsDTO);
-            return File(memoryStream, "text/csv", fileDownloadName: "Patients.csv");
+            var fileInfo = await Mediator.Send(new PatientToCSVQuery());
+            return File(fileInfo.Content, "text/csv", fileInfo.FileName);
         }
 
         [HttpGet]

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Trainer.Application.Aggregates.CSV.Queries.ExaminationToCSV;
 using Trainer.Application.Aggregates.Examination.Commands.CreateExamination;
 using Trainer.Application.Aggregates.Examination.Commands.DeleteExamination;
 using Trainer.Application.Aggregates.Examination.Commands.UpdateExamination;
@@ -117,9 +118,8 @@ namespace Trainer.Controllers
         [Authorize(Roles = "admin, manager")]
         public async Task<IActionResult> ExportToCSV()
         {
-            //var examinations = await Mediator.Send(new GetExaminationsQuery { SortOrder = SortState.DateSort });
-            //var memoryStream = await _csvService.WriteNewCsvFile(examinations);
-            //return File(memoryStream, "text/csv", fileDownloadName: "Examinations.csv");
+            var fileInfo =await Mediator.Send(new ExaminationToCSVQuery());
+            return File(fileInfo.Content, "text/csv", fileInfo.FileName);
         }
 
         [HttpGet]
