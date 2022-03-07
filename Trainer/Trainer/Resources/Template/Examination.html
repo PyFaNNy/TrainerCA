@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="x-apple-disable-message-reformatting">
+    <title></title>
+    <!--[if mso]>
+    <noscript>
+      <xml>
+        <o:OfficeDocumentSettings>
+          <o:PixelsPerInch>96</o:PixelsPerInch>
+        </o:OfficeDocumentSettings>
+      </xml>
+    </noscript>
+    <![endif]-->
+    <style>
+        table, td, div, h1, p {
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body style="margin:0;padding:0;">
+    <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;background:#ffffff;">
+        <tr>
+            <td align="center" style="padding:0;">
+                <table role="presentation" style="width:602px;border-collapse:collapse;border:1px solid #cccccc;border-spacing:0;text-align:left;">
+                    <tr>
+                        <td align="center" style="padding:40px 0 30px 0;background:#70bbd9;">
+                            <img src="https://clck.ru/ZPCF3" alt="" width="500" style="height:300px;display:block;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:36px 30px 42px 30px;">
+                            <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
+                                <tr>
+                                    <td style="padding:0;">
+                                        <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
+                                            <tr>
+                                                <td style="width:260px;padding:0;vertical-align:top;color:#153643;">
+                                                    <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Patient: {{patient.last_name}} {{patient.first_name}} {{patient.middle_name}}</p>
+                                                    <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Age: {{patient.age}}</p>
+                                                    <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Sex: {{patient.sex}}</p>
+                                                    <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Date: {{model.date}}</p>
+                                                    <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Type Physical Active: {{model.type_physical_active}}</p>
+                                                    <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Measure:</p>
+                                                    {{if model.indicator1}}
+                                                    <li>Dia/Sis</li>
+                                                    {{end}}
+                                                    {{if model.indicator2}}
+                                                    <li>Temperature</li>
+                                                    {{end}}
+                                                    {{if model.indicator3}}
+                                                    <li>HeartRating</li>
+                                                    {{end}}
+                                                    {{if model.indicator4}}
+                                                    <li>SpO2</li>
+                                                    {{end}}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:30px;background:#ee4c50;">
+                            <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;font-size:9px;font-family:Arial,sans-serif;">
+                                <tr>
+                                    <td style="padding:0;width:50%;" align="left">
+                                        <p style="margin:0;font-size:14px;line-height:16px;font-family:Arial,sans-serif;color:#ffffff;">
+                                            &reg; Trainer, By Artyom Puzyrev 2021<br />
+                                        </p>
+                                    </td>
+                                    <td style="padding:0;width:50%;" align="right">
+                                        <table role="presentation" style="border-collapse:collapse;border:0;border-spacing:0;">
+                                            <tr>
+                                                <td style="padding:0 0 0 10px;width:38px;">
+                                                    <a href="https://vk.com/kwesa" style="color:#ffffff;"><img src="http://surl.li/azjhc" alt="Vk" width="38" style="height:auto;display:block;border:0;" /></a>
+                                                </td>
+                                                <td style="padding:0 0 0 10px;width:38px;">
+                                                    <a href="https://github.com/PyFaNNy" style="color:#ffffff;"><img src="http://surl.li/azjhd" alt="GitHub" width="38" style="height:auto;display:block;border:0;" /></a>
+                                                </td>
+
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
