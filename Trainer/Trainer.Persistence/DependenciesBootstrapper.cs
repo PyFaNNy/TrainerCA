@@ -1,9 +1,9 @@
 ﻿namespace Trainer.Persistence
 {
+    using Application.Interfaces;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Application.Interfaces;
 
     public static class DependenciesBootstrapper
     {

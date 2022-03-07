@@ -1,14 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Trainer.Application.Interfaces;
 using Trainer.Domain.Entities.Examination;
 using Trainer.Domain.Entities.Patient;
 using Trainer.Domain.Entities.Result;
+using Trainer.Domain.Entities.Role;
+using Trainer.Domain.Entities.User;
 using Trainer.Domain.Interfaces;
 
 namespace Trainer.Persistence
 {
-    public class TrainerDbContext : DbContext, ITrainerDbContext
+    public class TrainerDbContext : IdentityDbContext<User, Role, Guid>, ITrainerDbContext
     {
         public DbSet<Patient> Patients 
         {
@@ -24,6 +27,18 @@ namespace Trainer.Persistence
 
         public DbSet<Result> Results 
         { 
+            get;
+            set;
+        }
+
+        public DbSet<User> Users
+        {
+            get;
+            set;
+        }
+
+        public DbSet<Role> Roles
+        {
             get;
             set;
         }
