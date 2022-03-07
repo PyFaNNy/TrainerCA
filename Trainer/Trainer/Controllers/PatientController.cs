@@ -1,36 +1,28 @@
 ﻿using AutoMapper;
-using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Trainer.BLL.DTO;
-using Trainer.BLL.Infrastructure;
-using Trainer.BLL.Interfaces;
-using Trainer.DAL.Util.Constant;
-using Trainer.Models;
-using Trainer.Util.Validators;
+using Trainer.Application.Aggregates.Patient.Commands.CreatePatient;
+using Trainer.Application.Aggregates.Patient.Commands.DeletePatient;
+using Trainer.Application.Aggregates.Patient.Commands.UpdatePatient;
+using Trainer.Application.Aggregates.Patient.Queries.GetPatient;
+using Trainer.Application.Aggregates.Patient.Queries.GetPatients;
+using Trainer.Application.Interfaces;
+using Trainer.Enums;
 
 namespace Trainer.Controllers
 {
-    public class PatientController : Controller
+    public class PatientController : BaseController
     {
-        private readonly IContextService _contextService;
         private readonly ICsvParserService _csvService;
-        private readonly IMapper _mapper;
-        private readonly PatientValidator _validator;
 
-        public PatientController(IContextService serv, PatientValidator validator, IMapper mapper, ICsvParserService csv)
+        public PatientController(ILogger<PatientController> logger, IMapper mapper, ICsvParserService csv)
+            : base(logger)
         {
-            _contextService = serv ?? throw new ArgumentNullException($"{nameof(serv)} is null.");
-            _validator = validator ?? throw new ArgumentNullException($"{nameof(validator)} is null.");
-            _mapper = mapper ?? throw new ArgumentNullException($"{nameof(mapper)} is null.");
             _csvService = csv ?? throw new ArgumentNullException($"{nameof(csv)} is null.");
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin,Doctor,Manager")]
+        [Authorize(Roles = "admin, doctor, manager")]
         public async Task<IActionResult> GetModels(SortState sortOrder = SortState.FirstNameSort)
         {
             ViewData["FirstNameSort"] = sortOrder == SortState.FirstNameSort ? SortState.FirstNameSortDesc : SortState.FirstNameSort;
@@ -38,111 +30,66 @@ namespace Trainer.Controllers
             ViewData["MiddleNameSort"] = sortOrder == SortState.MiddleNameSort ? SortState.MiddleNameSortDesc : SortState.MiddleNameSort;
             ViewData["AgeSort"] = sortOrder == SortState.AgeSort ? SortState.AgeSortDesc : SortState.AgeSort;
             ViewData["SexSort"] = sortOrder == SortState.SexSort ? SortState.SexSortDesc : SortState.SexSort;
-            IEnumerable<PatientDTO> patientsDTO = await _contextService.GetPatients(sortOrder);
-            var patients = _mapper.Map<List<PatientViewModel>>(patientsDTO);
-            return View(patients);
+
+            var results = await Mediator.Send(new GetPatientsQuery { SortOrder = sortOrder });
+            return View(results);
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin,Doctor,Manager")]
+        [Authorize(Roles = "admin, doctor, manager")]
         public async Task<IActionResult> GetModel(Guid id)
         {
-            try
-            {
-                PatientDTO patientDTO = await _contextService.GetPatient(id);
-                ViewBag.Results = await _contextService.GetPatientResults(id);
-                var patientView = _mapper.Map<PatientViewModel>(patientDTO);
-                return View(patientView);
-            }
-            catch (RecordNotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
+            var patient = await Mediator.Send(new GetPatientQuery { PatientId = id });
+            ViewBag.Results = patient.Results.Take(5);
+            return View(patient);
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "admin, manager")]
         public IActionResult AddModel()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,Manager")]
-        public async Task<IActionResult> AddModel(PatientViewModel model)
+        [Authorize(Roles = "admin, manager")]
+        public async Task<IActionResult> AddModel(CreatePatientCommand command)
         {
-            try
-            {
-                _validator.ValidateAndThrow(model);
-                var patientDto = _mapper.Map<PatientDTO>(model);
-                await _contextService.Create(patientDto);
-                return RedirectToAction("GetModels");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "Admin,Manager")]
-        public async Task<IActionResult> UpdateModel(Guid id)
-        {
-            try
-            {
-                PatientDTO patientDTO = await _contextService.GetPatient(id);
-                var patientView = _mapper.Map<PatientViewModel>(patientDTO);
-                ViewBag.Patient = patientView;
-                return View();
-            }
-            catch (RecordNotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "Admin,Manager")]
-        public async Task<IActionResult> UpdateModel(PatientViewModel model)
-        {
-            try
-            {
-                _validator.ValidateAndThrow(model);
-                var patientDto = _mapper.Map<PatientDTO>(model);
-                await _contextService.Update(patientDto);
-                return RedirectToAction("GetModels");
-            }
-            catch (RecordNotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-        }
-
-        [Authorize(Roles = "Admin,Manager")]
-        public async Task<RedirectToActionResult> DeleteModelAsync(Guid[] selectedPatient)
-        {
-            foreach (var patient in selectedPatient)
-            {
-                await _contextService.DeletePatient(patient);
-            }
+            await Mediator.Send(command);
             return RedirectToAction("GetModels");
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "admin, manager")]
+        public async Task<IActionResult> UpdateModel(Guid id)
+        {
+            var patient = await Mediator.Send(new GetPatientQuery { PatientId = id });
+            ViewBag.Patient = patient;
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "admin, manager")]
+        public async Task<IActionResult> UpdateModel(UpdatePatientCommand command)
+        {
+            await Mediator.Send(command);
+            return RedirectToAction("GetModels");
+        }
+
+        [Authorize(Roles = "admin, manager")]
+        public async Task<RedirectToActionResult> DeleteModelAsync(Guid[] selectedPatient)
+        {
+            await Mediator.Send(new DeletePatientsCommand { PatientsId = selectedPatient });
+            return RedirectToAction("GetModels");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "admin, manager")]
         public async Task<IActionResult> ExportToCSV()
         {
-            try
-            {
-                IEnumerable<PatientDTO> patientsDTO = await _contextService.GetPatients(SortState.LastNameSort); 
-                var memoryStream = await _csvService.WriteNewCsvFile(patientsDTO);
-                return File(memoryStream, "text/csv", fileDownloadName: "Patients.csv");
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            IEnumerable<PatientDTO> patientsDTO = await _contextService.GetPatients(SortState.LastNameSort);
+            var memoryStream = await _csvService.WriteNewCsvFile(patientsDTO);
+            return File(memoryStream, "text/csv", fileDownloadName: "Patients.csv");
         }
 
         [HttpGet]
@@ -152,19 +99,12 @@ namespace Trainer.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "admin, manager")]
         public async Task<IActionResult> ImportToCSV(CSV source)
         {
-            try
-            {
-                var patients = await _csvService.ReadCsvFileToPatient(source.File);
-                await _contextService.Range(patients);
-                return RedirectToAction("GetModels");
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
+            var patients = await _csvService.ReadCsvFileToPatient(source.File);
+            await _contextService.Range(patients);
+            return RedirectToAction("GetModels");
         }
     }
 }

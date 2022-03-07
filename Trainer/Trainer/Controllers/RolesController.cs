@@ -1,25 +1,25 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Trainer.DAL.Entities;
+using Trainer.Domain.Entities.Role;
+using Trainer.Domain.Entities.User;
 using Trainer.Models;
 
 namespace Trainer.Controllers
 {
     [Route("[controller]/[action]")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "admin")]
     public class RolesController : Controller
     {
-        RoleManager<Role> _roleManager;
-        UserManager<User> _userManager;
+        private readonly RoleManager<Role> _roleManager;
+        private readonly UserManager<User> _userManager;
+
         public RolesController(RoleManager<Role> roleManager, UserManager<User> userManager)
         {
-            _roleManager = roleManager;
-            _userManager = userManager;
+            _roleManager = roleManager ?? throw new ArgumentNullException($"{nameof(roleManager)} is null.");
+            _userManager = userManager ?? throw new ArgumentNullException($"{nameof(userManager)} is null.");
         }
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -100,7 +100,7 @@ namespace Trainer.Controllers
 
                 await _userManager.RemoveFromRolesAsync(user, removedRoles);
 
-                return RedirectToAction("AdminPanel", "Account");
+                return RedirectToAction("GetModels", "Users");
             }
 
             return NotFound();

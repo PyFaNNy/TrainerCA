@@ -1,21 +1,18 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Trainer.Domain.Entities.User;
+using Trainer.Enums;
+using Trainer.Models;
 
 namespace Trainer.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
-        private readonly ITrainerDbContextService _contextService;
-        private readonly IMapper _mapper;
-
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
 
-        public AccountController(IContextService serv, IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(ILogger<AccountController> logger, UserManager<User> userManager, SignInManager<User> signInManager) : base(logger)
         {
-            _contextService = serv ?? throw new ArgumentNullException($"{nameof(serv)} is null.");
-            _mapper = mapper ?? throw new ArgumentNullException($"{nameof(mapper)} is null.");
             _userManager = userManager ?? throw new ArgumentNullException($"{nameof(userManager)} is null.");
             _signInManager = signInManager ?? throw new ArgumentNullException($"{nameof(signInManager)} is null.");
         }
@@ -42,7 +39,7 @@ namespace Trainer.Controllers
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
-                await _userManager.AddToRoleAsync(user, "Unknown");
+                await _userManager.AddToRoleAsync(user, "unknown");
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, false);
@@ -58,6 +55,7 @@ namespace Trainer.Controllers
             }
             return View(model);
         }
+
 
         [HttpGet]
         public IActionResult Login()
@@ -95,81 +93,6 @@ namespace Trainer.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpGet]
-        public async Task<IActionResult> GetModels(SortState sortOrder = SortState.FirstNameSort)
-        {
-            ViewData["EmailSort"] = sortOrder == SortState.EmailSort ? SortState.EmailSortDesc : SortState.EmailSort;
-            ViewData["FirstNameSort"] = sortOrder == SortState.FirstNameSort ? SortState.FirstNameSortDesc : SortState.FirstNameSort;
-            ViewData["LastNameSort"] = sortOrder == SortState.LastNameSort ? SortState.LastNameSortDesc : SortState.LastNameSort;
-            ViewData["MiddleNameSort"] = sortOrder == SortState.MiddleNameSort ? SortState.MiddleNameSortDesc : SortState.MiddleNameSort;
-
-            var users = await _contextService.GetUsers(sortOrder);
-            return View(users);
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
-        public async Task<IActionResult> Block(string[] selectedUsers)
-        {
-            foreach (var str in selectedUsers)
-            {
-                User user = await _userManager.FindByNameAsync(str);
-                if (user == null)
-                {
-                    return NotFound();
-                }
-                user.Status = StatusUser.Block;
-                await _userManager.UpdateAsync(user);
-                if (user.Status.Equals("blocked") && User.Identity.Name.Equals(user.UserName))
-                {
-                    await _signInManager.SignOutAsync();
-                }
-            }
-
-            return RedirectToAction("AdminPanel");
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
-        public async Task<IActionResult> UnBlock(string[] selectedUsers)
-        {
-            foreach (var str in selectedUsers)
-            {
-                User user = await _userManager.FindByNameAsync(str);
-                if (user == null)
-                {
-                    return NotFound();
-                }
-                user.Status = StatusUser.Active;
-                await _userManager.UpdateAsync(user);
-            }
-            return RedirectToAction("AdminPanel");
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
-        public async Task<IActionResult> Delete(string[] selectedUsers)
-        {
-            foreach (var str in selectedUsers)
-            {
-                User user = await _userManager.FindByNameAsync(str);
-                if (user != null)
-                {
-                    if (User.Identity.Name.Equals(user.UserName))
-                    {
-                        await _signInManager.SignOutAsync();
-                    }
-                    IdentityResult result = await _userManager.DeleteAsync(user);
-                }
-            }
-            if (_userManager.FindByNameAsync(User.Identity.Name).Status.Equals("blocked"))
-            {
-                return Redirect("~/Account/Logout");
-            }
-            return RedirectToAction("AdminPanel");
         }
     }
 }
