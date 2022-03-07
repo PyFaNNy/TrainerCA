@@ -19,9 +19,7 @@ namespace Trainer
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var userManager = services.GetRequiredService<UserManager<User>>();
-                    var rolesManager = services.GetRequiredService<RoleManager<Role>>();
-                    await DefaultInitializer.InitializeAsync(userManager, rolesManager);
+                    //await DefaultInitializer.InitializeAsync();
                 }
                 catch (Exception ex)
                 {

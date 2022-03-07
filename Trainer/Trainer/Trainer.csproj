@@ -6,4 +6,24 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.6" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.6" />
+    <PackageReference Include="MediatR" Version="10.0.1" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CSVParserService\Trainer.CSVParserService.csproj" />
+    <ProjectReference Include="..\EmailService\Trainer.EmailService.csproj" />
+    <ProjectReference Include="..\Trainer.Application\Trainer.Application.csproj" />
+    <ProjectReference Include="..\Trainer.Common\Trainer.Common.csproj" />
+    <ProjectReference Include="..\Trainer.Persistence\Trainer.Persistence.csproj" />
+  </ItemGroup>
+
 </Project>

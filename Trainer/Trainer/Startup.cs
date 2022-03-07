@@ -1,21 +1,13 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
+﻿using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using System.Globalization;
-using Trainer.BLL.Interfaces;
-using Trainer.BLL.Services;
-using Trainer.Chart;
-using Trainer.DAL.EF;
-using Trainer.DAL.Entities;
-using Trainer.DAL.Interfaces;
-using Trainer.DAL.Repositories;
-using Trainer.DAL.Settings;
-using Trainer.Util.Validators;
+using Trainer.API.Infrastructure.Filters;
+using Trainer.Application;
+using Trainer.CSVParserService;
+using Trainer.Domain.Entities.Role;
+using Trainer.Domain.Entities.User;
+using Trainer.EmailService;
+using Trainer.Persistence;
 
 namespace Trainer
 {
@@ -31,8 +23,12 @@ namespace Trainer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<TrainerContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddApplication();
+            services.AddPersistence(Configuration);
+            services.AddEmailService(Configuration);
+            services.AddCSVParserService(Configuration);
+            services.AddSignalR();
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddIdentity<User, Role>(options =>
             {
@@ -42,23 +38,16 @@ namespace Trainer
                 options.Password.RequireUppercase = false;
                 options.Password.RequireDigit = false;
             })
-            .AddEntityFrameworkStores<TrainerContext>();
-            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
-            services.AddSignalR();
-            services.AddAutoMapper(typeof(Startup));
-            services.AddTransient<IContextService, ContextService>();
-            services.AddTransient<IMailService, EmailService>();
-            services.AddTransient<ICsvParserService, CsvParserService>();
-            services.AddScoped<IUnitOfWork, EFUnitOfWork>();
-            services.AddScoped<PatientValidator>();
-            services.AddScoped<ExaminationValidator>();
+            .AddEntityFrameworkStores<TrainerDbContext>();
+
             services.AddLocalization(options => options.ResourcesPath = "Resources");
-
-
 
             services.AddMvc()
                 .AddDataAnnotationsLocalization()
                 .AddViewLocalization();
+
+            services.AddMvc(options => options.Filters.Add(new ApiExceptionFilterAttribute()))
+                .AddFluentValidation();
 
             services.Configure<RequestLocalizationOptions>(options =>
             {
