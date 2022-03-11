@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using Trainer.Application.Abstractions;
 using Trainer.Application.Interfaces;
 
-namespace Trainer.Application.Aggregates.CSV.Queries.ExaminationToCSV
+namespace Trainer.Application.Aggregates.CSV.Queries.ExaminationsToCSV
 {
-    public class ExaminationToCSVQueryHandler : AbstractRequestHandler, IRequestHandler<ExaminationToCSVQuery, FileInfo>
+    public class ExaminationsToCSVQueryHandler : AbstractRequestHandler, IRequestHandler<ExaminationsToCSVQuery, FileInfo>
     {
         private readonly ICsvParserService csvParserService;
 
-        public ExaminationToCSVQueryHandler(
+        public ExaminationsToCSVQueryHandler(
             IMediator mediator,
             ITrainerDbContext dbContext,
             IMapper mapper,
@@ -20,14 +20,15 @@ namespace Trainer.Application.Aggregates.CSV.Queries.ExaminationToCSV
             this.csvParserService = csvParserService;
         }
 
-        public async Task<FileInfo> Handle(ExaminationToCSVQuery request, CancellationToken cancellationToken)
+        public async Task<FileInfo> Handle(ExaminationsToCSVQuery request, CancellationToken cancellationToken)
         {
             var examinations = await DbContext.Examinations.ToListAsync(cancellationToken);
 
             return new FileInfo
             {
                 FileName =$"Examination_{DateTime.UtcNow.Date}",
-                Content = await csvParserService.WriteNewCsvFile(examinations)
+                Content = await csvParserService.WriteNewCsvFile(examinations),
+                Type = Enums.ContentType.CSV
             };
         }
     }

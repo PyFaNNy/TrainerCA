@@ -10,7 +10,7 @@ namespace Trainer.Controllers
             get;
         }
 
-        private IMediator _mediator;
+        private IMediator? _mediator;
 
         protected IMediator Mediator => this._mediator ??= this.HttpContext.RequestServices.GetService<IMediator>();
 

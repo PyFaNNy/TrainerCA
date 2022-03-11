@@ -23,6 +23,8 @@ namespace Trainer.Application.Aggregates.Patient.Queries.GetPatient
                 .ProjectTo<Patient>(this.Mapper.ConfigurationProvider)
                 .FirstOrDefault();
 
+
+
             return patient;
         }
     }

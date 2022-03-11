@@ -13,7 +13,25 @@ namespace Trainer.Application.Aggregates.Examination.Commands.UpdateExamination
             set;
         }
 
-        public int Indicators
+        public bool Indicator1
+        {
+            get;
+            set;
+        }
+
+        public bool Indicator2
+        {
+            get;
+            set;
+        }
+
+        public bool Indicator3
+        {
+            get;
+            set;
+        }
+
+        public bool Indicator4
         {
             get;
             set;
@@ -28,8 +46,7 @@ namespace Trainer.Application.Aggregates.Examination.Commands.UpdateExamination
         public void Mapping(Profile profile)
         {
             profile.CreateMap<UpdateExaminationCommand, Domain.Entities.Examination.Examination>()
-                .ForMember(d => d.TypePhysicalActive, opt => opt.MapFrom(s => s.TypePhysicalActive))
-                .ForMember(d => d.Indicators, opt => opt.MapFrom(s => s.Indicators));
+                .ForMember(d => d.TypePhysicalActive, opt => opt.MapFrom(s => s.TypePhysicalActive));
         }
     }
 }

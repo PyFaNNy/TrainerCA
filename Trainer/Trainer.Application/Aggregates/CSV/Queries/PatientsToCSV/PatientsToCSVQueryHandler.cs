@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using Trainer.Application.Abstractions;
 using Trainer.Application.Interfaces;
 
-namespace Trainer.Application.Aggregates.CSV.Queries.PatientToCSV
+namespace Trainer.Application.Aggregates.CSV.Queries.PatientsToCSV
 {
-    public class PatientToCSVQueryHandler : AbstractRequestHandler, IRequestHandler<PatientToCSVQuery, FileInfo>
+    public class PatientsToCSVQueryHandler : AbstractRequestHandler, IRequestHandler<PatientsToCSVQuery, FileInfo>
     {
         private readonly ICsvParserService csvParserService;
 
-        public PatientToCSVQueryHandler(
+        public PatientsToCSVQueryHandler(
             IMediator mediator,
             ITrainerDbContext dbContext,
             IMapper mapper,
@@ -20,14 +20,15 @@ namespace Trainer.Application.Aggregates.CSV.Queries.PatientToCSV
             this.csvParserService = csvParserService;
         }
 
-        public async Task<FileInfo> Handle(PatientToCSVQuery request, CancellationToken cancellationToken)
+        public async Task<FileInfo> Handle(PatientsToCSVQuery request, CancellationToken cancellationToken)
         {
             var patients = await DbContext.Patients.ToListAsync(cancellationToken);
 
             return new FileInfo
             {
                 FileName = $"Patients_{DateTime.UtcNow.Date}",
-                Content = await csvParserService.WriteNewCsvFile(patients)
+                Content = await csvParserService.WriteNewCsvFile(patients),
+                Type = Enums.ContentType.CSV
             };
         }
     }

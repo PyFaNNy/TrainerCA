@@ -1,0 +1,21 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Trainer.Application.Aggregates.Roles.Commands.Edit;
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = @Localizer["EditRoles"];
+}
+@model EditRoleCommand
+<h2>@Localizer["EditRoles"]</h2>
+<form method="post" enctype="multipart/form-data" asp-controller="Roles" asp-action="Edit" asp-route-id="@ViewBag.Role.Id">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label asp-for="RoleName">@Localizer["Name"]</label><br />
+            <input asp-for="RoleName" value="@ViewBag.Role.FirstName" class="form-control" />
+            <span asp-validation-for="RoleName"></span>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary mt-1">@Localizer["Update"]</button>
+        </div>
+    </div>
+</form>

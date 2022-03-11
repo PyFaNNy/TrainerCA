@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using Trainer.API.Infrastructure.Filters;
 using Trainer.Application;
+using Trainer.Chart;
 using Trainer.CSVParserService;
 using Trainer.Domain.Entities.Role;
 using Trainer.Domain.Entities.User;
@@ -47,7 +48,7 @@ namespace Trainer
                 .AddViewLocalization();
 
             services.AddMvc(options => options.Filters.Add(new ApiExceptionFilterAttribute()))
-                .AddFluentValidation();
+                /*.AddFluentValidation()*/;
 
             services.Configure<RequestLocalizationOptions>(options =>
             {

@@ -25,7 +25,25 @@ namespace Trainer.Application.Aggregates.Examination.Commands.CreateExamination
             set;
         }
 
-        public int Indicators
+        public bool Indicator1
+        {
+            get;
+            set;
+        }
+
+        public bool Indicator2
+        {
+            get;
+            set;
+        }
+
+        public bool Indicator3
+        {
+            get;
+            set;
+        }
+
+        public bool Indicator4
         {
             get;
             set;
@@ -37,8 +55,7 @@ namespace Trainer.Application.Aggregates.Examination.Commands.CreateExamination
                 .ForMember(d => d.Date, opt => opt.MapFrom(s => s.Date))
                 .ForMember(d => d.PatientId, opt => opt.MapFrom(s => s.PatientId))
                 .ForMember(d => d.TypePhysicalActive, opt => opt.MapFrom(s => s.TypePhysicalActive))
-                .ForMember(d => d.Status, opt => opt.MapFrom(s => ExaminationStatus.Active))
-                .ForMember(d => d.Indicators, opt => opt.MapFrom(s => s.Indicators));
+                .ForMember(d => d.Status, opt => opt.MapFrom(s => ExaminationStatus.Active));
         }
     }
 }

@@ -1,14 +1,17 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Trainer.Application.Aggregates.CSV.Queries.PatientToCSV;
+using Trainer.Application.Aggregates.CSV.Commands.CSVToPatients;
+using Trainer.Application.Aggregates.CSV.Queries.PatientsToCSV;
 using Trainer.Application.Aggregates.Patient.Commands.CreatePatient;
 using Trainer.Application.Aggregates.Patient.Commands.DeletePatient;
 using Trainer.Application.Aggregates.Patient.Commands.UpdatePatient;
 using Trainer.Application.Aggregates.Patient.Queries.GetPatient;
 using Trainer.Application.Aggregates.Patient.Queries.GetPatients;
 using Trainer.Application.Interfaces;
+using Trainer.Common;
 using Trainer.Enums;
+using Trainer.Models;
 
 namespace Trainer.Controllers
 {
@@ -88,8 +91,8 @@ namespace Trainer.Controllers
         [Authorize(Roles = "admin, manager")]
         public async Task<IActionResult> ExportToCSV()
         {
-            var fileInfo = await Mediator.Send(new PatientToCSVQuery());
-            return File(fileInfo.Content, "text/csv", fileInfo.FileName);
+            var fileInfo = await Mediator.Send(new PatientsToCSVQuery());
+            return File(fileInfo.Content, fileInfo.Type.ToName(), fileInfo.FileName);
         }
 
         [HttpGet]
@@ -102,8 +105,7 @@ namespace Trainer.Controllers
         [Authorize(Roles = "admin, manager")]
         public async Task<IActionResult> ImportToCSV(CSV source)
         {
-            var patients = await _csvService.ReadCsvFileToPatient(source.File);
-            await _contextService.Range(patients);
+            await Mediator.Send(new CSVToPatientsCommand { CSVFile = source.File });
             return RedirectToAction("GetModels");
         }
     }

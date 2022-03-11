@@ -11,9 +11,6 @@ namespace Trainer.Application.Aggregates.Examination.Commands.UpdateExamination
     {
         public UpdateExaminationCommandValidator()
         {
-            RuleFor(x => x.Indicators)
-                .GreaterThan(0);
-
             RuleFor(x => x.TypePhysicalActive)
                  .NotEmpty();
         }

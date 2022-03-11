@@ -1,4 +1,6 @@
-﻿namespace Trainer.Application.Aggregates.CSV.Queries.PatientToCSV
+﻿using Trainer.Enums;
+
+namespace Trainer.Application.Aggregates.CSV.Queries.PatientsToCSV
 {
     public class FileInfo
     {
@@ -9,6 +11,12 @@
         }
 
         public byte[] Content
+        {
+            get;
+            set;
+        }
+
+        public ContentType Type
         {
             get;
             set;

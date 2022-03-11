@@ -11,9 +11,6 @@ namespace Trainer.Application.Aggregates.Examination.Commands.CreateExamination
 
             RuleFor(x => x.TypePhysicalActive)
                  .NotEmpty();
-
-            RuleFor(x => x.Indicators)
-                .GreaterThan(0);
         }
     }
 }

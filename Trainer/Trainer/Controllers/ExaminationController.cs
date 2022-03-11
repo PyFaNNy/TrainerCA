@@ -1,13 +1,16 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Trainer.Application.Aggregates.CSV.Queries.ExaminationToCSV;
+using Trainer.Application.Aggregates.CSV.Commands.CSVToExaminations;
+using Trainer.Application.Aggregates.CSV.Queries.ExaminationsToCSV;
 using Trainer.Application.Aggregates.Examination.Commands.CreateExamination;
 using Trainer.Application.Aggregates.Examination.Commands.DeleteExamination;
 using Trainer.Application.Aggregates.Examination.Commands.UpdateExamination;
 using Trainer.Application.Aggregates.Examination.Queries.GetExamination;
 using Trainer.Application.Aggregates.Examination.Queries.GetExaminations;
 using Trainer.Application.Interfaces;
+using Trainer.Common;
 using Trainer.Enums;
+using Trainer.Models;
 
 namespace Trainer.Controllers
 {
@@ -118,8 +121,8 @@ namespace Trainer.Controllers
         [Authorize(Roles = "admin, manager")]
         public async Task<IActionResult> ExportToCSV()
         {
-            var fileInfo =await Mediator.Send(new ExaminationToCSVQuery());
-            return File(fileInfo.Content, "text/csv", fileInfo.FileName);
+            var fileInfo =await Mediator.Send(new ExaminationsToCSVQuery());
+            return File(fileInfo.Content, fileInfo.Type.ToName(), fileInfo.FileName);
         }
 
         [HttpGet]
@@ -132,8 +135,7 @@ namespace Trainer.Controllers
         [Authorize(Roles = "admin, manager")]
         public async Task<IActionResult> ImportToCSV(CSV source)
         {
-            var examinations = await _csvService.ReadCsvFileToExamination(source.File);
-            await _contextService.Range(examinations);
+            await Mediator.Send(new CSVToExaminationsCommand { CSVFile = source.File });
             return RedirectToAction("GetModels");
         }
     }

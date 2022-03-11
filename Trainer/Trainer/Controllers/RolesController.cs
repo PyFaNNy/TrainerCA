@@ -1,6 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Trainer.Application.Aggregates.Roles.Commands.Create;
+using Trainer.Application.Aggregates.Roles.Commands.Delete;
+using Trainer.Application.Aggregates.Roles.Commands.Edit;
+using Trainer.Application.Aggregates.Roles.Queries.GetRole;
+using Trainer.Application.Aggregates.Roles.Queries.GetRoles;
 using Trainer.Domain.Entities.Role;
 using Trainer.Domain.Entities.User;
 using Trainer.Models;
@@ -9,22 +14,23 @@ namespace Trainer.Controllers
 {
     [Route("[controller]/[action]")]
     [Authorize(Roles = "admin")]
-    public class RolesController : Controller
+    public class RolesController : BaseController
     {
-        private readonly RoleManager<Role> _roleManager;
+        private readonly RoleManager<Domain.Entities.Role.Role> _roleManager;
         private readonly UserManager<User> _userManager;
 
-        public RolesController(RoleManager<Role> roleManager, UserManager<User> userManager)
+        public RolesController(ILogger<RolesController> logger,RoleManager<Domain.Entities.Role.Role> roleManager, UserManager<User> userManager) : base(logger)
         {
             _roleManager = roleManager ?? throw new ArgumentNullException($"{nameof(roleManager)} is null.");
             _userManager = userManager ?? throw new ArgumentNullException($"{nameof(userManager)} is null.");
         }
 
-        [HttpGet]
-        public IActionResult Index()
-        {
-            return View(_roleManager.Roles.ToList());
-        }
+        //[HttpGet]
+        //public async Task<IActionResult> Index()
+        //{
+        //    var result = await Mediator.Send(new GetRolesQuery());
+        //    return View(result);
+        //}
 
         [HttpGet]
         public IActionResult Create() => View();
@@ -32,78 +38,71 @@ namespace Trainer.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(string name)
         {
-            if (!string.IsNullOrEmpty(name))
-            {
-                IdentityResult result = await _roleManager.CreateAsync(new Role(name));
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
-                }
-            }
-            return View(name);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Delete(string id)
-        {
-            var role = await _roleManager.FindByIdAsync(id);
-            if (role != null)
-            {
-                IdentityResult result = await _roleManager.DeleteAsync(role);
-            }
+            await Mediator.Send(new CreateRoleCommand { RoleName = name });
             return RedirectToAction("Index");
         }
 
-        [HttpGet]
-        public IActionResult UserList() => View(_userManager.Users.ToList());
-
-        [HttpGet]
-        public async Task<IActionResult> Edit(string userId)
+        [HttpPost]
+        public async Task<IActionResult> Delete(Guid[] ids)
         {
-            User user = await _userManager.FindByIdAsync(userId);
-            if (user != null)
-            {
-                var userRoles = await _userManager.GetRolesAsync(user);
-                var allRoles = _roleManager.Roles.ToList();
-                ChangeRoleViewModel model = new ChangeRoleViewModel
-                {
-                    UserId = userId,
-                    UserEmail = user.Email,
-                    UserRoles = userRoles,
-                    AllRoles = allRoles
-                };
-                return View(model);
-            }
-
-            return NotFound();
+            await Mediator.Send(new DeleteRolesCommand { Ids = ids });
+            return RedirectToAction("Index");
         }
+
+        //[HttpGet]
+        //public async Task<IActionResult> Update(Guid id)
+        //{
+        //    var result = await Mediator.Send(new GetRoleQuery {RoleId = id});
+        //    return View(result);
+        //}
 
         [HttpPost]
-        public async Task<IActionResult> Edit(string userId, List<string> roles)
+        public async Task<IActionResult> Update(string name, Guid id)
         {
-            User user = await _userManager.FindByIdAsync(userId);
-            if (user != null)
-            {
-                var userRoles = await _userManager.GetRolesAsync(user);
-                var allRoles = _roleManager.Roles.ToList();
-                var addedRoles = roles.Except(userRoles);
-                var removedRoles = userRoles.Except(roles);
-
-                await _userManager.AddToRolesAsync(user, addedRoles);
-
-                await _userManager.RemoveFromRolesAsync(user, removedRoles);
-
-                return RedirectToAction("GetModels", "Users");
-            }
-
-            return NotFound();
+            await Mediator.Send(new EditRoleCommand { RoleName = name, RoleId = id });
+            return RedirectToAction("Index");
         }
+
+        //[HttpGet]
+        //public async Task<IActionResult> Edit(string userId)
+        //{
+        //    User user = await _userManager.FindByIdAsync(userId);
+        //    if (user != null)
+        //    {
+        //        var userRoles = await _userManager.GetRolesAsync(user);
+        //        var allRoles = _roleManager.Roles.ToList();
+        //        ChangeRoleViewModel model = new ChangeRoleViewModel
+        //        {
+        //            UserId = userId,
+        //            UserEmail = user.Email,
+        //            UserRoles = userRoles,
+        //            AllRoles = allRoles
+        //        };
+        //        return View(model);
+        //    }
+
+        //    return NotFound();
+        //}
+
+        //[HttpPost]
+        //public async Task<IActionResult> Edit(string userId, List<string> roles)
+        //{
+        //    User user = await _userManager.FindByIdAsync(userId);
+        //    if (user != null)
+        //    {
+        //        var userRoles = await _userManager.GetRolesAsync(user);
+        //        var allRoles = _roleManager.Roles.ToList();
+        //        var addedRoles = roles.Except(userRoles);
+        //        var removedRoles = userRoles.Except(roles);
+
+        //        await _userManager.AddToRolesAsync(user, addedRoles);
+
+        //        await _userManager.RemoveFromRolesAsync(user, removedRoles);
+
+        //        return RedirectToAction("GetModels", "Users");
+        //    }
+
+        //    return NotFound();
+        //}
     }
 }
