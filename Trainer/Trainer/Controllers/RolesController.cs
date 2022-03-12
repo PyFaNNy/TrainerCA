@@ -25,12 +25,12 @@ namespace Trainer.Controllers
             _userManager = userManager ?? throw new ArgumentNullException($"{nameof(userManager)} is null.");
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> Index()
-        //{
-        //    var result = await Mediator.Send(new GetRolesQuery());
-        //    return View(result);
-        //}
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            var result = await Mediator.Send(new GetRolesQuery());
+            return View(result);
+        }
 
         [HttpGet]
         public IActionResult Create() => View();
@@ -49,12 +49,12 @@ namespace Trainer.Controllers
             return RedirectToAction("Index");
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> Update(Guid id)
-        //{
-        //    var result = await Mediator.Send(new GetRoleQuery {RoleId = id});
-        //    return View(result);
-        //}
+        [HttpGet]
+        public async Task<IActionResult> Update(Guid id)
+        {
+            var result = await Mediator.Send(new GetRoleQuery { RoleId = id });
+            return View(result);
+        }
 
         [HttpPost]
         public async Task<IActionResult> Update(string name, Guid id)

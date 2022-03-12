@@ -1,6 +1,8 @@
 ﻿using FluentValidation.AspNetCore;
+using MediatR;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
+using System.Reflection;
 using Trainer.API.Infrastructure.Filters;
 using Trainer.Application;
 using Trainer.Chart;
@@ -30,6 +32,7 @@ namespace Trainer
             services.AddCSVParserService(Configuration);
             services.AddSignalR();
             services.AddAutoMapper(typeof(Startup));
+            services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
 
             services.AddIdentity<User, Role>(options =>
             {

@@ -1,3 +1,5 @@
+using Trainer.Persistence;
+
 namespace Trainer
 {
     public class Program
@@ -11,7 +13,8 @@ namespace Trainer
                 var services = scope.ServiceProvider;
                 try
                 {
-                    //await DefaultInitializer.InitializeAsync();
+                    var dbContext = services.GetRequiredService<TrainerDbContext>();
+                    await DefaultInitializer.InitializeAsync(dbContext);
                 }
                 catch (Exception ex)
                 {

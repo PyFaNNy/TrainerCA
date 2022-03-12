@@ -1,61 +1,55 @@
 ﻿namespace Trainer
 {
-    using Microsoft.AspNetCore.Identity;
-    using Trainer.Domain.Entities.Role;
-    using Trainer.Domain.Entities.User;
+    using Trainer.Application.Interfaces;
+    using Trainer.Common.TableConnect.Common;
+    using Trainer.Domain.Entities.Admin;
+    using Trainer.Domain.Entities.Doctor;
+    using Trainer.Domain.Entities.Manager;
 
     public class DefaultInitializer
     {
-        public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<Role> roleManager)
+        public static async Task InitializeAsync(ITrainerDbContext dbContext)
         {
-            if (await roleManager.FindByNameAsync("admin") == null)
+            if (!dbContext.Admins.Any())
             {
-                await roleManager.CreateAsync(new Role("admin"));
-            }
-
-            if (await roleManager.FindByNameAsync("doctor") == null)
-            {
-                await roleManager.CreateAsync(new Role("doctor"));
-            }
-
-            if (await roleManager.FindByNameAsync("manager") == null)
-            {
-                await roleManager.CreateAsync(new Role("manager"));
-            }
-
-            if (await roleManager.FindByNameAsync("unknown") == null)
-            {
-                await roleManager.CreateAsync(new Role("unknown"));
-            }
-
-            if (await userManager.FindByEmailAsync("admin@gmail.com") == null)
-            {
-                User admin = new User { Email = "admin@gmail.com", UserName = "admin" };
-                IdentityResult result = await userManager.CreateAsync(admin, "admin");
-                if (result.Succeeded)
+                dbContext.Admins.Add(new Admin
                 {
-                    await userManager.AddToRoleAsync(admin, "admin");
-                }
+                    Id = Guid.Parse("19f7d733-8826-4726-a669-0d29a882eda4"),
+                    Email = "traineradmin@gmail.com",
+                    PasswordHash = CryptoHelper.HashPassword("admin"),
+                    FirstName = "Admin",
+                    LastName = "Admin",
+                    UserRole = Enums.UserRole.Admin,
+                });
+                dbContext.SaveChanges();
             }
 
-            if (await userManager.FindByEmailAsync("doctor@gmail.com") == null)
+            if (!dbContext.Doctors.Any())
             {
-                User doctor = new User { Email = "doctor@gmail.com", UserName = "doctor" };
-                IdentityResult result = await userManager.CreateAsync(doctor, "doctor");
-                if (result.Succeeded)
+                dbContext.Doctors.Add(new Doctor
                 {
-                    await userManager.AddToRoleAsync(doctor, "doctor");
-                }
+                    Id = Guid.Parse("19f7d733-8826-4726-a669-0d29a8821da4"),
+                    Email = "trainerdoctor@gmail.com",
+                    PasswordHash = CryptoHelper.HashPassword("doctor"),
+                    FirstName = "Doctor",
+                    LastName = "Doctor",
+                    UserRole = Enums.UserRole.Doctor,
+                });
+                dbContext.SaveChanges();
             }
 
-            if (await userManager.FindByEmailAsync("manager@gmail.com") == null)
+            if (!dbContext.Managers.Any())
             {
-                User manager = new User { Email = "manager@gmail.com", UserName = "manager" };
-                IdentityResult result = await userManager.CreateAsync(manager, "doctor");
-                if (result.Succeeded)
+                dbContext.Managers.Add(new Manager
                 {
-                    await userManager.AddToRoleAsync(manager, "manager");
-                }
+                    Id = Guid.Parse("19f7d733-8826-4726-a669-1d29a882eda4"),
+                    Email = "traineradmin@itexus.com",
+                    PasswordHash = CryptoHelper.HashPassword("manager"),
+                    FirstName = "Manager",
+                    LastName = "Manager",
+                    UserRole = Enums.UserRole.Manager,
+                });
+                dbContext.SaveChanges();
             }
         }
     }
