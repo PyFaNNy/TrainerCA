@@ -2,16 +2,18 @@
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Trainer.Application.Interfaces;
+using Trainer.Domain.Entities;
+using Trainer.Domain.Entities.Admin;
+using Trainer.Domain.Entities.Doctor;
 using Trainer.Domain.Entities.Examination;
+using Trainer.Domain.Entities.Manager;
 using Trainer.Domain.Entities.Patient;
 using Trainer.Domain.Entities.Result;
-using Trainer.Domain.Entities.Role;
-using Trainer.Domain.Entities.User;
 using Trainer.Domain.Interfaces;
 
 namespace Trainer.Persistence
 {
-    public class TrainerDbContext : IdentityDbContext<User, Role, Guid>, ITrainerDbContext
+    public class TrainerDbContext : DbContext, ITrainerDbContext
     {
         public DbSet<Patient> Patients 
         {
@@ -31,13 +33,31 @@ namespace Trainer.Persistence
             set;
         }
 
-        public DbSet<User> Users
+        public DbSet<BaseUser> BaseUsers
         {
             get;
             set;
         }
 
-        public DbSet<Role> Roles
+        public DbSet<Admin> Admins
+        {
+            get;
+            set;
+        }
+
+        public DbSet<Doctor> Doctors
+        {
+            get;
+            set;
+        }
+
+        public DbSet<Manager> Managers
+        {
+            get;
+            set;
+        }
+
+        public DbSet<OTP> OTPs
         {
             get;
             set;

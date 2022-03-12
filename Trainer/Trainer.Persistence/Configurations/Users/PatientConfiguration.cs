@@ -2,23 +2,13 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Trainer.Persistence.Extensions;
 
-namespace Trainer.Persistence.Configurations.Patient
+namespace Trainer.Persistence.Configurations.Users
 {
     public class PatientConfiguration : IEntityTypeConfiguration<Domain.Entities.Patient.Patient>
     {
         public void Configure(EntityTypeBuilder<Domain.Entities.Patient.Patient> builder)
         {
-            builder.Property(x => x.Email)
-                .HasMediumMaxLength()
-                .IsRequired();
-
-            builder.Property(x => x.FirstName)
-                .HasMediumMaxLength()
-                .IsRequired();
-
-            builder.Property(x => x.MiddleName)
-                .HasMediumMaxLength()
-                .IsRequired();
+            builder.ToTable("Patients", "user");
 
             builder.Property(x => x.LastName)
                 .HasMediumMaxLength()
@@ -31,8 +21,6 @@ namespace Trainer.Persistence.Configurations.Patient
             builder.Property(x => x.Hobbies)
                 .HasMediumMaxLength()
                 .IsRequired(false);
-
-
         }
     }
 }
