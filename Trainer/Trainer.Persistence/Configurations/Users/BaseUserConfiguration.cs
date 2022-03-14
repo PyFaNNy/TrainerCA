@@ -15,10 +15,6 @@ namespace Trainer.Persistence.Configurations.Users
                 .HasMediumMaxLength()
                 .IsRequired(false);
 
-            builder.Property(x => x.Email)
-                .HasMediumMaxLength()
-                .IsRequired(false);
-
             builder.Property(x => x.FirstName)
                 .HasMediumMaxLength()
                 .IsRequired(false);
