@@ -1,9 +1,46 @@
-﻿using Trainer.Enums;
+﻿using Trainer.Domain.Interfaces;
+using Trainer.Enums;
 
 namespace Trainer.Domain.Entities.Patient
 {
-    public class Patient : BaseUser
+    public class Patient : IBaseEntity
     {
+        public Guid Id
+        {
+            get;
+            set;
+        }
+
+        public string FirstName
+        {
+            get;
+            set;
+        }
+
+        public string MiddleName
+        {
+            get;
+            set;
+        }
+
+        public string LastName
+        {
+            get;
+            set;
+        }
+
+        public string Email
+        {
+            get;
+            set;
+        }
+
+        public bool EmailConfirmed
+        {
+            get;
+            set;
+        }
+
         public int Age
         {
             get;
@@ -35,12 +72,6 @@ namespace Trainer.Domain.Entities.Patient
         }
 
         public string Hobbies
-        {
-            get;
-            set;
-        }
-
-        public string Email
         {
             get;
             set;

@@ -1,10 +1,9 @@
 ﻿namespace Trainer.Domain.Entities
 {
-    using Prixy.Enums;
     using Trainer.Domain.Interfaces;
     using Trainer.Enums;
 
-    public class BaseUser : IBaseEntity
+    public class BaseUser : IBaseEntity, IRemovedAt
     {
         public Guid Id
         {
@@ -48,7 +47,13 @@
             set;
         }
 
-        public RegistrationStatus Status
+        public StatusUser Status
+        {
+            get;
+            set;
+        }
+
+        public DateTime? RemovedAt
         {
             get;
             set;
