@@ -12,6 +12,7 @@
     using Microsoft.EntityFrameworkCore;
     using System.Security.Claims;
     using Trainer.Common;
+    using Trainer.Enums;
     using static global::OpenIddict.Abstractions.OpenIddictConstants;
 
     public class AuthorizationController : Controller
@@ -160,12 +161,12 @@
                 return this.Forbid(properties, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
             }
 
-            //var isValid = await this.ValidateCode(request, user);
+            var isValid = await this.ValidateCode(request, user);
 
-            //if (!isValid)
-            //{
-            //    throw new ValidationException();
-            //}
+            if (!isValid)
+            {
+                throw new ValidationException();
+            }
 
             if (!CryptoHelper.VerifyHashedPassword(user.PasswordHash!, request.Password!))
             {
@@ -198,53 +199,41 @@
             return result;
         }
 
-        //private async Task<bool> ValidateCode(OpenIddictRequest request, BaseUser user)
-        //{
-            // if (user.Role == Roles.User && user.Status == RegistrationStatus.PendingKYC && request.GetParameter("code") is null)
-            // {
-            //     return true;
-            // }
+        private async Task<bool> ValidateCode(OpenIddictRequest request, BaseUser user)
+        {
+            var code = request.GetParameter("code").ToString();
 
-        //    if (this._configuration.IsUniversalVerificationCodeEnabled
-        //        && request.GetParameter("code").Value.ToString().Equals(this._configuration.UniversalVerificationCode))
-        //    {
-        //        this.UnValidateCode(request);
-        //        return true;
-        //    }
+            var isValid = this._dbContext.OTPs
+                .Where(x => x.Email == request.Username)
+                .Where(x => x.IsValid == true)
+                .Where(x => x.Action == OTPAction.Login)
+                .Where(x => x.CreatedAt.AddHours(3) > DateTime.UtcNow)
+                .Any(x => x.Value == code);
 
-        //    var code = request.GetParameter("code").ToString();
+            if (isValid)
+            {
+                this.UnValidateCode(request);
+            }
 
-        //    var isValid = this._dbContext.OTPs
-        //        .Where(x => x.PhoneNumber == request.Username)
-        //        .Where(x => x.IsValid == true)
-        //        .Where(x => x.Action == OTPAction.Login)
-        //        .Where(x => x.CreatedAt .AddHours(3) > DateTime.UtcNow)
-        //        .Any(x => x.Value == code);
+            return isValid;
+        }
 
-        //    if (isValid)
-        //    {
-        //        this.UnValidateCode(request);
-        //    }
+        private async void UnValidateCode(OpenIddictRequest request)
+        {
+            var codes = this._dbContext.OTPs
+                .Where(x => x.Email == request.Username)
+                .Where(x => x.IsValid == true)
+                .Where(x => x.Action == OTPAction.Login)
+                .Where(x => x.CreatedAt.AddHours(3) > DateTime.UtcNow)
+                .ToList();
 
-        //    return isValid;
-        //}
+            foreach (var code in codes)
+            {
+                code.IsValid = false;
+                this._dbContext.OTPs.Update(code);
+            }
 
-        //private async void UnValidateCode(OpenIddictRequest request)
-        //{
-        //    var codes = this._dbContext.OTPs
-        //        .Where(x => x.PhoneNumber == request.Username)
-        //        .Where(x => x.IsValid == true)
-        //        .Where(x => x.Action == OTPAction.Login)
-        //        .Where(x => x.CreatedAt.AddHours(3) > DateTime.UtcNow)
-        //        .ToList();
-
-        //    foreach (var code in codes)
-        //    {
-        //        code.IsValid = false;
-        //        this._dbContext.OTPs.Update(code);
-        //    }
-
-        //    this._dbContext.SaveChanges();
-        //}
+            this._dbContext.SaveChanges();
+        }
     }
 }
