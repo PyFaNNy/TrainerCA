@@ -7,9 +7,8 @@
     {
         public RequestSmsCodeAbstractCommandValidator()
         {
-            this.RuleFor(x => x.PhoneNumber)
-                .NotEmpty()
-                .Matches(@"\+509\d{8}$");
+            this.RuleFor(x => x.Email)
+                .EmailAddress();
         }
     }
 }
