@@ -42,12 +42,13 @@ namespace Trainer.Application.Aggregates.Patient.Queries.GetPatients
             set;
         }
 
+
+
         public void Mapping(Profile profile)
         {
             profile.CreateMap<Domain.Entities.Patient.Patient, Patient>()
                 .ForMember(d => d.FirstName, opt => opt.MapFrom(s => s.FirstName))
                 .ForMember(d => d.LastName, opt => opt.MapFrom(s => s.LastName))
-                .ForMember(d => d.MiddleName, opt => opt.MapFrom(s => s.MiddleName))
                 .ForMember(d => d.Age, opt => opt.MapFrom(s => s.Age));
         }
     }

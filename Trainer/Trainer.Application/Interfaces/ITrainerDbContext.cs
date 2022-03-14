@@ -1,14 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Trainer.Domain.Entities;
+using Trainer.Domain.Entities.Admin;
+using Trainer.Domain.Entities.Doctor;
 using Trainer.Domain.Entities.Examination;
+using Trainer.Domain.Entities.Manager;
 using Trainer.Domain.Entities.Patient;
 using Trainer.Domain.Entities.Result;
-using Trainer.Domain.Entities.Role;
-using Trainer.Domain.Entities.User;
 
 namespace Trainer.Application.Interfaces
 {
@@ -32,13 +29,31 @@ namespace Trainer.Application.Interfaces
             set;
         }
 
-        DbSet<User> Users
+        DbSet<BaseUser> BaseUsers
         {
             get;
             set;
         }
 
-        DbSet<Role> Roles
+        DbSet<Admin> Admins
+        {
+            get;
+            set;
+        }
+
+        DbSet<Doctor> Doctors
+        {
+            get;
+            set;
+        }
+
+        DbSet<Manager> Managers
+        {
+            get;
+            set;
+        }
+
+        DbSet<OTP> OTPs
         {
             get;
             set;

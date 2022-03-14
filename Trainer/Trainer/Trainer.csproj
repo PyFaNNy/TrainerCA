@@ -7,8 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspNet.Security.OAuth.Validation" Version="2.0.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.6" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -21,7 +23,12 @@
     <ProjectReference Include="..\EmailService\Trainer.EmailService.csproj" />
     <ProjectReference Include="..\Trainer.Application\Trainer.Application.csproj" />
     <ProjectReference Include="..\Trainer.Enums\Trainer.Enums.csproj" />
+    <ProjectReference Include="..\Trainer.OpenIdDict\Trainer.OpenIdDict.csproj" />
     <ProjectReference Include="..\Trainer.Persistence\Trainer.Persistence.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\Template\" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -7,12 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Aggregates\CSV\Commands\" />
-    <Folder Include="Aggregates\Results\Commands\" />
+    <Folder Include="Aggregates\Doctor\Queries\" />
+    <Folder Include="Aggregates\Manager\Queries\" />
     <Folder Include="Aggregates\Results\Queries\" />
-    <Folder Include="Aggregates\Roles\Commands\" />
-    <Folder Include="Aggregates\Roles\Queries\" />
-    <Folder Include="Extensions\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,16 +17,32 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="FluentValidation" Version="10.3.6" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.6" />
-    <PackageReference Include="MediatR" Version="10.0.1" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.14" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.2" />
+    <PackageReference Include="Scriban" Version="5.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Trainer.Common\Trainer.Common.csproj" />
     <ProjectReference Include="..\Trainer.Domain\Trainer.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Templates\EmailTemplates.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EmailTemplates.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Templates\EmailTemplates.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>EmailTemplates.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

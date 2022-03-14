@@ -10,6 +10,7 @@ using Trainer.Application.Aggregates.Examination.Queries.GetExaminations;
 using Trainer.Application.Interfaces;
 using Trainer.Common;
 using Trainer.Enums;
+using Trainer.Infrastructure.Extensions;
 using Trainer.Models;
 
 namespace Trainer.Controllers
@@ -48,7 +49,7 @@ namespace Trainer.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "doctor, admin")]
+        [Authorize(Roles = "doctor")]
         public async Task<IActionResult> AddModel(Guid id)
         {
             ViewBag.UserId = id;
@@ -56,30 +57,18 @@ namespace Trainer.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "doctor, admin")]
+        [Authorize(Roles = "doctor")]
         public async Task<IActionResult> AddModel(CreateExaminationCommand command)
         {
+            var doctorId = this.HttpContext.User.GetUserId();
+            command.DoctorId = doctorId.Value;
             await Mediator.Send(command);
 
-            //var patient = await _contextService.GetPatient(examinationDto.PatientId);
-            //var doctor = await _userManager.GetUserAsync(HttpContext.User);
-            //var template = Template.Parse(Resource.Examination);
-            //var body = template.Render(new
-            //{
-            //    patient = patient,
-            //    model = model
-            //});
-            //await _mailService.SendEmailAsync(new MailRequest
-            //{
-            //    ToEmail = patient.Email,
-            //    Body = body,
-            //    Subject = $"Set Examination by {doctor?.FirstName}"
-            //});
             return RedirectToAction("GetModels");
         }
 
         [HttpGet]
-        [Authorize(Roles = "doctor, admin")]
+        [Authorize(Roles = "doctor")]
         public async Task<IActionResult> UpdateModel(Guid id)
         {
             var examination = await Mediator.Send(new GetExaminationQuery { ExaminationId = id });
@@ -88,30 +77,17 @@ namespace Trainer.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "doctor, admin")]
+        [Authorize(Roles = "doctor")]
         public async Task<IActionResult> UpdateModel(UpdateExaminationCommand command, Guid patientid)
         {
+            var doctorId = this.HttpContext.User.GetUserId();
+            command.DoctorId = doctorId.Value;
             await Mediator.Send(command);
-
-            //var patient = await _contextService.GetPatient(examinationDto.PatientId);
-            //var doctor = await _userManager.GetUserAsync(HttpContext.User);
-            //var template = Template.Parse(Resource.Examination);
-            //var body = template.Render(new
-            //{
-            //    patient = patient,
-            //    model = model
-            //});
-            //await _mailService.SendEmailAsync(new MailRequest
-            //{
-            //    ToEmail = patient.Email,
-            //    Body = body,
-            //    Subject = $"Update Examination by {doctor?.FirstName}"
-            //});
 
             return RedirectToAction("GetModels");
         }
 
-        [Authorize(Roles = "doctor, admin")]
+        [Authorize(Roles = "doctor")]
         public async Task<RedirectToActionResult> DeleteModel(Guid[] selectedExamination)
         {
             await Mediator.Send(new DeleteExaminationsCommand { ExaminationsId = selectedExamination });

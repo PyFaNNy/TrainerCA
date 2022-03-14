@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Trainer.Application.Aggregates.Users.Commands.BlockUser;
-using Trainer.Application.Aggregates.Users.Commands.DeleteUser;
-using Trainer.Application.Aggregates.Users.Commands.SignInUser;
-using Trainer.Application.Aggregates.Users.Commands.UnBlockUser;
-using Trainer.Application.Aggregates.Users.Queries.GetUsers;
+using Trainer.Application.Aggregates.BaseUser.Commands.BlockUser;
+using Trainer.Application.Aggregates.BaseUser.Commands.DeleteUser;
+using Trainer.Application.Aggregates.BaseUser.Commands.UnBlockUser;
+using Trainer.Application.Aggregates.BaseUser.Queries.GetUsers;
 using Trainer.Enums;
 
 namespace Trainer.Controllers
