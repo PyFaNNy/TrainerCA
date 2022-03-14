@@ -7,6 +7,12 @@ namespace Trainer.Application.Aggregates.Examination.Commands.UpdateExamination
 {
     public class UpdateExaminationCommand : IRequest<Unit>, IMapTo<Domain.Entities.Examination.Examination>
     {
+        public Guid DoctorId
+        {
+            get;
+            set;
+        }
+
         public Guid ExaminationId
         {
             get;

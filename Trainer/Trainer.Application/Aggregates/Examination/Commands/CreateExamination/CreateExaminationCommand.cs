@@ -7,6 +7,12 @@ namespace Trainer.Application.Aggregates.Examination.Commands.CreateExamination
 {
     public class CreateExaminationCommand : IRequest<Unit>, IMapTo<Domain.Entities.Examination.Examination>
     {
+        public Guid DoctorId
+        {
+            get;
+            set;
+        }
+
         public TypePhysicalActive TypePhysicalActive
         {
             get;
