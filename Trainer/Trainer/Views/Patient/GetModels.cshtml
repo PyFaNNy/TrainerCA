@@ -5,7 +5,7 @@
 }
 <h4>@Localizer["Patients"]</h4>
 <form id='patients' method="post">
-    @if (User.IsInRole("admin"))
+    @if (User.IsInRole("admin") || User.IsInRole("manager"))
     {
         <button type="submit" class="btn btn-primary m-1" asp-controller="Patient" asp-action="DeleteModel">@Localizer["Delete"]</button>
         <a class="btn btn-primary m-1" asp-controller="Patient" asp-action="AddModel">@Localizer["Create"]</a>
@@ -24,7 +24,7 @@
             {
                 <th></th>
             }
-            @if (User.IsInRole("admin"))
+            @if (User.IsInRole("admin") || User.IsInRole("manager"))
             {
                 <th></th>
                 <th><input type="checkbox" name="cb_all"></th>
@@ -40,7 +40,7 @@
                     <td>@user.MiddleName</td>
                     <td>@user.Age</td>
                     <td>@user.Sex</td>
-                    @if (User.IsInRole("admin"))
+                    @if (User.IsInRole("admin") || User.IsInRole("manager"))
                     {
                         <td><a class="btn btn-primary" asp-controller="Patient" asp-action="UpdateModel" asp-route-id="@user.Id">@Localizer["Update"]</a></td>
                         <td><input type="checkbox" class="patient" name="selectedPatients" value="@user.Id" /></td>

@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
 @using Microsoft.AspNetCore.Http;
+@using Microsoft.AspNetCore.Authentication
 @inject IViewLocalizer Localizer
 @inject IHttpContextAccessor HttpContextAccessor
 
@@ -20,7 +21,6 @@
     }
 
     <link href="~/lib/bootstrap/dist/css/bootstrap-toggle.min.css" rel="stylesheet">
-@*    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">*@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
@@ -48,10 +48,10 @@
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-success" asp-controller="Account" asp-action="Register">@Localizer["Registration"]</a>
+                                <a class="nav-link text-success" asp-controller="Account" asp-action="Register">@Localizer["SingIn"]</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-success" asp-controller="Account" asp-action="Login">@Localizer["SingIn"]</a>
+                                <a class="nav-link text-success" asp-controller="Account" asp-action="Login">@Localizer["SingOn"]</a>
                             </li>
                         }
 
@@ -67,10 +67,10 @@
                                 <a class="nav-link text-success" asp-controller="Examination" asp-action="GetModels">@Localizer["Examinations"]</a>
                             </li>
 
-                            @if (User.IsInRole("Admin"))
+                            @if (User.IsInRole("admin"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-success" asp-controller="Account" asp-action="GetModels">@Localizer["Admin"]</a>
+                                    <a class="nav-link text-success" asp-controller="BaseUser" asp-action="GetModels">@Localizer["Admin"]</a>
                                 </li>
                             }
                         }

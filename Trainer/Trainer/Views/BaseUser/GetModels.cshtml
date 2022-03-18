@@ -26,15 +26,13 @@
                 <td>@user?.LastName</td>
                 <td>@user?.FirstName</td>
                 <td>@user?.MiddleName</td>
-                <td><a class="btn btn-sm btn-primary text-center" asp-controller="Roles" asp-action="Edit" asp-route-userid="@user.Id">@Localizer["Roles"]</a></td>
-                <td>@user.Status</td>
-                <td><input type="checkbox" class="user" name="selectedUsers" value="@user.UserName" /></td>
+                <td>@user.Role</td>
+                <td></td>
+                <td><input type="checkbox" class="user" name="selectedUsers" value="@user.Id" /></td>
             </tr>
         }
     </table>
 </form>
-<a class="btn btn-sm btn-primary" asp-controller="Roles" asp-action="Create">@Localizer["BtnAddRole"]</a>
-<a class="btn btn-sm btn-primary" asp-controller="Roles" asp-action="Index">@Localizer["BtnRolesList"]</a>
 
 <script>
     var f = document.getElementById('users');

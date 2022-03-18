@@ -5,11 +5,11 @@
 }
 <h4>@Localizer["Examination"]</h4>
 <form id='examinations' method="post">
-    @if (User.IsInRole("Doctor"))
+    @if (User.IsInRole("doctor"))
     {
         <button type="submit" class="btn btn-primary m-1" asp-controller="Examination" asp-action="DeleteModel">@Localizer["Delete"]</button>
     }
-    @if (User.IsInRole("Admin, Manager"))
+    @if (User.IsInRole("admin") || User.IsInRole("manager"))
     {
         <a class="btn btn-primary m-1" asp-controller="Examination" asp-action="ExportToCSV">@Localizer["Export"]</a>
         <a class="btn btn-primary m-1" asp-controller="Examination" asp-action="ImportToCSV">@Localizer["Import"]</a>
@@ -22,7 +22,7 @@
             <th><a asp-controller="Examination" asp-action="GetModels" asp-route-sortOrder="@ViewBag.FirstNameSort">@Localizer["FirstName"]</a></th>
             <th><a asp-controller="Examination" asp-action="GetModels" asp-route-sortOrder="@ViewBag.MiddleNameSort">@Localizer["MiddleName"]</a></th>
             <th><a asp-controller="Examination" asp-action="GetModels" asp-route-sortOrder="@ViewBag.DateSort">@Localizer["Date"]</a></th>
-            @if (User.IsInRole("Doctor, Admin"))
+            @if (User.IsInRole("doctor") || User.IsInRole("admin"))
             {
                 <th></th>
                 <th><input type="checkbox" name="cb_all"></th>
@@ -38,7 +38,7 @@
                     <td>@examination.Patient.FirstName</td>
                     <td>@examination.Patient.MiddleName</td>
                     <td>@examination.Date.ToString("d")</td>
-                    @if (User.IsInRole("Doctor, Admin") && (int)examination.Status == 0)
+                    @if (User.IsInRole("doctor") || User.IsInRole("admin") && (int)examination.Status == 0)
                     {
                         <td>
                             <a class="btn btn-success" asp-controller="Examination" asp-action="GetModel" asp-route-id="@examination.Id"><i class="fas fa-check"></i></a>
@@ -46,7 +46,7 @@
                         </td>
                         <td><input type="checkbox" class="examination" name="selectedExamination" value="@examination.Id" /></td>
                     }
-                    else if (User.IsInRole("Doctor, Admin"))
+                    else if (User.IsInRole("doctor") || User.IsInRole("admin"))
                     {
                         <td></td>
                         <td><input type="checkbox" class="examination" name="selectedExamination" value="@examination.Id" /></td>
