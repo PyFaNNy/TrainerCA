@@ -5,6 +5,7 @@
         Active = 0,
         Block = 1,
         Delete = 2,
-        PendingApproval =3
+        Pending =3,
+        Decline = 4,
     }
 }
