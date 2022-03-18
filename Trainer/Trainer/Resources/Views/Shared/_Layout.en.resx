@@ -135,11 +135,11 @@
   <data name="Patients" xml:space="preserve">
     <value>Patients</value>
   </data>
-  <data name="Registration" xml:space="preserve">
-    <value>Registration</value>
-  </data>
   <data name="SingIn" xml:space="preserve">
     <value>Sing In</value>
+  </data>
+  <data name="SingOn" xml:space="preserve">
+    <value>Sign On</value>
   </data>
   <data name="Trainer" xml:space="preserve">
     <value>Trainer</value>

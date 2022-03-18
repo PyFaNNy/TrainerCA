@@ -117,31 +117,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Admin" xml:space="preserve">
-    <value>Администратор</value>
+  <data name="BtnRegister" xml:space="preserve">
+    <value>Register</value>
   </data>
-  <data name="Dark" xml:space="preserve">
-    <value>Тёмная</value>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
   </data>
-  <data name="Examinations" xml:space="preserve">
-    <value>Обследование</value>
+  <data name="FirstName" xml:space="preserve">
+    <value>First Name</value>
   </data>
-  <data name="Light" xml:space="preserve">
-    <value>Светлая</value>
+  <data name="LastName" xml:space="preserve">
+    <value>Last Name</value>
   </data>
-  <data name="Logout" xml:space="preserve">
-    <value>Выйти</value>
+  <data name="Name" xml:space="preserve">
+    <value>Login</value>
   </data>
-  <data name="Patients" xml:space="preserve">
-    <value>Пациенты</value>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
   </data>
-  <data name="SingIn" xml:space="preserve">
-    <value>Зарегистрироваться</value>
+  <data name="PasswordConfirm" xml:space="preserve">
+    <value>PasswordConfirm</value>
   </data>
-  <data name="SingOn" xml:space="preserve">
-    <value>Войти</value>
+  <data name="String1" xml:space="preserve">
+    <value />
   </data>
-  <data name="Trainer" xml:space="preserve">
-    <value>Тренажёр</value>
+  <data name="UserReg" xml:space="preserve">
+    <value>New User Registration</value>
   </data>
 </root>
