@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
-using MediatR;
 using Trainer.Application.Mappings;
-using Trainer.Common.TableConnect.Common;
+using Trainer.Enums;
 
-namespace Trainer.Application.Aggregates.Manager.Commands.SignInManager
+namespace Trainer.Application.Aggregates.BaseUser.Queries.GetBaseUser
 {
-    public class SignInManagerCommand : IRequest<Unit>, IMapTo<Domain.Entities.Manager.Manager>
+    public class BaseUser : IMapFrom<Domain.Entities.BaseUser>
     {
-        public string Email
+        public Guid Id
         {
             get;
             set;
@@ -31,13 +30,19 @@ namespace Trainer.Application.Aggregates.Manager.Commands.SignInManager
             set;
         }
 
-        public string Password
+        public string Email
         {
             get;
             set;
         }
 
-        public string ConfirmPassword
+        public string PasswordHash
+        {
+            get;
+            set;
+        }
+
+        public UserRole Role
         {
             get;
             set;
@@ -45,14 +50,14 @@ namespace Trainer.Application.Aggregates.Manager.Commands.SignInManager
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<SignInManagerCommand, Domain.Entities.Manager.Manager>()
+            profile.CreateMap<Domain.Entities.BaseUser, BaseUser>()
+                .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
                 .ForMember(d => d.Email, opt => opt.MapFrom(s => s.Email))
                 .ForMember(d => d.LastName, opt => opt.MapFrom(s => s.LastName))
                 .ForMember(d => d.MiddleName, opt => opt.MapFrom(s => s.MiddleName))
                 .ForMember(d => d.FirstName, opt => opt.MapFrom(s => s.FirstName))
-                .ForMember(d => d.PasswordHash, opt => opt.MapFrom(s => CryptoHelper.HashPassword(s.Password)))
-                .ForMember(d => d.Status, opt => opt.MapFrom(s => Enums.StatusUser.Pending))
-                .ForMember(d => d.Role, opt => opt.MapFrom(s => Enums.UserRole.Doctor));
+                .ForMember(d => d.Role, opt => opt.MapFrom(s => s.Role))
+                .ForMember(d => d.PasswordHash, opt => opt.MapFrom(s => s.PasswordHash));
         }
     }
 }

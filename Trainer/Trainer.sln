@@ -31,8 +31,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trainer.EmailService", "Ema
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trainer.CSVParserService", "CSVParserService\Trainer.CSVParserService.csproj", "{3687A7C3-3DAB-4DE5-BF9A-0EDF3294A531}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trainer.OpenIdDict", "Trainer.OpenIdDict\Trainer.OpenIdDict.csproj", "{2BFC3BCC-0374-423A-8C29-EBBEA78CD7D0}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,10 +77,6 @@ Global
 		{3687A7C3-3DAB-4DE5-BF9A-0EDF3294A531}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3687A7C3-3DAB-4DE5-BF9A-0EDF3294A531}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3687A7C3-3DAB-4DE5-BF9A-0EDF3294A531}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2BFC3BCC-0374-423A-8C29-EBBEA78CD7D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2BFC3BCC-0374-423A-8C29-EBBEA78CD7D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2BFC3BCC-0374-423A-8C29-EBBEA78CD7D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2BFC3BCC-0374-423A-8C29-EBBEA78CD7D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -98,7 +92,6 @@ Global
 		{0A3335CA-48EF-4D20-B2A1-A26876AD7B72} = {DB449657-A1ED-46DF-87E1-B930A9FAEA67}
 		{468A735A-1594-4F5F-B248-E83EFA350D65} = {DB449657-A1ED-46DF-87E1-B930A9FAEA67}
 		{3687A7C3-3DAB-4DE5-BF9A-0EDF3294A531} = {DB449657-A1ED-46DF-87E1-B930A9FAEA67}
-		{2BFC3BCC-0374-423A-8C29-EBBEA78CD7D0} = {AC4CFC79-5E79-4176-956C-5CC2B1F64030}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A0D96048-6E71-41A2-BACC-BFFC314D8FB2}

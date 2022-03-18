@@ -18,8 +18,9 @@
                     Email = "traineradmin@gmail.com",
                     PasswordHash = CryptoHelper.HashPassword("admin"),
                     FirstName = "Admin",
+                    MiddleName = "Admin",
                     LastName = "Admin",
-                    UserRole = Enums.UserRole.Admin,
+                    Role = Enums.UserRole.Admin,
                 });
                 dbContext.SaveChanges();
             }
@@ -32,8 +33,9 @@
                     Email = "trainerdoctor@gmail.com",
                     PasswordHash = CryptoHelper.HashPassword("doctor"),
                     FirstName = "Doctor",
+                    MiddleName = "Doctor",
                     LastName = "Doctor",
-                    UserRole = Enums.UserRole.Doctor,
+                    Role = Enums.UserRole.Doctor,
                 });
                 dbContext.SaveChanges();
             }
@@ -43,11 +45,12 @@
                 dbContext.Managers.Add(new Manager
                 {
                     Id = Guid.Parse("19f7d733-8826-4726-a669-1d29a882eda4"),
-                    Email = "traineradmin@itexus.com",
+                    Email = "trainermanager@gmail.com",
                     PasswordHash = CryptoHelper.HashPassword("manager"),
                     FirstName = "Manager",
+                    MiddleName = "Manager",
                     LastName = "Manager",
-                    UserRole = Enums.UserRole.Manager,
+                    Role = Enums.UserRole.Manager,
                 });
                 dbContext.SaveChanges();
             }

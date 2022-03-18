@@ -78,6 +78,54 @@ namespace Trainer.Application.Templates {
         ///    &lt;/noscript&gt;
         ///    [rest of string was truncated]&quot;;.
         /// </summary>
+        public static string ApproveUser {
+            get {
+                return ResourceManager.GetString("ApproveUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xmlns:o=&quot;urn:schemas-microsoft-com:office:office&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;UTF-8&quot;&gt;
+        ///    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;
+        ///    &lt;meta name=&quot;x-apple-disable-message-reformatting&quot;&gt;
+        ///    &lt;title&gt;&lt;/title&gt;
+        ///    &lt;!--[if mso]&gt;
+        ///    &lt;noscript&gt;
+        ///      &lt;xml&gt;
+        ///        &lt;o:OfficeDocumentSettings&gt;
+        ///          &lt;o:PixelsPerInch&gt;96&lt;/o:PixelsPerInch&gt;
+        ///        &lt;/o:OfficeDocumentSettings&gt;
+        ///      &lt;/xml&gt;
+        ///    &lt;/noscript&gt;
+        ///    [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string BlockUser {
+            get {
+                return ResourceManager.GetString("BlockUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xmlns:o=&quot;urn:schemas-microsoft-com:office:office&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;UTF-8&quot;&gt;
+        ///    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;
+        ///    &lt;meta name=&quot;x-apple-disable-message-reformatting&quot;&gt;
+        ///    &lt;title&gt;&lt;/title&gt;
+        ///    &lt;!--[if mso]&gt;
+        ///    &lt;noscript&gt;
+        ///      &lt;xml&gt;
+        ///        &lt;o:OfficeDocumentSettings&gt;
+        ///          &lt;o:PixelsPerInch&gt;96&lt;/o:PixelsPerInch&gt;
+        ///        &lt;/o:OfficeDocumentSettings&gt;
+        ///      &lt;/xml&gt;
+        ///    &lt;/noscript&gt;
+        ///    [rest of string was truncated]&quot;;.
+        /// </summary>
         public static string CodeEmail {
             get {
                 return ResourceManager.GetString("CodeEmail", resourceCulture);
@@ -102,9 +150,81 @@ namespace Trainer.Application.Templates {
         ///    &lt;/noscript&gt;
         ///    [rest of string was truncated]&quot;;.
         /// </summary>
+        public static string DeclineUser {
+            get {
+                return ResourceManager.GetString("DeclineUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xmlns:o=&quot;urn:schemas-microsoft-com:office:office&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;UTF-8&quot;&gt;
+        ///    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;
+        ///    &lt;meta name=&quot;x-apple-disable-message-reformatting&quot;&gt;
+        ///    &lt;title&gt;&lt;/title&gt;
+        ///    &lt;!--[if mso]&gt;
+        ///    &lt;noscript&gt;
+        ///      &lt;xml&gt;
+        ///        &lt;o:OfficeDocumentSettings&gt;
+        ///          &lt;o:PixelsPerInch&gt;96&lt;/o:PixelsPerInch&gt;
+        ///        &lt;/o:OfficeDocumentSettings&gt;
+        ///      &lt;/xml&gt;
+        ///    &lt;/noscript&gt;
+        ///    [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string DeleteUser {
+            get {
+                return ResourceManager.GetString("DeleteUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xmlns:o=&quot;urn:schemas-microsoft-com:office:office&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;UTF-8&quot;&gt;
+        ///    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;
+        ///    &lt;meta name=&quot;x-apple-disable-message-reformatting&quot;&gt;
+        ///    &lt;title&gt;&lt;/title&gt;
+        ///    &lt;!--[if mso]&gt;
+        ///    &lt;noscript&gt;
+        ///      &lt;xml&gt;
+        ///        &lt;o:OfficeDocumentSettings&gt;
+        ///          &lt;o:PixelsPerInch&gt;96&lt;/o:PixelsPerInch&gt;
+        ///        &lt;/o:OfficeDocumentSettings&gt;
+        ///      &lt;/xml&gt;
+        ///    &lt;/noscript&gt;
+        ///    [rest of string was truncated]&quot;;.
+        /// </summary>
         public static string ExaminationEmail {
             get {
                 return ResourceManager.GetString("ExaminationEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xmlns:o=&quot;urn:schemas-microsoft-com:office:office&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;UTF-8&quot;&gt;
+        ///    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;
+        ///    &lt;meta name=&quot;x-apple-disable-message-reformatting&quot;&gt;
+        ///    &lt;title&gt;&lt;/title&gt;
+        ///    &lt;!--[if mso]&gt;
+        ///    &lt;noscript&gt;
+        ///      &lt;xml&gt;
+        ///        &lt;o:OfficeDocumentSettings&gt;
+        ///          &lt;o:PixelsPerInch&gt;96&lt;/o:PixelsPerInch&gt;
+        ///        &lt;/o:OfficeDocumentSettings&gt;
+        ///      &lt;/xml&gt;
+        ///    &lt;/noscript&gt;
+        ///    [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string UnBlockUser {
+            get {
+                return ResourceManager.GetString("UnBlockUser", resourceCulture);
             }
         }
     }

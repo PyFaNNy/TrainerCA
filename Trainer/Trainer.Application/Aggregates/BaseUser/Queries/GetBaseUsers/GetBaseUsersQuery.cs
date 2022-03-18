@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using Trainer.Enums;
 
-namespace Trainer.Application.Aggregates.BaseUser.Queries.GetUsers
+namespace Trainer.Application.Aggregates.BaseUser.Queries.GetBaseUsers
 {
-    public class GetUsersQuery : IRequest<IEnumerable<User>>
+    public class GetBaseUsersQuery : IRequest<IEnumerable<BaseUser>>
     {
         public SortState SortOrder
         {

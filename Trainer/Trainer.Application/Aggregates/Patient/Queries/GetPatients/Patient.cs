@@ -42,8 +42,6 @@ namespace Trainer.Application.Aggregates.Patient.Queries.GetPatients
             set;
         }
 
-
-
         public void Mapping(Profile profile)
         {
             profile.CreateMap<Domain.Entities.Patient.Patient, Patient>()

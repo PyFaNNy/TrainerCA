@@ -17,6 +17,10 @@
         DateSort,
         DateSortDesc,
         EmailSort,
-        EmailSortDesc
+        EmailSortDesc,
+        RoleSort,
+        RoleSortDesc,
+        StatusSort,
+        StatusSortDesc,
     }
 }

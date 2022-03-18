@@ -30,7 +30,8 @@ namespace Trainer.Application.Aggregates.Patient.Commands.DeletePatient
                     throw new NotFoundException(nameof(Domain.Entities.Patient.Patient), id);
                 }
 
-                this.DbContext.Patients.Remove(patient);
+                patient.RemovedAt = DateTime.UtcNow;
+                DbContext.Patients.Update(patient);
             }
             await this.DbContext.SaveChangesAsync(cancellationToken);
             return Unit.Value;

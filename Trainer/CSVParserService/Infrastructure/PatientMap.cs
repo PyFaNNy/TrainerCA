@@ -11,6 +11,7 @@ namespace Trainer.CSVParserService.Infrastructure
             Map(m => m.LastName).Name("LastName");
             Map(m => m.FirstName).Name("FirstName");
             Map(m => m.MiddleName).Name("MiddleName");
+            Map(m => m.RemovedAt).Name("RemovedAt");
             Map(m => m.Age).Name("Age");
             Map(m => m.Sex).Name("Sex");
             Map(m => m.Email).Name("Email");

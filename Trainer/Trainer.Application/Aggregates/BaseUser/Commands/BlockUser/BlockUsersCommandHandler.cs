@@ -1,20 +1,27 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Scriban;
 using Trainer.Application.Abstractions;
 using Trainer.Application.Exceptions;
 using Trainer.Application.Interfaces;
+using Trainer.Application.Models.Email;
+using Trainer.Application.Templates;
 
 namespace Trainer.Application.Aggregates.BaseUser.Commands.BlockUser
 {
     public class BlockUsersCommandHandler : AbstractRequestHandler, IRequestHandler<BlockUsersCommand, Unit>
     {
+        private readonly IMailService EmailService;
+
         public BlockUsersCommandHandler(
         IMediator mediator,
         ITrainerDbContext dbContext,
-        IMapper mapper)
+        IMapper mapper,
+        IMailService mailService)
         : base(mediator, dbContext, mapper)
         {
+            EmailService = mailService;
         }
 
         public async Task<Unit> Handle(BlockUsersCommand request, CancellationToken cancellationToken)
@@ -31,8 +38,20 @@ namespace Trainer.Application.Aggregates.BaseUser.Commands.BlockUser
                 }
 
                 user.Status = Enums.StatusUser.Block;
+
+                var template = Template.Parse(EmailTemplates.BlockUser);
+
+                var body = template.Render();
+
+                await EmailService.SendEmailAsync(new MailRequest
+                {
+                    ToEmail = user.Email,
+                    Body = body,
+                    Subject = $"Block your account"
+                });
             }
             await this.DbContext.SaveChangesAsync(cancellationToken);
+
             return Unit.Value;
         }
     }

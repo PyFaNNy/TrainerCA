@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Trainer.Application.Mappings;
+using Trainer.Common.TableConnect.Common;
 
 namespace Trainer.Application.Aggregates.Doctor.Commands.SignInDoctor
 {
@@ -47,9 +48,11 @@ namespace Trainer.Application.Aggregates.Doctor.Commands.SignInDoctor
             profile.CreateMap<SignInDoctorCommand, Domain.Entities.Doctor.Doctor>()
                 .ForMember(d => d.Email, opt => opt.MapFrom(s => s.Email))
                 .ForMember(d => d.LastName, opt => opt.MapFrom(s => s.LastName))
+                .ForMember(d => d.MiddleName, opt => opt.MapFrom(s => s.MiddleName))
                 .ForMember(d => d.FirstName, opt => opt.MapFrom(s => s.FirstName))
-                .ForMember(d => d.Status, opt => opt.MapFrom(s => Enums.StatusUser.Active))
-                .ForMember(d => d.UserRole, opt => opt.MapFrom(s => Enums.UserRole.Doctor));
+                .ForMember(d => d.PasswordHash, opt => opt.MapFrom(s => CryptoHelper.HashPassword(s.Password)))
+                .ForMember(d => d.Status, opt => opt.MapFrom(s => Enums.StatusUser.Pending))
+                .ForMember(d => d.Role, opt => opt.MapFrom(s => Enums.UserRole.Doctor));
         }
     }
 }

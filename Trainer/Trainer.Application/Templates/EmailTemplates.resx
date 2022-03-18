@@ -118,10 +118,25 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ApproveUser" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>ApproveUser.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="BlockUser" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>BlockUser.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="CodeEmail" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>CodeEmail.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="DeclineUser" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>DeclineUser.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="DeleteUser" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>DeleteUser.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="ExaminationEmail" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>ExaminationEmail.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="UnBlockUser" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>UnBlockUser.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

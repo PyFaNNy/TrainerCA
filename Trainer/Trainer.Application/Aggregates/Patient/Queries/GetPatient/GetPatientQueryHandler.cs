@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Trainer.Application.Abstractions;
+using Trainer.Application.Extensions.IQueryableExtensions;
 using Trainer.Application.Interfaces;
 
 namespace Trainer.Application.Aggregates.Patient.Queries.GetPatient
@@ -20,6 +21,7 @@ namespace Trainer.Application.Aggregates.Patient.Queries.GetPatient
         {
             var patient = DbContext.Patients
                 .Where(x => x.Id == request.PatientId)
+                .NotRemoved()
                 .ProjectTo<Patient>(this.Mapper.ConfigurationProvider)
                 .FirstOrDefault();
 

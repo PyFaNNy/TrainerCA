@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Trainer.Application.Aggregates.CSV.Commands.CSVToPatients;
 using Trainer.Application.Aggregates.CSV.Queries.PatientsToCSV;
@@ -8,7 +7,6 @@ using Trainer.Application.Aggregates.Patient.Commands.DeletePatient;
 using Trainer.Application.Aggregates.Patient.Commands.UpdatePatient;
 using Trainer.Application.Aggregates.Patient.Queries.GetPatient;
 using Trainer.Application.Aggregates.Patient.Queries.GetPatients;
-using Trainer.Application.Interfaces;
 using Trainer.Common;
 using Trainer.Enums;
 using Trainer.Models;
@@ -17,12 +15,10 @@ namespace Trainer.Controllers
 {
     public class PatientController : BaseController
     {
-        private readonly ICsvParserService _csvService;
 
-        public PatientController(ILogger<PatientController> logger, IMapper mapper, ICsvParserService csv)
+        public PatientController(ILogger<PatientController> logger)
             : base(logger)
         {
-            _csvService = csv ?? throw new ArgumentNullException($"{nameof(csv)} is null.");
         }
 
         [HttpGet]

@@ -15,9 +15,14 @@ namespace Trainer.Application.Aggregates.Doctor.Commands.SignInDoctor
         {
         }
 
-        public Task<Unit> Handle(SignInDoctorCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(SignInDoctorCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var doctor = this.Mapper.Map<Domain.Entities.Doctor.Doctor>(request);
+
+            await this.DbContext.Doctors.AddAsync(doctor, cancellationToken);
+            await this.DbContext.SaveChangesAsync(cancellationToken);
+
+            return Unit.Value;
         }
     }
 }

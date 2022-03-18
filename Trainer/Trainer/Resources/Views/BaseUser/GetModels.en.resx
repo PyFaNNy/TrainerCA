@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Approve" xml:space="preserve">
+    <value>Approve</value>
+  </data>
   <data name="BtnAddRole" xml:space="preserve">
     <value>Add Role</value>
   </data>
@@ -134,6 +137,9 @@
   </data>
   <data name="BtnUnBlock" xml:space="preserve">
     <value>UnBlock</value>
+  </data>
+  <data name="Decline" xml:space="preserve">
+    <value>Decline</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>

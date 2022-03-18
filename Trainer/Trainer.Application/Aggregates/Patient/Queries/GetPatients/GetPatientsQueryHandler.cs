@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Trainer.Application.Abstractions;
+using Trainer.Application.Extensions.IQueryableExtensions;
 using Trainer.Application.Interfaces;
 using Trainer.Enums;
 
@@ -20,6 +21,7 @@ namespace Trainer.Application.Aggregates.Patient.Queries.GetPatients
         public async Task<IEnumerable<Patient>> Handle(GetPatientsQuery request, CancellationToken cancellationToken)
         {
             var patient = DbContext.Patients
+                .NotRemoved()
                 .ProjectTo<Patient>(this.Mapper.ConfigurationProvider);
 
             switch (request.SortOrder)

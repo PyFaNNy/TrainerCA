@@ -13,19 +13,16 @@
             this.Action = action;
         }
 
-        [JsonProperty("email")]
         public string Email
         {
             get;
         }
 
-        [JsonProperty("code")]
         public string Code
         {
             get; 
         }
 
-        [JsonIgnore]
         public OTPAction Action
         {
             get;

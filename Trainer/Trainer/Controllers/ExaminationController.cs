@@ -18,11 +18,9 @@ namespace Trainer.Controllers
 
     public class ExaminationController : BaseController
     {
-        private readonly ICsvParserService _csvService;
         public ExaminationController(ILogger<ExaminationController> logger, ICsvParserService csv)
             : base(logger)
         {
-            _csvService = csv ?? throw new ArgumentNullException($"{nameof(csv)} is null.");
         }
 
         [HttpGet]

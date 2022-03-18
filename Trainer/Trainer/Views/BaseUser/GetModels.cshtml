@@ -1,22 +1,24 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Trainer.Enums
 @inject IViewLocalizer Localizer
 @{
     ViewBag.Title = "List of Users";
 }
 <h2>@Localizer["ListOfUsers"]</h2>
 <form id='users' method="post">
-    <button type="submit" class="btn btn-primary m-1" asp-controller="Account" asp-action="Delete">@Localizer["BtnDelete"]</button>
-    <button type="submit" class="btn btn-primary m-1" asp-controller="Account" asp-action="Block">@Localizer["BtnBlock"]</button>
-    <button type="submit" class="btn btn-primary m-1" asp-controller="Account" asp-action="UnBlock">@Localizer["BtnUnBlock"]</button>
+    <button type="submit" class="btn btn-danger m-1" asp-controller="BaseUser" asp-action="DeleteUser">@Localizer["BtnDelete"]</button>
+    <button type="submit" class="btn btn-warning m-1" asp-controller="BaseUser" asp-action="BlockUser">@Localizer["BtnBlock"]</button>
+    <button type="submit" class="btn btn-success m-1" asp-controller="BaseUser" asp-action="UnBlockUser">@Localizer["BtnUnBlock"]</button>
 
     <table class="table table-striped table-hover">
         <tr>
-            <th><a asp-controller="Account" asp-action="AdminPanel" asp-route-sortOrder="@ViewBag.EmailSort">@Localizer["Email"]</a></th>
-            <th><a asp-controller="Account" asp-action="AdminPanel" asp-route-sortOrder="@ViewBag.LastNameSort">@Localizer["LastName"]</a></th>
-            <th><a asp-controller="Account" asp-action="AdminPanel" asp-route-sortOrder="@ViewBag.FirstNameSort">@Localizer["FirstName"]</a></th>
-            <th><a asp-controller="Account" asp-action="AdminPanel" asp-route-sortOrder="@ViewBag.MiddleNameSort">@Localizer["MiddleName"]</a></th>
-            <th>@Localizer["Roles"]</th>
-            <th><a asp-controller="Admin" asp-action="Index" asp-route-sortOrder="@ViewBag.StatusSort">@Localizer["Status"]</a></th>
+            <th><a asp-controller="BaseUser" asp-action="GetModels" asp-route-sortOrder="@ViewBag.EmailSort">@Localizer["Email"]</a></th>
+            <th><a asp-controller="BaseUser" asp-action="GetModels" asp-route-sortOrder="@ViewBag.LastNameSort">@Localizer["LastName"]</a></th>
+            <th><a asp-controller="BaseUser" asp-action="GetModels" asp-route-sortOrder="@ViewBag.FirstNameSort">@Localizer["FirstName"]</a></th>
+            <th><a asp-controller="BaseUser" asp-action="GetModels" asp-route-sortOrder="@ViewBag.MiddleNameSort">@Localizer["MiddleName"]</a></th>
+            <th><a asp-controller="BaseUser" asp-action="GetModels" asp-route-sortOrder="@ViewBag.MiddleNameSort">@Localizer["Roles"]</a></th>
+            <th><a asp-controller="BaseUser" asp-action="GetModels" asp-route-sortOrder="@ViewBag.StatusSort">@Localizer["Status"]</a></th>
+            <th></th>
             <th><input type="checkbox" name="cb_all"></th>
         </tr>
         @foreach (var user in Model)
@@ -27,7 +29,18 @@
                 <td>@user?.FirstName</td>
                 <td>@user?.MiddleName</td>
                 <td>@user.Role</td>
-                <td></td>
+                <td>@user.Status</td>
+                @if(user.Status == StatusUser.Pending)
+                {
+                    <td>
+                        <a class="btn btn-success btn-sm" asp-controller="BaseUser" asp-action="ApproveUser" asp-route-userId="@user.Id">@Localizer["Approve"]</a>
+                        <a class="btn btn-danger btn-sm" asp-controller="BaseUser" asp-action="DeclineUser" asp-route-userId="@user.Id">@Localizer["Decline"]</a>
+                    </td>
+                }
+                else
+                {
+                    <td></td>
+                }
                 <td><input type="checkbox" class="user" name="selectedUsers" value="@user.Id" /></td>
             </tr>
         }
