@@ -17,6 +17,12 @@
             set;
         }
 
+        public string MiddleName
+        {
+            get;
+            set;
+        }
+
         public string LastName
         {
             get;
@@ -29,7 +35,7 @@
             set;
         }
 
-        public UserRole UserRole
+        public UserRole Role
         {
             get;
             set;

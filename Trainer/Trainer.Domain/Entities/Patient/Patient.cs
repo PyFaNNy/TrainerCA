@@ -3,7 +3,7 @@ using Trainer.Enums;
 
 namespace Trainer.Domain.Entities.Patient
 {
-    public class Patient : IBaseEntity
+    public class Patient : IBaseEntity, IRemovedAt
     {
         public Guid Id
         {
@@ -48,6 +48,12 @@ namespace Trainer.Domain.Entities.Patient
         }
 
         public Sex Sex
+        {
+            get;
+            set;
+        }
+
+        public DateTime? RemovedAt
         {
             get;
             set;
