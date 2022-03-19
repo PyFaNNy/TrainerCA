@@ -28,20 +28,23 @@
                 <td>@user?.LastName</td>
                 <td>@user?.FirstName</td>
                 <td>@user?.MiddleName</td>
-                <td>@user.Role</td>
-                <td>@user.Status</td>
+                <td>@Localizer[user.Role.ToString()]</td>
+                <td>@Localizer[user.Status.ToString()]</td>
                 @if(user.Status == StatusUser.Pending)
                 {
                     <td>
-                        <a class="btn btn-success btn-sm" asp-controller="BaseUser" asp-action="ApproveUser" asp-route-userId="@user.Id">@Localizer["Approve"]</a>
-                        <a class="btn btn-danger btn-sm" asp-controller="BaseUser" asp-action="DeclineUser" asp-route-userId="@user.Id">@Localizer["Decline"]</a>
+                        <a class="btn btn-success btn-sm" asp-controller="BaseUser" asp-action="ApproveUser" asp-route-userId="@user.Id">@Localizer["BtnApprove"]</a>
+                        <a class="btn btn-danger btn-sm" asp-controller="BaseUser" asp-action="DeclineUser" asp-route-userId="@user.Id">@Localizer["BtnDecline"]</a>
                     </td>
                 }
                 else
                 {
                     <td></td>
                 }
-                <td><input type="checkbox" class="user" name="selectedUsers" value="@user.Id" /></td>
+                @if(user.Status != StatusUser.Decline && user.Status != StatusUser.Pending)
+                {
+                    <td><input type="checkbox" class="user" name="selectedUsers" value="@user.Id" /></td>
+                }
             </tr>
         }
     </table>

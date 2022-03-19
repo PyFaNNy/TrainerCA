@@ -117,14 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Approve" xml:space="preserve">
-    <value>Подтвердить</value>
+  <data name="Active" xml:space="preserve">
+    <value>Активен</value>
+  </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Администратор</value>
+  </data>
+  <data name="Block" xml:space="preserve">
+    <value>Заблокирован</value>
   </data>
   <data name="BtnAddRole" xml:space="preserve">
     <value>Добавить роль</value>
   </data>
+  <data name="BtnApprove" xml:space="preserve">
+    <value>Подтвердить</value>
+  </data>
   <data name="BtnBlock" xml:space="preserve">
     <value>Заблокировать</value>
+  </data>
+  <data name="BtnDecline" xml:space="preserve">
+    <value>Отклонить</value>
   </data>
   <data name="BtnDelete" xml:space="preserve">
     <value>Удалить</value>
@@ -139,7 +151,10 @@
     <value>Разблокировать</value>
   </data>
   <data name="Decline" xml:space="preserve">
-    <value>Отклонить</value>
+    <value>Отклонён</value>
+  </data>
+  <data name="Doctor" xml:space="preserve">
+    <value>Доктор</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Электронная почта</value>
@@ -153,11 +168,17 @@
   <data name="ListOfUsers" xml:space="preserve">
     <value>Список пользователей</value>
   </data>
+  <data name="Manager" xml:space="preserve">
+    <value>Менеджер</value>
+  </data>
   <data name="MiddleName" xml:space="preserve">
     <value>Отчество</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Имя</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Ожидает</value>
   </data>
   <data name="Roles" xml:space="preserve">
     <value>Роли</value>

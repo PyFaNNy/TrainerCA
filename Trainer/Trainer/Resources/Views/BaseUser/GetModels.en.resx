@@ -117,14 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Approve" xml:space="preserve">
-    <value>Approve</value>
+  <data name="Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="Block" xml:space="preserve">
+    <value>Block</value>
   </data>
   <data name="BtnAddRole" xml:space="preserve">
     <value>Add Role</value>
   </data>
+  <data name="BtnApprove" xml:space="preserve">
+    <value>Approve</value>
+  </data>
   <data name="BtnBlock" xml:space="preserve">
     <value>Block</value>
+  </data>
+  <data name="BtnDecline" xml:space="preserve">
+    <value>Decline</value>
   </data>
   <data name="BtnDelete" xml:space="preserve">
     <value>Delete</value>
@@ -141,6 +153,9 @@
   <data name="Decline" xml:space="preserve">
     <value>Decline</value>
   </data>
+  <data name="Doctor" xml:space="preserve">
+    <value>Doctor</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>
@@ -153,8 +168,14 @@
   <data name="ListOfUsers" xml:space="preserve">
     <value>List of Users</value>
   </data>
+  <data name="Manager" xml:space="preserve">
+    <value>Manager</value>
+  </data>
   <data name="MiddleName" xml:space="preserve">
     <value>Middle Name</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Pending</value>
   </data>
   <data name="Roles" xml:space="preserve">
     <value>Roles</value>

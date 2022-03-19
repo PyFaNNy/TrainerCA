@@ -120,6 +120,9 @@
   <data name="BtnRegister" xml:space="preserve">
     <value>Регистрация</value>
   </data>
+  <data name="Doctor" xml:space="preserve">
+    <value>Доктор</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>Электронная почта</value>
   </data>
@@ -129,6 +132,12 @@
   <data name="LastName" xml:space="preserve">
     <value>Фамилия</value>
   </data>
+  <data name="Manager" xml:space="preserve">
+    <value>Менеджер</value>
+  </data>
+  <data name="MiddleName" xml:space="preserve">
+    <value>Отчество</value>
+  </data>
   <data name="Name" xml:space="preserve">
     <value>Логин</value>
   </data>
@@ -137,9 +146,6 @@
   </data>
   <data name="PasswordConfirm" xml:space="preserve">
     <value>Подтвердите пароль</value>
-  </data>
-  <data name="String1" xml:space="preserve">
-    <value />
   </data>
   <data name="UserReg" xml:space="preserve">
     <value>Регистрация нового пользователя</value>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Trainer.Application.Aggregates.Doctor.Commands.SignInDoctor;
+using Trainer.Models;
 
 namespace Trainer.Controllers
 {
@@ -10,15 +11,18 @@ namespace Trainer.Controllers
         {
         }
 
-        public IActionResult SignIn()
-        {
-            return View();
-        }
-
         [HttpPost]
-        public async Task<IActionResult> SignIn(SignInDoctorCommand command)
+        public async Task<IActionResult> SignIn(RegisterViewModel model)
         {
-            await Mediator.Send(command);
+            await Mediator.Send(new SignInDoctorCommand
+            {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                MiddleName = model.MiddleName,
+                Email = model.Email,
+                Password = model.Password,
+                ConfirmPassword = model.ConfirmPassword,
+            });
             return RedirectToAction("Index", "Home");
         }
     }
