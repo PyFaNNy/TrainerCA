@@ -7,12 +7,18 @@
     using Exceptions;
     using Interfaces;
     using Trainer.Domain.Entities;
+    using Trainer.Settings.Error;
+    using Microsoft.Extensions.Options;
 
     public class RequestPasswordCommandHandler : RequestSmsCodeAbstractCommandHandler, IRequestHandler<RequestPasswordCommand, Unit>
     {
-        public RequestPasswordCommandHandler(IMediator mediator, ITrainerDbContext dbContext, IMapper mapper, IMailService emailService)
+        private readonly OTPCodesErrorSettings OTPCodesErrorSettings;
+
+        public RequestPasswordCommandHandler(IMediator mediator, ITrainerDbContext dbContext, IMapper mapper, IMailService emailService,
+        IOptions<OTPCodesErrorSettings> otpCodesErrorSettings)
             : base(mediator, dbContext, mapper, emailService)
         {
+            OTPCodesErrorSettings = otpCodesErrorSettings.Value;
         }
 
         public async Task<Unit> Handle(RequestPasswordCommand request, CancellationToken cancellationToken)

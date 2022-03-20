@@ -1,12 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Trainer.Settings
+﻿namespace Trainer.Settings.Error
 {
     public class PatientErrorSettings
     {
+        public bool CreatePatientEnable
+        {
+            get;
+            set;
+        }
+
+        public bool DeletePatientEnable
+        {
+            get;
+            set;
+        }
+
+        public bool UpdatePatientEnable
+        {
+            get;
+            set;
+        }
     }
 }

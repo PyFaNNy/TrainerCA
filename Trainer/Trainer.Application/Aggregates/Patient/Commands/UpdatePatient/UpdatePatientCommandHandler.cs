@@ -1,20 +1,26 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Trainer.Application.Abstractions;
 using Trainer.Application.Exceptions;
 using Trainer.Application.Interfaces;
+using Trainer.Settings.Error;
 
 namespace Trainer.Application.Aggregates.Patient.Commands.UpdatePatient
 {
     public class UpdatePatientCommandHandler : AbstractRequestHandler, IRequestHandler<UpdatePatientCommand, Unit>
     {
+        private readonly PatientErrorSettings PatientErrorSettings;
+
         public UpdatePatientCommandHandler(
         IMediator mediator,
         ITrainerDbContext dbContext,
-        IMapper mapper)
+        IMapper mapper,
+        IOptions<PatientErrorSettings> patientErrorSettings)
         : base(mediator, dbContext, mapper)
         {
+            PatientErrorSettings = patientErrorSettings.Value;
         }
 
         public async Task<Unit> Handle(UpdatePatientCommand request, CancellationToken cancellationToken)

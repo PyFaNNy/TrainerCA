@@ -1,12 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Trainer.Settings.Error
+﻿namespace Trainer.Settings.Error
 {
     public class BaseUserErrorSettings
     {
+        public bool ApproveUserEnable
+        {
+            get;
+            set;
+        }
+
+        public bool BlockUserEnable
+        {
+            get;
+            set;
+        }
+
+        public bool ChangeRoleEnable
+        {
+            get;
+            set;
+        }
+
+        public bool DeclineUserEnable
+        {
+            get;
+            set;
+        }
+
+        public bool DeleteUserEnable
+        {
+            get;
+            set;
+        }
+
+        public bool UnBlockUserEnable
+        {
+            get;
+            set;
+        }
     }
 }

@@ -11,12 +11,10 @@ namespace Trainer.EmailService.Services
 {
     public class EmailService : IMailService
     {
-        private readonly ILogger<EmailService> _logger;
         private readonly MailSettings _mailSettings;
 
         public EmailService(ILogger<EmailService> logger, IOptions<MailSettings> mailSettings)
         {
-            _logger = logger ?? throw new ArgumentNullException($"{nameof(logger)} is null.");
             _mailSettings = mailSettings.Value ?? throw new ArgumentNullException($"{nameof(mailSettings)} is null.");
         }
 

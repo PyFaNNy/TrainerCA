@@ -22,12 +22,14 @@
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.14" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
     <PackageReference Include="Scriban" Version="5.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Trainer.Common\Trainer.Common.csproj" />
     <ProjectReference Include="..\Trainer.Domain\Trainer.Domain.csproj" />
+    <ProjectReference Include="..\Trainer.Settings\Trainer.Settings.csproj" />
   </ItemGroup>
 
   <ItemGroup>

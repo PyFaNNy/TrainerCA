@@ -3,14 +3,20 @@
     using AutoMapper;
     using Interfaces;
     using MediatR;
+    using Microsoft.Extensions.Options;
     using System.Threading;
     using System.Threading.Tasks;
+    using Trainer.Settings.Error;
 
     public class RequestRegistrationCodeCommandHandler : RequestSmsCodeAbstractCommandHandler, IRequestHandler<RequestRegistrationCodeCommand, Unit>
     {
-        public RequestRegistrationCodeCommandHandler(IMediator mediator, ITrainerDbContext dbContext, IMapper mapper, IMailService emailService)
+        private readonly OTPCodesErrorSettings OTPCodesErrorSettings;
+
+        public RequestRegistrationCodeCommandHandler(IMediator mediator, ITrainerDbContext dbContext, IMapper mapper, IMailService emailService,
+        IOptions<OTPCodesErrorSettings> otpCodesErrorSettings)
     : base(mediator, dbContext, mapper, emailService)
         {
+            OTPCodesErrorSettings = otpCodesErrorSettings.Value;
         }
 
         public async Task<Unit> Handle(RequestRegistrationCodeCommand request, CancellationToken cancellationToken)

@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Trainer.Settings.Error
+﻿namespace Trainer.Settings.Error
 {
     public class CSVErrorSettings
     {
+        public bool CSVToExaminationsEnable
+        {
+            get;
+            set;
+        }
+
+        public bool CSVToPatientsEnable
+        {
+            get;
+            set;
+        }
     }
 }

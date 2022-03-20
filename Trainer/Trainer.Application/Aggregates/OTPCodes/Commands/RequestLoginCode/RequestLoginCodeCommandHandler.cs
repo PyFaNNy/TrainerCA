@@ -8,13 +8,19 @@
     using Trainer.Application.Interfaces;
     using Trainer.Common.TableConnect.Common;
     using MediatR;
+    using Trainer.Settings.Error;
+    using Microsoft.Extensions.Options;
 
     public class RequestLoginCodeCommandHandler
         : RequestSmsCodeAbstractCommandHandler, IRequestHandler<RequestLoginCodeCommand, Unit>
     {
-        public RequestLoginCodeCommandHandler(IMediator mediator, ITrainerDbContext dbContext, IMapper mapper, IMailService emailService)
+        private readonly OTPCodesErrorSettings OTPCodesErrorSettings;
+
+        public RequestLoginCodeCommandHandler(IMediator mediator, ITrainerDbContext dbContext, IMapper mapper, IMailService emailService,
+        IOptions<OTPCodesErrorSettings> otpCodesErrorSettings)
             : base(mediator, dbContext, mapper, emailService)
         {
+            OTPCodesErrorSettings = otpCodesErrorSettings.Value;
         }
 
         public async Task<Unit> Handle(RequestLoginCodeCommand request, CancellationToken cancellationToken)
