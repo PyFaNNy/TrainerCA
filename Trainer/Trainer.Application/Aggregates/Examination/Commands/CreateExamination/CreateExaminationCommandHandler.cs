@@ -30,34 +30,36 @@ namespace Trainer.Application.Aggregates.Examination.Commands.CreateExamination
 
         public async Task<Unit> Handle(CreateExaminationCommand request, CancellationToken cancellationToken)
         {
-            var examination = this.Mapper.Map<Domain.Entities.Examination.Examination>(request);
-
-            await this.DbContext.Examinations.AddAsync(examination, cancellationToken);
-            await this.DbContext.SaveChangesAsync(cancellationToken);
-
-            var patient = await DbContext.Patients
-                .Where(x => x.Id == examination.PatientId)
-                .FirstOrDefaultAsync(cancellationToken);
-
-            var doctor = await DbContext.Doctors
-                .Where(x => x.Id == examination.PatientId)
-                .FirstOrDefaultAsync(cancellationToken);
-
-            var template = Template.Parse(EmailTemplates.ExaminationEmail);
-
-            var body = template.Render(new
+            if (ExaminationErrorSettings.CreateExaminationEnable)
             {
-                patient = patient,
-                model = request
-            });
+                var examination = this.Mapper.Map<Domain.Entities.Examination.Examination>(request);
 
-            await EmailService.SendEmailAsync(new MailRequest
-            {
-                ToEmail = patient.Email,
-                Body = body,
-                Subject = $"Set Examination by {doctor?.FirstName}"
-            });
+                await this.DbContext.Examinations.AddAsync(examination, cancellationToken);
+                await this.DbContext.SaveChangesAsync(cancellationToken);
 
+                var patient = await DbContext.Patients
+                    .Where(x => x.Id == examination.PatientId)
+                    .FirstOrDefaultAsync(cancellationToken);
+
+                var doctor = await DbContext.Doctors
+                    .Where(x => x.Id == examination.PatientId)
+                    .FirstOrDefaultAsync(cancellationToken);
+
+                var template = Template.Parse(EmailTemplates.ExaminationEmail);
+
+                var body = template.Render(new
+                {
+                    patient = patient,
+                    model = request
+                });
+
+                await EmailService.SendEmailAsync(new MailRequest
+                {
+                    ToEmail = patient.Email,
+                    Body = body,
+                    Subject = $"Set Examination by {doctor?.FirstName}"
+                });
+            }
             return Unit.Value;
         }
     }

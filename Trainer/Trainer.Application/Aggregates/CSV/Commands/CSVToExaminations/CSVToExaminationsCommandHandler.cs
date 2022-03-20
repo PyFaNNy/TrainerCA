@@ -26,11 +26,13 @@ namespace Trainer.Application.Aggregates.CSV.Commands.CSVToExaminations
 
         public async Task<Unit> Handle(CSVToExaminationsCommand request, CancellationToken cancellationToken)
         {
-            var examinations =await CSVParserService.ReadCsvFileToExamination(request.CSVFile);
+            if (CSVErrorSettings.CSVToExaminationsEnable)
+            {
+                var examinations = await CSVParserService.ReadCsvFileToExamination(request.CSVFile);
 
-            await DbContext.Examinations.AddRangeAsync(examinations);
-            await DbContext.SaveChangesAsync(cancellationToken);
-
+                await DbContext.Examinations.AddRangeAsync(examinations);
+                await DbContext.SaveChangesAsync(cancellationToken);
+            }
             return Unit.Value;
         }
     }

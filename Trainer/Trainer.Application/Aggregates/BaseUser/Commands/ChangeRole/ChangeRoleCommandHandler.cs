@@ -25,15 +25,17 @@ namespace Trainer.Application.Aggregates.BaseUser.Commands.ChangeRole
 
         public async Task<Unit> Handle(ChangeRoleCommand request, CancellationToken cancellationToken)
         {
-            var user = await DbContext.BaseUsers
+            if (BaseUserErrorSettings.ChangeRoleEnable)
+            {
+                var user = await DbContext.BaseUsers
                 .Where(x => x.Id == request.UserId)
                 .FirstOrDefaultAsync(cancellationToken);
 
-            if (user == null)
-            {
-                throw new NotFoundException(nameof(Domain.Entities.BaseUser), request.UserId);
+                if (user == null)
+                {
+                    throw new NotFoundException(nameof(Domain.Entities.BaseUser), request.UserId);
+                }
             }
-
             return Unit.Value; 
         }
     }

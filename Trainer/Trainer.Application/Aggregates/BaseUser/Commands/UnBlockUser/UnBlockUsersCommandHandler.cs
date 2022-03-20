@@ -31,31 +31,34 @@ namespace Trainer.Application.Aggregates.BaseUser.Commands.UnBlockUser
 
         public async Task<Unit> Handle(UnBlockUsersCommand request, CancellationToken cancellationToken)
         {
-            foreach (var id in request.UserIds)
+            if (BaseUserErrorSettings.UnBlockUserEnable)
             {
-                var user = await this.DbContext.BaseUsers
-                    .Where(x => x.Id == id)
-                    .FirstOrDefaultAsync(cancellationToken);
-
-                if (user == null)
+                foreach (var id in request.UserIds)
                 {
-                    throw new NotFoundException(nameof(Domain.Entities.BaseUser), id);
+                    var user = await this.DbContext.BaseUsers
+                        .Where(x => x.Id == id)
+                        .FirstOrDefaultAsync(cancellationToken);
+
+                    if (user == null)
+                    {
+                        throw new NotFoundException(nameof(Domain.Entities.BaseUser), id);
+                    }
+
+                    user.Status = Enums.StatusUser.Active;
+
+                    var template = Template.Parse(EmailTemplates.UnBlockUser);
+
+                    var body = template.Render();
+
+                    await EmailService.SendEmailAsync(new MailRequest
+                    {
+                        ToEmail = user.Email,
+                        Body = body,
+                        Subject = $"Unblock your account"
+                    });
                 }
-
-                user.Status = Enums.StatusUser.Active;
-
-                var template = Template.Parse(EmailTemplates.UnBlockUser);
-
-                var body = template.Render();
-
-                await EmailService.SendEmailAsync(new MailRequest
-                {
-                    ToEmail = user.Email,
-                    Body = body,
-                    Subject = $"Unblock your account"
-                });
+                await this.DbContext.SaveChangesAsync(cancellationToken);
             }
-            await this.DbContext.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }
     }

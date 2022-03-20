@@ -32,41 +32,43 @@ namespace Trainer.Application.Aggregates.Examination.Commands.UpdateExamination
 
         public async Task<Unit> Handle(UpdateExaminationCommand request, CancellationToken cancellationToken)
         {
-            var examination = await this.DbContext.Examinations
+            if (ExaminationErrorSettings.UpdateExaminationEnable)
+            {
+                var examination = await this.DbContext.Examinations
                 .Where(x => x.Id == request.ExaminationId)
                 .FirstOrDefaultAsync(cancellationToken);
 
-            if (examination == null)
-            {
-                throw new NotFoundException(nameof(Domain.Entities.Examination.Examination), request.ExaminationId);
+                if (examination == null)
+                {
+                    throw new NotFoundException(nameof(Domain.Entities.Examination.Examination), request.ExaminationId);
+                }
+
+                this.Mapper.Map(request, examination);
+                await this.DbContext.SaveChangesAsync(cancellationToken);
+
+                var patient = await DbContext.Patients
+                    .Where(x => x.Id == examination.PatientId)
+                    .FirstOrDefaultAsync(cancellationToken);
+
+                var doctor = await DbContext.Doctors
+                    .Where(x => x.Id == examination.PatientId)
+                    .FirstOrDefaultAsync(cancellationToken);
+
+                var template = Template.Parse(EmailTemplates.ExaminationEmail);
+
+                var body = template.Render(new
+                {
+                    patient = patient,
+                    model = request
+                });
+
+                await EmailService.SendEmailAsync(new MailRequest
+                {
+                    ToEmail = patient.Email,
+                    Body = body,
+                    Subject = $"Update Examination by {doctor?.FirstName}"
+                });
             }
-
-            this.Mapper.Map(request, examination);
-            await this.DbContext.SaveChangesAsync(cancellationToken);
-
-            var patient = await DbContext.Patients
-                .Where(x => x.Id == examination.PatientId)
-                .FirstOrDefaultAsync(cancellationToken);
-
-            var doctor = await DbContext.Doctors
-                .Where(x => x.Id == examination.PatientId)
-                .FirstOrDefaultAsync(cancellationToken);
-
-            var template = Template.Parse(EmailTemplates.ExaminationEmail);
-
-            var body = template.Render(new
-            {
-                patient = patient,
-                model = request
-            });
-
-            await EmailService.SendEmailAsync(new MailRequest
-            {
-                ToEmail = patient.Email,
-                Body = body,
-                Subject = $"Update Examination by {doctor?.FirstName}"
-            });
-
             return Unit.Value;
         }
     }

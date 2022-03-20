@@ -25,18 +25,20 @@ namespace Trainer.Application.Aggregates.Patient.Commands.UpdatePatient
 
         public async Task<Unit> Handle(UpdatePatientCommand request, CancellationToken cancellationToken)
         {
-            var patient = await this.DbContext.Patients
+            if (PatientErrorSettings.UpdatePatientEnable)
+            {
+                var patient = await this.DbContext.Patients
                 .Where(x => x.Id == request.PatientId)
                 .FirstOrDefaultAsync(cancellationToken);
 
-            if (patient == null)
-            {
-                throw new NotFoundException(nameof(Domain.Entities.Patient.Patient), request.PatientId);
+                if (patient == null)
+                {
+                    throw new NotFoundException(nameof(Domain.Entities.Patient.Patient), request.PatientId);
+                }
+
+                this.Mapper.Map(request, patient);
+                await this.DbContext.SaveChangesAsync(cancellationToken);
             }
-
-            this.Mapper.Map(request, patient);
-            await this.DbContext.SaveChangesAsync(cancellationToken);
-
             return Unit.Value;
         }
     }

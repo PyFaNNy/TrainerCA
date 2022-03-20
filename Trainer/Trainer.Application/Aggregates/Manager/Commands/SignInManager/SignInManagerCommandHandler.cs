@@ -23,11 +23,13 @@ namespace Trainer.Application.Aggregates.Manager.Commands.SignInManager
 
         public async Task<Unit> Handle(SignInManagerCommand request, CancellationToken cancellationToken)
         {
-            var manager = this.Mapper.Map<Domain.Entities.Manager.Manager>(request);
+            if (ManagerErrorSettings.SignInManagerEnable)
+            {
+                var manager = this.Mapper.Map<Domain.Entities.Manager.Manager>(request);
 
-            await this.DbContext.Managers.AddAsync(manager, cancellationToken);
-            await this.DbContext.SaveChangesAsync(cancellationToken);
-
+                await this.DbContext.Managers.AddAsync(manager, cancellationToken);
+                await this.DbContext.SaveChangesAsync(cancellationToken);
+            }
             return Unit.Value;
         }
     }

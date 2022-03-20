@@ -23,11 +23,13 @@ namespace Trainer.Application.Aggregates.Doctor.Commands.SignInDoctor
 
         public async Task<Unit> Handle(SignInDoctorCommand request, CancellationToken cancellationToken)
         {
-            var doctor = this.Mapper.Map<Domain.Entities.Doctor.Doctor>(request);
+            if (DoctorErrorSettings.SignInDoctorEnable)
+            {
+                var doctor = this.Mapper.Map<Domain.Entities.Doctor.Doctor>(request);
 
-            await this.DbContext.Doctors.AddAsync(doctor, cancellationToken);
-            await this.DbContext.SaveChangesAsync(cancellationToken);
-
+                await this.DbContext.Doctors.AddAsync(doctor, cancellationToken);
+                await this.DbContext.SaveChangesAsync(cancellationToken);
+            }
             return Unit.Value;
         }
     }

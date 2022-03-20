@@ -31,29 +31,31 @@ namespace Trainer.Application.Aggregates.BaseUser.Commands.DeclineUser
 
         public async Task<Unit> Handle(DeclineUserCommand request, CancellationToken cancellationToken)
         {
-            var user = await this.DbContext.BaseUsers
+            if (BaseUserErrorSettings.DeclineUserEnable)
+            {
+                var user = await this.DbContext.BaseUsers
                 .Where(x => x.Id == request.UserId)
                 .FirstOrDefaultAsync(cancellationToken);
 
-            if (user == null)
-            {
-                throw new NotFoundException(nameof(Domain.Entities.BaseUser), request.UserId);
+                if (user == null)
+                {
+                    throw new NotFoundException(nameof(Domain.Entities.BaseUser), request.UserId);
+                }
+
+                user.Status = Enums.StatusUser.Decline;
+                await this.DbContext.SaveChangesAsync(cancellationToken);
+
+                var template = Template.Parse(EmailTemplates.DeclineUser);
+
+                var body = template.Render();
+
+                await EmailService.SendEmailAsync(new MailRequest
+                {
+                    ToEmail = user.Email,
+                    Body = body,
+                    Subject = $"Decline registration"
+                });
             }
-
-            user.Status = Enums.StatusUser.Decline;
-            await this.DbContext.SaveChangesAsync(cancellationToken);
-
-            var template = Template.Parse(EmailTemplates.DeclineUser);
-
-            var body = template.Render();
-
-            await EmailService.SendEmailAsync(new MailRequest
-            {
-                ToEmail = user.Email,
-                Body = body,
-                Subject = $"Decline registration"
-            });
-
             return Unit.Value;
         }
     }

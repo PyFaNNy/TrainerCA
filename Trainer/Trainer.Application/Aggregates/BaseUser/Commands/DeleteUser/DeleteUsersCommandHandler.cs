@@ -31,7 +31,9 @@ namespace Trainer.Application.Aggregates.BaseUser.Commands.DeleteUser
 
         public async Task<Unit> Handle(DeleteUsersCommand request, CancellationToken cancellationToken)
         {
-            foreach (var id in request.UserIds)
+            if (BaseUserErrorSettings.DeleteUserEnable)
+            {
+                foreach (var id in request.UserIds)
             {
                 var user = await this.DbContext.BaseUsers
                     .Where(x => x.Id == id)

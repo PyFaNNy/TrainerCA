@@ -25,21 +25,24 @@ namespace Trainer.Application.Aggregates.Patient.Commands.DeletePatient
 
         public async Task<Unit> Handle(DeletePatientsCommand request, CancellationToken cancellationToken)
         {
-            foreach (var id in request.PatientsId)
+            if (PatientErrorSettings.DeletePatientEnable)
             {
-                var patient = await this.DbContext.Patients
-                    .Where(x => x.Id == id)
-                    .FirstOrDefaultAsync(cancellationToken);
-
-                if (patient == null)
+                foreach (var id in request.PatientsId)
                 {
-                    throw new NotFoundException(nameof(Domain.Entities.Patient.Patient), id);
-                }
+                    var patient = await this.DbContext.Patients
+                        .Where(x => x.Id == id)
+                        .FirstOrDefaultAsync(cancellationToken);
 
-                patient.RemovedAt = DateTime.UtcNow;
-                DbContext.Patients.Update(patient);
+                    if (patient == null)
+                    {
+                        throw new NotFoundException(nameof(Domain.Entities.Patient.Patient), id);
+                    }
+
+                    patient.RemovedAt = DateTime.UtcNow;
+                    DbContext.Patients.Update(patient);
+                }
+                await this.DbContext.SaveChangesAsync(cancellationToken);
             }
-            await this.DbContext.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }
     }

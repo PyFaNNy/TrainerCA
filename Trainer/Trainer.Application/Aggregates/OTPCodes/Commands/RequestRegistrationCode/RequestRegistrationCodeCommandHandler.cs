@@ -21,9 +21,11 @@
 
         public async Task<Unit> Handle(RequestRegistrationCodeCommand request, CancellationToken cancellationToken)
         {
-            this.LimitsCodeValid(request);
-            await this.CreateCode(request);
-
+            if (OTPCodesErrorSettings.RequestLoginCodeEnable)
+            {
+                this.LimitsCodeValid(request);
+                await this.CreateCode(request);
+            }
             return Unit.Value;
         }
     }

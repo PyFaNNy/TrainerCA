@@ -25,20 +25,23 @@ namespace Trainer.Application.Aggregates.Examination.Commands.DeleteExamination
 
         public async Task<Unit> Handle(DeleteExaminationsCommand request, CancellationToken cancellationToken)
         {
-            foreach (var id in request.ExaminationsId)
+            if (ExaminationErrorSettings.DeleteExaminationEnable)
             {
-                var examination = await this.DbContext.Examinations
-                    .Where(x => x.Id == id)
-                    .FirstOrDefaultAsync(cancellationToken);
-
-                if (examination == null)
+                foreach (var id in request.ExaminationsId)
                 {
-                    throw new NotFoundException(nameof(Domain.Entities.Examination.Examination), id);
-                }
+                    var examination = await this.DbContext.Examinations
+                        .Where(x => x.Id == id)
+                        .FirstOrDefaultAsync(cancellationToken);
 
-                this.DbContext.Examinations.Remove(examination);
+                    if (examination == null)
+                    {
+                        throw new NotFoundException(nameof(Domain.Entities.Examination.Examination), id);
+                    }
+
+                    this.DbContext.Examinations.Remove(examination);
+                }
+                await this.DbContext.SaveChangesAsync(cancellationToken);
             }
-            await this.DbContext.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }
     }

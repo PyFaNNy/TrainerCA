@@ -23,10 +23,12 @@
 
         public async Task<Unit> Handle(RequestPasswordCommand request, CancellationToken cancellationToken)
         {
-            this.CheckIfUserExists(request.Email);
-            this.LimitsCodeValid(request);
-            await this.CreateCode(request);
-
+            if (OTPCodesErrorSettings.RequestPasswordEnable)
+            {
+                this.CheckIfUserExists(request.Email);
+                this.LimitsCodeValid(request);
+                await this.CreateCode(request);
+            }
 
             return Unit.Value;
         }

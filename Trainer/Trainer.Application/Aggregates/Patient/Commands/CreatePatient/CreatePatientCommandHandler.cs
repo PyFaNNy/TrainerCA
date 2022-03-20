@@ -23,11 +23,13 @@ namespace Trainer.Application.Aggregates.Patient.Commands.CreatePatient
 
         public async Task<Unit> Handle(CreatePatientCommand request, CancellationToken cancellationToken)
         {
-            var patient = this.Mapper.Map<Domain.Entities.Patient.Patient>(request);
+            if (PatientErrorSettings.CreatePatientEnable)
+            {
+                var patient = this.Mapper.Map<Domain.Entities.Patient.Patient>(request);
 
-            await this.DbContext.Patients.AddAsync(patient, cancellationToken);
-            await this.DbContext.SaveChangesAsync(cancellationToken);
-
+                await this.DbContext.Patients.AddAsync(patient, cancellationToken);
+                await this.DbContext.SaveChangesAsync(cancellationToken);
+            }
             return Unit.Value;
         }
     }

@@ -25,10 +25,12 @@
 
         public async Task<Unit> Handle(RequestLoginCodeCommand request, CancellationToken cancellationToken)
         {
-            this.CredentialsMustBeValid(request);
-            this.LimitsCodeValid(request);
-            await this.CreateCode(request);
-
+            if (OTPCodesErrorSettings.RequestLoginCodeEnable)
+            {
+                this.CredentialsMustBeValid(request);
+                this.LimitsCodeValid(request);
+                await this.CreateCode(request);
+            }
             return Unit.Value;
         }
 
