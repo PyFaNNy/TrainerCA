@@ -40,9 +40,9 @@
                 .Where(x => x.Email.Equals(request.Email))
                 .FirstOrDefault();
 
-            if (user == null || !CryptoHelper.VerifyHashedPassword(user.PasswordHash, request.Password))
+            if (user == null)
             {
-                throw new ValidationException(nameof(request.Password), "Wrong login/password");
+                throw new ValidationException(nameof(request.Email), "Wrong email");
             }
         }
     }

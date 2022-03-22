@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Trainer.Application.Aggregates.BaseUser.Commands.ApproveUser;
 using Trainer.Application.Aggregates.BaseUser.Commands.BlockUser;
+using Trainer.Application.Aggregates.BaseUser.Commands.ConfirmEmail;
 using Trainer.Application.Aggregates.BaseUser.Commands.DeclineUser;
 using Trainer.Application.Aggregates.BaseUser.Commands.DeleteUser;
+using Trainer.Application.Aggregates.BaseUser.Commands.ResetPasswordUser;
 using Trainer.Application.Aggregates.BaseUser.Commands.UnBlockUser;
 using Trainer.Application.Aggregates.BaseUser.Queries.GetBaseUsers;
 using Trainer.Enums;
@@ -71,6 +73,27 @@ namespace Trainer.Controllers
         {
             await Mediator.Send(new DeclineUserCommand { UserId = userId });
             return RedirectToAction("GetModels");
+        }
+
+        [HttpGet]
+        public IActionResult ResetPassword(string email)
+        {
+            ViewBag.Email = email;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordUserCommand command)
+        {
+            await Mediator.Send(command);
+            return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ConfirmEmail(ConfirmEmailCommand command)
+        {
+            await Mediator.Send(command);
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
     }
 }

@@ -37,5 +37,11 @@
             get;
             set;
         }
+
+        public bool ResetPasswordUserEnable
+        {
+            get;
+            set;
+        }
     }
 }

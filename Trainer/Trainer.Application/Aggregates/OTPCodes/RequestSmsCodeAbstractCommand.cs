@@ -5,8 +5,13 @@
 
     public abstract class RequestSmsCodeAbstractCommand
     {
-        [JsonProperty("email")]
         public string Email
+        {
+            get;
+            set;
+        }
+
+        public string Host
         {
             get;
             set;

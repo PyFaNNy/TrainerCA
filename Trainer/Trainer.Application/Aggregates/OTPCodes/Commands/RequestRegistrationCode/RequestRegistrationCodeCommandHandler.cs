@@ -14,7 +14,7 @@
 
         public RequestRegistrationCodeCommandHandler(IMediator mediator, ITrainerDbContext dbContext, IMapper mapper, IMailService emailService,
         IOptions<OTPCodesErrorSettings> otpCodesErrorSettings)
-    : base(mediator, dbContext, mapper, emailService)
+        : base(mediator, dbContext, mapper, emailService)
         {
             OTPCodesErrorSettings = otpCodesErrorSettings.Value;
         }

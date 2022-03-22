@@ -1,0 +1,22 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization;
+@inject IViewLocalizer Localizer
+@model ValidateSmsCode;
+@{
+    ViewData["Title"] = @Localizer["ValidateCode"];
+}
+
+<div class="col-md-4">
+    <form method="post" asp-controller="OTP" asp-action="VerifyCodeLogin" asp-route-email="@ViewBag.Email"  asp-route-OTPaction="@ViewBag.Action" asp-route-Password="@ViewBag.Password">
+        <h3>@Localizer["ValidateCode"]</h3>
+        <hr />
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Codes">@Localizer["Code"]</label>
+            <input asp-for="Codes" class="form-control" />
+            <span class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary mt-1">@Localizer["ValidateCode"]</button>
+        </div>
+    </form>
+</div>

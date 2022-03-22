@@ -24,9 +24,8 @@
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <div class="checkbox">
-                        <label asp-for="RememberMe">@Localizer["RememberMe"]</label>
-                        <input asp-for="RememberMe" />
+                    <div>
+                        <a asp-controller="OTP" asp-action="ResetPasswordSendEmail">@Localizer["ForgotPassword"]</a>
                     </div>
                 </div>
                 <div class="form-group">

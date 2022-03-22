@@ -9,8 +9,6 @@
         public RequestLoginCodeCommandValidator()
             : base()
         {
-            this.RuleFor(x => x.Password)
-                .NotEmpty();
         }
     }
 }

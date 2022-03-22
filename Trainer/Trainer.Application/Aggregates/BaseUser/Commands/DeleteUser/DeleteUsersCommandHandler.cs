@@ -34,31 +34,32 @@ namespace Trainer.Application.Aggregates.BaseUser.Commands.DeleteUser
             if (BaseUserErrorSettings.DeleteUserEnable)
             {
                 foreach (var id in request.UserIds)
-            {
-                var user = await this.DbContext.BaseUsers
-                    .Where(x => x.Id == id)
-                    .FirstOrDefaultAsync(cancellationToken);
-
-                if (user == null)
                 {
-                    throw new NotFoundException(nameof(Domain.Entities.BaseUser), id);
+                    var user = await this.DbContext.BaseUsers
+                        .Where(x => x.Id == id)
+                        .FirstOrDefaultAsync(cancellationToken);
+
+                    if (user == null)
+                    {
+                        throw new NotFoundException(nameof(Domain.Entities.BaseUser), id);
+                    }
+
+                    user.RemovedAt = DateTime.UtcNow;
+                    DbContext.BaseUsers.Update(user);
+
+                    var template = Template.Parse(EmailTemplates.DeleteUser);
+
+                    var body = template.Render();
+
+                    await EmailService.SendEmailAsync(new MailRequest
+                    {
+                        ToEmail = user.Email,
+                        Body = body,
+                        Subject = $"Delete your account"
+                    });
                 }
-
-                user.RemovedAt = DateTime.UtcNow;
-                DbContext.BaseUsers.Update(user);
-
-                var template = Template.Parse(EmailTemplates.DeleteUser);
-
-                var body = template.Render();
-
-                await EmailService.SendEmailAsync(new MailRequest
-                {
-                    ToEmail = user.Email,
-                    Body = body,
-                    Subject = $"Delete your account"
-                });
+                await this.DbContext.SaveChangesAsync(cancellationToken);
             }
-            await this.DbContext.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }
     }

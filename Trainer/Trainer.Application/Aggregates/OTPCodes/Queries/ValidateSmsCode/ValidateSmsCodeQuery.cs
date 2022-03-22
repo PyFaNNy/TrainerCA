@@ -6,6 +6,11 @@
 
     public class ValidateSmsCodeQuery : IRequest<Code>
     {
+        public ValidateSmsCodeQuery()
+        {
+
+        }
+
         public ValidateSmsCodeQuery(string email, string code, OTPAction action)
         {
             this.Email = email;
@@ -16,16 +21,19 @@
         public string Email
         {
             get;
+            set;
         }
 
         public string Code
         {
-            get; 
+            get;
+            set;
         }
 
         public OTPAction Action
         {
             get;
+            set;
         }
     }
 }

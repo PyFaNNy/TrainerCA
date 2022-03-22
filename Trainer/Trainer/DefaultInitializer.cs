@@ -15,7 +15,8 @@
                 dbContext.Admins.Add(new Admin
                 {
                     Id = Guid.Parse("19f7d733-8826-4726-a669-0d29a882eda4"),
-                    Email = "traineradmin@gmail.com",
+                    //Email = "traineradmin@gmail.com",
+                    Email = "fanny.koob@gmail.com",
                     PasswordHash = CryptoHelper.HashPassword("admin"),
                     FirstName = "Admin",
                     MiddleName = "Admin",

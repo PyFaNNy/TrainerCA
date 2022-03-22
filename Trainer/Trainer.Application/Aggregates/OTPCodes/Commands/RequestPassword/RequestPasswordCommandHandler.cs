@@ -39,7 +39,7 @@
 
             if (!isUserExist)
             {
-                throw new ValidationException(nameof(BaseUser), "Wrong phone number/surname");
+                throw new ValidationException(nameof(BaseUser), "Wrong email");
             }
         }
     }

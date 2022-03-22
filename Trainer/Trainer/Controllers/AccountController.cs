@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Trainer.Application.Aggregates.BaseUser.Queries.GetBaseUser;
-using Trainer.Application.Aggregates.BaseUser.Queries.GetBaseUsers;
+using Trainer.Application.Aggregates.OTPCodes.Commands.RequestLoginCode;
 using Trainer.Common;
 using Trainer.Common.TableConnect.Common;
+using Trainer.Enums;
 using Trainer.Models;
 
 namespace Trainer.Controllers
@@ -18,20 +18,19 @@ namespace Trainer.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login()
-        {
-            return View();
-        }
-
-        [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
 
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
         [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
@@ -42,18 +41,12 @@ namespace Trainer.Controllers
 
                 if (result)
                 {
-                    var claims = new List<Claim>
+                    await Mediator.Send(new RequestLoginCodeCommand
                     {
-                        new Claim(ClaimTypes.Name, user.Email),
-                        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                        new Claim(ClaimTypes.Role, user.Role.ToName())
-                    };
-
-                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                    await HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity));
-
-                    return RedirectToAction(nameof(HomeController.Index), "Home");
+                        Email = user.Email,
+                        Host = HttpContext.Request.Host.ToString()
+                    });
+                    return RedirectToAction("VerifyCode", "OTP", new { otpAction = OTPAction.Login, email = user.Email});
                 }
                 else
                 {
@@ -62,6 +55,24 @@ namespace Trainer.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ReturnClaim(string Email, string Password)
+        {
+            var user = await Mediator.Send(new GetBaseUserQuery(Email));
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.Email),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Role, user.Role.ToName())
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            await HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity));
+
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
         [HttpPost]

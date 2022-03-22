@@ -13,6 +13,7 @@
     using Trainer.Application.Templates;
     using Trainer.Common;
     using Trainer.Domain.Entities;
+    using Trainer.Enums;
 
     public abstract class RequestSmsCodeAbstractCommandHandler : AbstractRequestHandler
     {
@@ -66,7 +67,8 @@
             var body = template.Render(new
             {
                 code = code,
-            });
+                link = $"https://{request.Host}/OTP/VerifyCode?otpAction={request.Action}&email={request.Email}"
+            }) ;
 
             await this.EmailService.SendEmailAsync(new MailRequest
             {
