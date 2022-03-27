@@ -36,6 +36,18 @@ namespace Trainer.Application.Aggregates.Patient.Queries.GetPatient
                 return patient;
             }
 
+            if (PatientErrorSettings.GetRandomPatientEnable)
+            {
+                Random rnd = new Random();
+                var patient = DbContext.Patients
+                    .Skip(rnd.Next(30))
+                    .NotRemoved()
+                    .ProjectTo<Patient>(this.Mapper.ConfigurationProvider)
+                    .FirstOrDefault();
+
+                return patient;
+            }
+
             return null;
         }
     }

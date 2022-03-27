@@ -80,7 +80,19 @@
             set;
         }
 
+        public bool GetRandomBaseUserEnable
+        {
+            get;
+            set;
+        }
+
         public bool GetBaseUsersEnable
+        {
+            get;
+            set;
+        }
+
+        public bool GetRandomBaseUsersEnable
         {
             get;
             set;

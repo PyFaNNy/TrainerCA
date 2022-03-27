@@ -35,6 +35,19 @@ namespace Trainer.Application.Aggregates.Examination.Queries.GetExamination
                 return examination;
             }
 
+            if (ExaminationErrorSettings.GetRandomExaminationEnable)
+            {
+                Random rnd = new Random();
+                var examination = DbContext.Examinations
+                    .Skip(rnd.Next(30))
+                    .ProjectTo<Examination>(this.Mapper.ConfigurationProvider)
+                    .FirstOrDefault();
+
+                InvCountIndicators(examination);
+
+                return examination;
+            }
+
             return null;
         }
 

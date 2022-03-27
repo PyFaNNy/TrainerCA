@@ -26,7 +26,19 @@
             set;
         }
 
+        public bool GetRandomPatientEnable
+        {
+            get;
+            set;
+        }
+
         public bool GetPatientsEnable
+        {
+            get;
+            set;
+        }
+
+        public bool GetRandomPatientsEnable
         {
             get;
             set;

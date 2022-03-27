@@ -79,6 +79,60 @@ namespace Trainer.Application.Aggregates.BaseUser.Queries.GetBaseUsers
                 return paginatedList;
             }
 
+            if (BaseUserErrorSettings.GetRandomBaseUsersEnable)
+            {
+                Random rnd = new Random();
+                var baseUsers = DbContext.BaseUsers
+                    .Skip(rnd.Next(30))
+                    .NotRemoved()
+                    .ProjectTo<BaseUser>(this.Mapper.ConfigurationProvider);
+
+                var paginatedList =
+                    await PaginatedList<BaseUser>.CreateAsync(baseUsers, request.PageIndex, request.PageSize);
+
+                switch (request.SortOrder)
+                {
+                    case SortState.EmailSort:
+                        paginatedList.Items = paginatedList.Items.OrderBy(s => s.Email).ToList();
+                        break;
+                    case SortState.EmailSortDesc:
+                        paginatedList.Items = paginatedList.Items.OrderByDescending(s => s.Email).ToList();
+                        break;
+                    case SortState.FirstNameSort:
+                        paginatedList.Items = paginatedList.Items.OrderBy(s => s.FirstName).ToList();
+                        break;
+                    case SortState.FirstNameSortDesc:
+                        paginatedList.Items = paginatedList.Items.OrderByDescending(s => s.FirstName).ToList();
+                        break;
+                    case SortState.MiddleNameSortDesc:
+                        paginatedList.Items = paginatedList.Items.OrderByDescending(s => s.MiddleName).ToList();
+                        break;
+                    case SortState.MiddleNameSort:
+                        paginatedList.Items = paginatedList.Items.OrderBy(s => s.MiddleName).ToList();
+                        break;
+                    case SortState.LastNameSortDesc:
+                        paginatedList.Items = paginatedList.Items.OrderByDescending(s => s.LastName).ToList();
+                        break;
+                    case SortState.LastNameSort:
+                        paginatedList.Items = paginatedList.Items.OrderBy(s => s.LastName).ToList();
+                        break;
+                    case SortState.RoleSortDesc:
+                        paginatedList.Items = paginatedList.Items.OrderByDescending(s => s.Role).ToList();
+                        break;
+                    case SortState.RoleSort:
+                        paginatedList.Items = paginatedList.Items.OrderBy(s => s.Role).ToList();
+                        break;
+                    case SortState.StatusSortDesc:
+                        paginatedList.Items = paginatedList.Items.OrderByDescending(s => s.Status).ToList();
+                        break;
+                    case SortState.StatusSort:
+                        paginatedList.Items = paginatedList.Items.OrderBy(s => s.Status).ToList();
+                        break;
+                }
+
+                return paginatedList;
+            }
+
             return null;
         }
     }

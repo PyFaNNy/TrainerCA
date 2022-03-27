@@ -27,11 +27,27 @@ namespace Trainer.Application.Aggregates.BaseUser.Queries.GetBaseUser
 
         public async Task<BaseUser> Handle(GetBaseUserQuery request, CancellationToken cancellationToken)
         {
-            BaseUser? baseUser = new BaseUser();
             if (BaseUserErrorSettings.GetBaseUserEnable)
             {
-                baseUser = await DbContext.BaseUsers
-                    .Where(x => x.Email == request.Email)
+                var baseUser = await DbContext.BaseUsers
+                     .Where(x => x.Email == request.Email)
+                     .NotRemoved()
+                     .ProjectTo<BaseUser>(this.Mapper.ConfigurationProvider)
+                     .FirstOrDefaultAsync(cancellationToken);
+
+                if (baseUser == null)
+                {
+                    throw new NotFoundException("User", request.Email);
+                }
+
+                return baseUser;
+            }
+
+            if (BaseUserErrorSettings.GetRandomBaseUserEnable)
+            {
+                Random rnd = new Random();
+                var baseUser = await DbContext.BaseUsers
+                    .Skip(rnd.Next(30))
                     .NotRemoved()
                     .ProjectTo<BaseUser>(this.Mapper.ConfigurationProvider)
                     .FirstOrDefaultAsync(cancellationToken);
@@ -41,8 +57,10 @@ namespace Trainer.Application.Aggregates.BaseUser.Queries.GetBaseUser
                     throw new NotFoundException("User", request.Email);
                 }
 
+                return baseUser;
             }
-            return baseUser;
+
+            return null;
         }
     }
 }

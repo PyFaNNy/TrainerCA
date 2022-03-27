@@ -44,7 +44,19 @@
             set;
         }
 
+        public bool GetRandomExaminationEnable
+        {
+            get;
+            set;
+        }
+
         public bool GetExaminationsEnable
+        {
+            get;
+            set;
+        }
+
+        public bool GetRandomExaminationsEnable
         {
             get;
             set;

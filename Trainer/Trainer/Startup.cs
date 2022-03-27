@@ -18,9 +18,6 @@ namespace Trainer
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            var builder = new ConfigurationBuilder()
-                .AddJsonFile("person.json");
-            AppConfiguration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
