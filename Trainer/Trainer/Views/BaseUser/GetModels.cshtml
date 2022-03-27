@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
 @using Trainer.Enums
+@model Trainer.Application.Models.PaginatedList<Trainer.Application.Aggregates.BaseUser.Queries.GetBaseUsers.BaseUser>;
 @inject IViewLocalizer Localizer
 @{
     ViewBag.Title = "List of Users";
@@ -12,16 +13,16 @@
 
     <table class="table table-striped table-hover">
         <tr>
-            <th><a asp-controller="BaseUser" asp-action="GetModels" asp-route-sortOrder="@ViewBag.EmailSort">@Localizer["Email"]</a></th>
-            <th><a asp-controller="BaseUser" asp-action="GetModels" asp-route-sortOrder="@ViewBag.LastNameSort">@Localizer["LastName"]</a></th>
-            <th><a asp-controller="BaseUser" asp-action="GetModels" asp-route-sortOrder="@ViewBag.FirstNameSort">@Localizer["FirstName"]</a></th>
-            <th><a asp-controller="BaseUser" asp-action="GetModels" asp-route-sortOrder="@ViewBag.MiddleNameSort">@Localizer["MiddleName"]</a></th>
-            <th><a asp-controller="BaseUser" asp-action="GetModels" asp-route-sortOrder="@ViewBag.MiddleNameSort">@Localizer["Roles"]</a></th>
-            <th><a asp-controller="BaseUser" asp-action="GetModels" asp-route-sortOrder="@ViewBag.StatusSort">@Localizer["Status"]</a></th>
+            <th><a asp-controller="BaseUser" asp-action="GetModels" asp-route-sortOrder="@ViewBag.EmailSort" asp-route-pageIndex=@Model.PageIndex>@Localizer["Email"]</a></th>
+            <th><a asp-controller="BaseUser" asp-action="GetModels" asp-route-sortOrder="@ViewBag.LastNameSort" asp-route-pageIndex=@Model.PageIndex>@Localizer["LastName"]</a></th>
+            <th><a asp-controller="BaseUser" asp-action="GetModels" asp-route-sortOrder="@ViewBag.FirstNameSort" asp-route-pageIndex=@Model.PageIndex>@Localizer["FirstName"]</a></th>
+            <th><a asp-controller="BaseUser" asp-action="GetModels" asp-route-sortOrder="@ViewBag.MiddleNameSort" asp-route-pageIndex=@Model.PageIndex>@Localizer["MiddleName"]</a></th>
+            <th><a asp-controller="BaseUser" asp-action="GetModels" asp-route-sortOrder="@ViewBag.MiddleNameSort" asp-route-pageIndex=@Model.PageIndex>@Localizer["Roles"]</a></th>
+            <th><a asp-controller="BaseUser" asp-action="GetModels" asp-route-sortOrder="@ViewBag.StatusSort" asp-route-pageIndex=@Model.PageIndex>@Localizer["Status"]</a></th>
             <th></th>
             <th><input type="checkbox" name="cb_all"></th>
         </tr>
-        @foreach (var user in Model)
+        @foreach (var user in Model.Items)
         {
             <tr>
                 <td>@user.Email</td>
@@ -48,6 +49,33 @@
             </tr>
         }
     </table>
+    @if (Model.TotalCount > 0)
+    {
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                @if (Model.PageIndex >= 2)
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-controller="BaseUser" asp-action="GetModels" asp-route-pageIndex=@(@Model.PageIndex-1)>Previous</a>
+                    </li>
+                }
+
+                @for (int i = Model.PageIndex; i <= Model.PageIndex + 5 && i <= Model.TotalPages; i++)
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-controller="BaseUser" asp-action="GetModels" asp-route-pageIndex=@i>@i</a>
+                    </li>
+                }
+
+                @if (Model.PageIndex < Model.TotalPages)
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-controller="BaseUser" asp-action="GetModels" asp-route-pageIndex=@(@Model.PageIndex+1)>Next</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
 </form>
 
 <script>

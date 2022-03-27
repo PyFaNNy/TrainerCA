@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
+@model Trainer.Application.Models.PaginatedList<Trainer.Application.Aggregates.Patient.Queries.GetPatients.Patient>;
 @{
     ViewData["Title"] = @Localizer["Patients"];
 }
@@ -15,11 +16,11 @@
 
     <table class="table table-striped table-hover">
         <tr>
-            <th><a asp-controller="Patient" asp-action="GetModels" asp-route-sortOrder="@ViewBag.LastNameSort">@Localizer["LastName"]</a></th>
-            <th><a asp-controller="Patient" asp-action="GetModels" asp-route-sortOrder="@ViewBag.FirstNameSort">@Localizer["FirstName"]</a></th>
-            <th><a asp-controller="Patient" asp-action="GetModels" asp-route-sortOrder="@ViewBag.MiddleNameSort">@Localizer["MiddleName"]</a></th>
-            <th><a asp-controller="Patient" asp-action="GetModels" asp-route-sortOrder="@ViewBag.AgeSort">@Localizer["Age"]</a></th>
-            <th><a asp-controller="Patient" asp-action="GetModels" asp-route-sortOrder="@ViewBag.SexSort">@Localizer["Sex"]</a></th>
+            <th><a asp-controller="Patient" asp-action="GetModels" asp-route-sortOrder="@ViewBag.LastNameSort" asp-route-pageIndex=@Model.PageIndex >@Localizer["LastName"]</a></th>
+            <th><a asp-controller="Patient" asp-action="GetModels" asp-route-sortOrder="@ViewBag.FirstNameSort" asp-route-pageIndex=@Model.PageIndex >@Localizer["FirstName"]</a></th>
+            <th><a asp-controller="Patient" asp-action="GetModels" asp-route-sortOrder="@ViewBag.MiddleNameSort" asp-route-pageIndex=@Model.PageIndex >@Localizer["MiddleName"]</a></th>
+            <th><a asp-controller="Patient" asp-action="GetModels" asp-route-sortOrder="@ViewBag.AgeSort" asp-route-pageIndex=@Model.PageIndex >@Localizer["Age"]</a></th>
+            <th><a asp-controller="Patient" asp-action="GetModels" asp-route-sortOrder="@ViewBag.SexSort" asp-route-pageIndex=@Model.PageIndex>@Localizer["Sex"]</a></th>
             @if (User.IsInRole("doctor"))
             {
                 <th></th>
@@ -32,26 +33,53 @@
         </tr>
 
         @if (Model != null)
-            @foreach (var user in Model)
-            {
-                <tr onclick="window.location.href='/Patient/GetModel?id=@user.Id';">
-                    <td>@user.LastName</td>
-                    <td>@user.FirstName</td>
-                    <td>@user.MiddleName</td>
-                    <td>@user.Age</td>
-                    <td>@user.Sex</td>
-                    @if (User.IsInRole("admin") || User.IsInRole("manager"))
-                    {
-                        <td><a class="btn btn-primary" asp-controller="Patient" asp-action="UpdateModel" asp-route-id="@user.Id">@Localizer["Update"]</a></td>
-                        <td><input type="checkbox" class="patient" name="selectedPatients" value="@user.Id" /></td>
-                    }
-                    @if (User.IsInRole("doctor"))
-                    {
-                        <td><a class="btn btn-primary" asp-controller="Examination" asp-action="AddModel" asp-route-id="@user.Id">@Localizer["SetExamination"]</a></td>
-                    }
-                </tr>
-            }
+        @foreach (var user in Model.Items)
+        {
+            <tr onclick="window.location.href='/Patient/GetModel?id=@user.Id';">
+                <td>@user.LastName</td>
+                <td>@user.FirstName</td>
+                <td>@user.MiddleName</td>
+                <td>@user.Age</td>
+                <td>@user.Sex</td>
+                @if (User.IsInRole("admin") || User.IsInRole("manager"))
+                {
+                    <td><a class="btn btn-primary" asp-controller="Patient" asp-action="UpdateModel" asp-route-id="@user.Id">@Localizer["Update"]</a></td>
+                    <td><input type="checkbox" class="patient" name="selectedPatients" value="@user.Id" /></td>
+                }
+                @if (User.IsInRole("doctor"))
+                {
+                    <td><a class="btn btn-primary" asp-controller="Examination" asp-action="AddModel" asp-route-id="@user.Id">@Localizer["SetExamination"]</a></td>
+                }
+            </tr>
+        }
     </table>
+    @if (Model.TotalCount > 0)
+    {
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                @if (Model.PageIndex >= 2)
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-controller="Patient" asp-action="GetModels" asp-route-pageIndex=@(@Model.PageIndex - 1)>Previous</a>
+                    </li>
+                }
+
+                @for (int i = Model.PageIndex; i <= Model.PageIndex + 5 && i <= Model.TotalPages; i++)
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-controller="Patient" asp-action="GetModels" asp-route-pageIndex=@i>@i</a>
+                    </li>
+                }
+
+                @if (Model.PageIndex < Model.TotalPages)
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-controller="Patient" asp-action="GetModels" asp-route-pageIndex=@(@Model.PageIndex + 1)>Next</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
 </form>
 
 <script src="~/js/Views/Patient/GetModels.js"></script>

@@ -25,7 +25,10 @@ namespace Trainer.Controllers
 
         [HttpGet]
         [Authorize(Roles = "admin, doctor, manager")]
-        public async Task<IActionResult> GetModels(SortState sortOrder = SortState.FirstNameSort)
+        public async Task<IActionResult> GetModels(
+            SortState sortOrder = SortState.FirstNameSort,
+            int? pageIndex = 1,
+            int? pageSize = 10)
         {
             ViewData["DateSort"] = sortOrder == SortState.DateSort ? SortState.DateSortDesc : SortState.DateSort;
             ViewData["TypeSort"] = sortOrder == SortState.TypeSort ? SortState.TypeSortDesc : SortState.TypeSort;
@@ -33,7 +36,7 @@ namespace Trainer.Controllers
             ViewData["LastNameSort"] = sortOrder == SortState.LastNameSort ? SortState.LastNameSortDesc : SortState.LastNameSort;
             ViewData["MiddleNameSort"] = sortOrder == SortState.MiddleNameSort ? SortState.MiddleNameSortDesc : SortState.MiddleNameSort;
 
-            var result = await Mediator.Send(new GetExaminationsQuery { SortOrder = sortOrder });
+            var result = await Mediator.Send(new GetExaminationsQuery(pageIndex, pageSize, sortOrder));
             return View(result);
         }
 

@@ -3,11 +3,12 @@ using AutoMapper.QueryableExtensions;
 using MediatR;
 using Trainer.Application.Abstractions;
 using Trainer.Application.Interfaces;
+using Trainer.Application.Models;
 using Trainer.Enums;
 
 namespace Trainer.Application.Aggregates.Examination.Queries.GetExaminations
 {
-    public class GetExaminationsQueryHandler : AbstractRequestHandler, IRequestHandler<GetExaminationsQuery, IEnumerable<Examination>>
+    public class GetExaminationsQueryHandler : AbstractRequestHandler, IRequestHandler<GetExaminationsQuery, PaginatedList<Examination>>
     {
         public GetExaminationsQueryHandler(
             IMediator mediator,
@@ -17,46 +18,48 @@ namespace Trainer.Application.Aggregates.Examination.Queries.GetExaminations
         {
         }
 
-        public async Task<IEnumerable<Examination>> Handle(GetExaminationsQuery request, CancellationToken cancellationToken)
+        public async Task<PaginatedList<Examination>> Handle(GetExaminationsQuery request, CancellationToken cancellationToken)
         {
             var examinations = DbContext.Examinations
                 .ProjectTo<Examination>(this.Mapper.ConfigurationProvider);
 
+            var paginatedList = await PaginatedList<Examination>.CreateAsync(examinations, request.PageIndex, request.PageSize);
+
             switch (request.SortOrder)
             {
                 case SortState.DateSort:
-                    examinations = examinations.OrderBy(s => s.Date);
+                    paginatedList.Items = paginatedList.Items.OrderBy(x => x.Date).ToList();
                     break;
                 case SortState.DateSortDesc:
-                    examinations = examinations.OrderByDescending(s => s.Date);
+                    paginatedList.Items = paginatedList.Items.OrderByDescending(s => s.Date).ToList();
                     break;
                 case SortState.TypeSort:
-                    examinations = examinations.OrderBy(s => s.TypePhysicalActive);
+                    paginatedList.Items = paginatedList.Items.OrderBy(s => s.TypePhysicalActive).ToList();
                     break;
                 case SortState.TypeSortDesc:
-                    examinations = examinations.OrderByDescending(s => s.TypePhysicalActive);
+                    paginatedList.Items = paginatedList.Items.OrderByDescending(s => s.TypePhysicalActive).ToList();
                     break;
                 case SortState.FirstNameSort:
-                    examinations = examinations.OrderBy(s => s.Patient.FirstName);
+                    paginatedList.Items = paginatedList.Items.OrderBy(s => s.Patient.FirstName).ToList();
                     break;
                 case SortState.FirstNameSortDesc:
-                    examinations = examinations.OrderByDescending(s => s.Patient.FirstName);
+                    paginatedList.Items = paginatedList.Items.OrderByDescending(s => s.Patient.FirstName).ToList();
                     break;
                 case SortState.MiddleNameSortDesc:
-                    examinations = examinations.OrderByDescending(s => s.Patient.MiddleName);
+                    paginatedList.Items = paginatedList.Items.OrderByDescending(s => s.Patient.MiddleName).ToList();
                     break;
                 case SortState.MiddleNameSort:
-                    examinations = examinations.OrderBy(s => s.Patient.MiddleName);
+                    paginatedList.Items = paginatedList.Items.OrderBy(s => s.Patient.MiddleName).ToList();
                     break;
                 case SortState.LastNameSortDesc:
-                    examinations = examinations.OrderByDescending(s => s.Patient.LastName);
+                    paginatedList.Items = paginatedList.Items.OrderByDescending(s => s.Patient.LastName).ToList();
                     break;
                 case SortState.LastNameSort:
-                    examinations = examinations.OrderBy(s => s.Patient.LastName);
+                    paginatedList.Items = paginatedList.Items.OrderBy(s => s.Patient.LastName).ToList();
                     break;
             }
 
-            return examinations.ToList();
+            return paginatedList;
         }
     }
 }

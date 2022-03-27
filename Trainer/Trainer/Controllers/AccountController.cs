@@ -35,22 +35,28 @@ namespace Trainer.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await Mediator.Send(new GetBaseUserQuery(model.UserName));
-
-                var result = CryptoHelper.VerifyHashedPassword(user.PasswordHash, model.Password);
-
-                if (result)
+                try
                 {
-                    await Mediator.Send(new RequestLoginCodeCommand
+                    var user = await Mediator.Send(new GetBaseUserQuery(model.UserName));
+                    var result = CryptoHelper.VerifyHashedPassword(user.PasswordHash, model.Password);
+
+                    if (result)
                     {
-                        Email = user.Email,
-                        Host = HttpContext.Request.Host.ToString()
-                    });
-                    return RedirectToAction("VerifyCode", "OTP", new { otpAction = OTPAction.Login, email = user.Email});
+                        await Mediator.Send(new RequestLoginCodeCommand
+                        {
+                            Email = user.Email,
+                            Host = HttpContext.Request.Host.ToString()
+                        });
+                        return RedirectToAction("VerifyCode", "OTP", new { otpAction = OTPAction.Login, email = user.Email });
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("All", "Error login/password");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    ModelState.AddModelError("All", "Error login/password");
+                    ModelState.AddModelError("All", ex.Message);
                 }
             }
 

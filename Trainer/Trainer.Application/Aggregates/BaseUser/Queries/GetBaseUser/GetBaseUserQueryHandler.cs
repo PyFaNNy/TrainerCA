@@ -29,7 +29,7 @@ namespace Trainer.Application.Aggregates.BaseUser.Queries.GetBaseUser
 
             if (baseUsers == null)
             {
-                throw new NotFoundException(nameof(Domain.Entities.BaseUser), request.Email);
+                throw new NotFoundException("User", request.Email);
             }
 
             return baseUsers;

@@ -4,11 +4,12 @@ using MediatR;
 using Trainer.Application.Abstractions;
 using Trainer.Application.Extensions.IQueryableExtensions;
 using Trainer.Application.Interfaces;
+using Trainer.Application.Models;
 using Trainer.Enums;
 
 namespace Trainer.Application.Aggregates.BaseUser.Queries.GetBaseUsers
 {
-    public class GetBaseUsersQueryHandler : AbstractRequestHandler, IRequestHandler<GetBaseUsersQuery, IEnumerable<BaseUser>>
+    public class GetBaseUsersQueryHandler : AbstractRequestHandler, IRequestHandler<GetBaseUsersQuery, PaginatedList<BaseUser>>
     {
         public GetBaseUsersQueryHandler(
             IMediator mediator,
@@ -18,53 +19,55 @@ namespace Trainer.Application.Aggregates.BaseUser.Queries.GetBaseUsers
         {
         }
 
-        public async Task<IEnumerable<BaseUser>> Handle(GetBaseUsersQuery request, CancellationToken cancellationToken)
+        public async Task<PaginatedList<BaseUser>> Handle(GetBaseUsersQuery request, CancellationToken cancellationToken)
         {
             var baseUsers = DbContext.BaseUsers
                 .NotRemoved()
                 .ProjectTo<BaseUser>(this.Mapper.ConfigurationProvider);
+            
+            var paginatedList = await PaginatedList<BaseUser>.CreateAsync(baseUsers, request.PageIndex, request.PageSize);
 
             switch (request.SortOrder)
             {
                 case SortState.EmailSort:
-                    baseUsers = baseUsers.OrderBy(s => s.Email);
+                    paginatedList.Items = paginatedList.Items.OrderBy(s => s.Email).ToList();
                     break;
                 case SortState.EmailSortDesc:
-                    baseUsers = baseUsers.OrderByDescending(s => s.Email);
+                    paginatedList.Items = paginatedList.Items.OrderByDescending(s => s.Email).ToList();
                     break;
                 case SortState.FirstNameSort:
-                    baseUsers = baseUsers.OrderBy(s => s.FirstName);
+                    paginatedList.Items = paginatedList.Items.OrderBy(s => s.FirstName).ToList();
                     break;
                 case SortState.FirstNameSortDesc:
-                    baseUsers = baseUsers.OrderByDescending(s => s.FirstName);
+                    paginatedList.Items = paginatedList.Items.OrderByDescending(s => s.FirstName).ToList();
                     break;
                 case SortState.MiddleNameSortDesc:
-                    baseUsers = baseUsers.OrderByDescending(s => s.MiddleName);
+                    paginatedList.Items = paginatedList.Items.OrderByDescending(s => s.MiddleName).ToList();
                     break;
                 case SortState.MiddleNameSort:
-                    baseUsers = baseUsers.OrderBy(s => s.MiddleName);
+                    paginatedList.Items = paginatedList.Items.OrderBy(s => s.MiddleName).ToList();
                     break;
                 case SortState.LastNameSortDesc:
-                    baseUsers = baseUsers.OrderByDescending(s => s.LastName);
+                    paginatedList.Items = paginatedList.Items.OrderByDescending(s => s.LastName).ToList();
                     break;
                 case SortState.LastNameSort:
-                    baseUsers = baseUsers.OrderBy(s => s.LastName);
+                    paginatedList.Items = paginatedList.Items.OrderBy(s => s.LastName).ToList();
                     break;
                 case SortState.RoleSortDesc:
-                    baseUsers = baseUsers.OrderByDescending(s => s.Role);
+                    paginatedList.Items = paginatedList.Items.OrderByDescending(s => s.Role).ToList();
                     break;
                 case SortState.RoleSort:
-                    baseUsers = baseUsers.OrderBy(s => s.Role);
+                    paginatedList.Items = paginatedList.Items.OrderBy(s => s.Role).ToList();
                     break;
                 case SortState.StatusSortDesc:
-                    baseUsers = baseUsers.OrderByDescending(s => s.Status);
+                    paginatedList.Items = paginatedList.Items.OrderByDescending(s => s.Status).ToList();
                     break;
                 case SortState.StatusSort:
-                    baseUsers = baseUsers.OrderBy(s => s.Status);
+                    paginatedList.Items = paginatedList.Items.OrderBy(s => s.Status).ToList();
                     break;
             }
 
-            return baseUsers.ToList();
+            return paginatedList;
         }
     }
 }

@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using System.Reflection;
-using Trainer.API.Infrastructure.Filters;
 using Trainer.Application;
 using Trainer.Chart;
 using Trainer.CSVParserService;
@@ -53,7 +52,7 @@ namespace Trainer
                     options.AccessDeniedPath = "/Account/logout";
                 });
 
-            services.AddMvc(options => options.Filters.Add(new ApiExceptionFilterAttribute()))
+            services.AddMvc()
                 .AddFluentValidation()
                 .AddDataAnnotationsLocalization()
                 .AddViewLocalization()

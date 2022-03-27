@@ -1,14 +1,16 @@
-﻿using AutoMapper;
+﻿using System.Reflection.Metadata.Ecma335;
+using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Trainer.Application.Abstractions;
 using Trainer.Application.Extensions.IQueryableExtensions;
 using Trainer.Application.Interfaces;
+using Trainer.Application.Models;
 using Trainer.Enums;
 
 namespace Trainer.Application.Aggregates.Patient.Queries.GetPatients
 {
-    public class GetPatientsQueryHandler : AbstractRequestHandler, IRequestHandler<GetPatientsQuery, IEnumerable<Patient>>
+    public class GetPatientsQueryHandler : AbstractRequestHandler, IRequestHandler<GetPatientsQuery, PaginatedList<Patient>>
     {
         public GetPatientsQueryHandler(
             IMediator mediator,
@@ -18,47 +20,49 @@ namespace Trainer.Application.Aggregates.Patient.Queries.GetPatients
         {
         }
 
-        public async Task<IEnumerable<Patient>> Handle(GetPatientsQuery request, CancellationToken cancellationToken)
+        public async Task<PaginatedList<Patient>> Handle(GetPatientsQuery request, CancellationToken cancellationToken)
         {
-            var patient = DbContext.Patients
+            var patients = DbContext.Patients
                 .NotRemoved()
                 .ProjectTo<Patient>(this.Mapper.ConfigurationProvider);
+
+            var paginatedList = await PaginatedList<Patient>.CreateAsync(patients, request.PageIndex, request.PageSize);
 
             switch (request.SortOrder)
             {
                 case SortState.FirstNameSort:
-                    patient = patient.OrderBy(s => s.FirstName);
+                    paginatedList.Items = paginatedList.Items.OrderBy(s => s.FirstName).ToList();
                     break;
                 case SortState.FirstNameSortDesc:
-                    patient = patient.OrderByDescending(s => s.FirstName);
+                    paginatedList.Items = (List<Patient>)paginatedList.Items.OrderByDescending(s => s.FirstName).ToList();
                     break;
                 case SortState.MiddleNameSortDesc:
-                    patient = patient.OrderByDescending(s => s.MiddleName);
+                    paginatedList.Items = (List<Patient>)paginatedList.Items.OrderByDescending(s => s.MiddleName).ToList();
                     break;
                 case SortState.MiddleNameSort:
-                    patient = patient.OrderBy(s => s.MiddleName);
+                    paginatedList.Items = (List<Patient>)paginatedList.Items.OrderBy(s => s.MiddleName).ToList();
                     break;
                 case SortState.LastNameSortDesc:
-                    patient = patient.OrderByDescending(s => s.LastName);
+                    paginatedList.Items = (List<Patient>)paginatedList.Items.OrderByDescending(s => s.LastName).ToList();
                     break;
                 case SortState.LastNameSort:
-                    patient = patient.OrderBy(s => s.LastName);
+                    paginatedList.Items = (List<Patient>)paginatedList.Items.OrderBy(s => s.LastName).ToList();
                     break;
                 case SortState.AgeSort:
-                    patient = patient.OrderBy(s => s.Age);
+                    paginatedList.Items = (List<Patient>)paginatedList.Items.OrderBy(s => s.Age).ToList();
                     break;
                 case SortState.AgeSortDesc:
-                    patient = patient.OrderByDescending(s => s.Age);
+                    paginatedList.Items = (List<Patient>)paginatedList.Items.OrderByDescending(s => s.Age).ToList();
                     break;
                 case SortState.SexSort:
-                    patient = patient.OrderBy(s => s.Sex);
+                    paginatedList.Items = (List<Patient>)paginatedList.Items.OrderBy(s => s.Sex).ToList();
                     break;
                 case SortState.SexSortDesc:
-                    patient = patient.OrderByDescending(s => s.Sex);
+                    paginatedList.Items = (List<Patient>)paginatedList.Items.OrderByDescending(s => s.Sex).ToList();
                     break;
             }
 
-            return patient.ToList();
+            return paginatedList;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
+@model Trainer.Application.Models.PaginatedList<Trainer.Application.Aggregates.Examination.Queries.GetExaminations.Examination>;
 @{
     ViewData["Title"] = @Localizer["Examination"];
 }
@@ -17,11 +18,11 @@
 
     <table class="table table-striped table-hover">
         <tr>
-            <th><a asp-controller="Examination" asp-action="GetModels" asp-route-sortOrder="@ViewBag.TypeSort">@Localizer["TypePhysicalActive"]</a></th>
-            <th><a asp-controller="Examination" asp-action="GetModels" asp-route-sortOrder="@ViewBag.LastNameSort">@Localizer["LastName"]</a></th>
-            <th><a asp-controller="Examination" asp-action="GetModels" asp-route-sortOrder="@ViewBag.FirstNameSort">@Localizer["FirstName"]</a></th>
-            <th><a asp-controller="Examination" asp-action="GetModels" asp-route-sortOrder="@ViewBag.MiddleNameSort">@Localizer["MiddleName"]</a></th>
-            <th><a asp-controller="Examination" asp-action="GetModels" asp-route-sortOrder="@ViewBag.DateSort">@Localizer["Date"]</a></th>
+            <th><a asp-controller="Examination" asp-action="GetModels" asp-route-sortOrder="@ViewBag.TypeSort" asp-route-pageIndex=@Model.PageIndex >@Localizer["TypePhysicalActive"]</a></th>
+            <th><a asp-controller="Examination" asp-action="GetModels" asp-route-sortOrder="@ViewBag.LastNameSort" asp-route-pageIndex=@Model.PageIndex >@Localizer["LastName"]</a></th>
+            <th><a asp-controller="Examination" asp-action="GetModels" asp-route-sortOrder="@ViewBag.FirstNameSort" asp-route-pageIndex=@Model.PageIndex >@Localizer["FirstName"]</a></th>
+            <th><a asp-controller="Examination" asp-action="GetModels" asp-route-sortOrder="@ViewBag.MiddleNameSort" asp-route-pageIndex=@Model.PageIndex >@Localizer["MiddleName"]</a></th>
+            <th><a asp-controller="Examination" asp-action="GetModels" asp-route-sortOrder="@ViewBag.DateSort" asp-route-pageIndex=@Model.PageIndex >@Localizer["Date"]</a></th>
             @if (User.IsInRole("doctor") || User.IsInRole("admin"))
             {
                 <th></th>
@@ -30,30 +31,58 @@
         </tr>
 
         @if (Model != null)
-            @foreach (var examination in Model)
-            {
-                <tr>
-                    <td>@examination.TypePhysicalActive</td>
-                    <td>@examination.Patient.LastName</td>
-                    <td>@examination.Patient.FirstName</td>
-                    <td>@examination.Patient.MiddleName</td>
-                    <td>@examination.Date.ToString("d")</td>
-                    @if (User.IsInRole("doctor") || User.IsInRole("admin") && (int)examination.Status == 0)
-                    {
-                        <td>
-                            <a class="btn btn-success" asp-controller="Examination" asp-action="GetModel" asp-route-id="@examination.Id"><i class="fas fa-check"></i></a>
-                            <a class="btn btn-primary" asp-controller="Examination" asp-action="UpdateModel" asp-route-id="@examination.Id"><i class="fas fa-pen"></i></a>
-                        </td>
-                        <td><input type="checkbox" class="examination" name="selectedExamination" value="@examination.Id" /></td>
-                    }
-                    else if (User.IsInRole("doctor") || User.IsInRole("admin"))
-                    {
-                        <td></td>
-                        <td><input type="checkbox" class="examination" name="selectedExamination" value="@examination.Id" /></td>
-                    }
-                </tr>
-            }
+        @foreach (var examination in Model.Items)
+        {
+            <tr>
+                <td>@examination.TypePhysicalActive</td>
+                <td>@examination.Patient.LastName</td>
+                <td>@examination.Patient.FirstName</td>
+                <td>@examination.Patient.MiddleName</td>
+                <td>@examination.Date.ToString("d")</td>
+                @if (User.IsInRole("doctor") || User.IsInRole("admin") && (int)examination.Status == 0)
+                {
+                    <td>
+                        <a class="btn btn-success" asp-controller="Examination" asp-action="GetModel" asp-route-id="@examination.Id"><i class="fas fa-check"></i></a>
+                        <a class="btn btn-primary" asp-controller="Examination" asp-action="UpdateModel" asp-route-id="@examination.Id"><i class="fas fa-pen"></i></a>
+                    </td>
+                    <td><input type="checkbox" class="examination" name="selectedExamination" value="@examination.Id" /></td>
+                }
+                else if (User.IsInRole("doctor") || User.IsInRole("admin"))
+                {
+                    <td></td>
+                    <td><input type="checkbox" class="examination" name="selectedExamination" value="@examination.Id" /></td>
+                }
+            </tr>
+        }
     </table>
+
+    @if (Model.TotalCount > 0)
+    {
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                @if (Model.PageIndex >= 2)
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-controller="Examination" asp-action="GetModels" asp-route-pageIndex=@(@Model.PageIndex-1)>Previous</a>
+                    </li>
+                }
+
+                @for (int i = Model.PageIndex; i <= Model.PageIndex + 5 && i <= Model.TotalPages; i++)
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-controller="Examination" asp-action="GetModels" asp-route-pageIndex=@i>@i</a>
+                    </li>
+                }
+
+                @if (Model.PageIndex < Model.TotalPages)
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-controller="Examination" asp-action="GetModels" asp-route-pageIndex=@(@Model.PageIndex+1)>Next</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
 </form>
 
 <script src="~/js/Views/Examination/GetModels.js"></script>
