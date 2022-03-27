@@ -83,9 +83,10 @@ namespace Trainer.Application.Aggregates.BaseUser.Queries.GetBaseUsers
             {
                 Random rnd = new Random();
                 var baseUsers = DbContext.BaseUsers
-                    .Skip(rnd.Next(30))
                     .NotRemoved()
                     .ProjectTo<BaseUser>(this.Mapper.ConfigurationProvider);
+
+                baseUsers = baseUsers.Skip(rnd.Next(baseUsers.Count()));
 
                 var paginatedList =
                     await PaginatedList<BaseUser>.CreateAsync(baseUsers, request.PageIndex, request.PageSize);
