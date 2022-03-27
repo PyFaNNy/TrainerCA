@@ -44,17 +44,19 @@ namespace Trainer.Application.Aggregates.BaseUser.Commands.ApproveUser
 
                 user.Status = Enums.StatusUser.Active;
                 await this.DbContext.SaveChangesAsync(cancellationToken);
-
-                var template = Template.Parse(EmailTemplates.ApproveUser);
-
-                var body = template.Render();
-
-                await EmailService.SendEmailAsync(new MailRequest
+                if (BaseUserErrorSettings.ApproveUserEmailEnable)
                 {
-                    ToEmail = user.Email,
-                    Body = body,
-                    Subject = $"Approve registration"
-                });
+                    var template = Template.Parse(EmailTemplates.ApproveUser);
+
+                    var body = template.Render();
+
+                    await EmailService.SendEmailAsync(new MailRequest
+                    {
+                        ToEmail = user.Email,
+                        Body = body,
+                        Subject = $"Approve registration"
+                    });
+                }
             }
             return Unit.Value;
         }

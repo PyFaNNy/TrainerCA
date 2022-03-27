@@ -45,20 +45,23 @@ namespace Trainer.Application.Aggregates.Examination.Commands.CreateExamination
                     .Where(x => x.Id == examination.PatientId)
                     .FirstOrDefaultAsync(cancellationToken);
 
-                var template = Template.Parse(EmailTemplates.ExaminationEmail);
-
-                var body = template.Render(new
+                if (ExaminationErrorSettings.CreateEmailExaminationEnable)
                 {
-                    patient = patient,
-                    model = request
-                });
+                    var template = Template.Parse(EmailTemplates.ExaminationEmail);
 
-                await EmailService.SendEmailAsync(new MailRequest
-                {
-                    ToEmail = patient.Email,
-                    Body = body,
-                    Subject = $"Set Examination by {doctor?.FirstName}"
-                });
+                    var body = template.Render(new
+                    {
+                        patient = patient,
+                        model = request
+                    });
+
+                    await EmailService.SendEmailAsync(new MailRequest
+                    {
+                        ToEmail = patient.Email,
+                        Body = body,
+                        Subject = $"Set Examination by {doctor?.FirstName}"
+                    });
+                }
             }
             return Unit.Value;
         }

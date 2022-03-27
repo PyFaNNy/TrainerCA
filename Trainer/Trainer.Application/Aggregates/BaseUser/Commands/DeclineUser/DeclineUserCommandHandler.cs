@@ -44,17 +44,19 @@ namespace Trainer.Application.Aggregates.BaseUser.Commands.DeclineUser
 
                 user.Status = Enums.StatusUser.Decline;
                 await this.DbContext.SaveChangesAsync(cancellationToken);
-
-                var template = Template.Parse(EmailTemplates.DeclineUser);
-
-                var body = template.Render();
-
-                await EmailService.SendEmailAsync(new MailRequest
+                if (BaseUserErrorSettings.DeclineUserEmailEnable)
                 {
-                    ToEmail = user.Email,
-                    Body = body,
-                    Subject = $"Decline registration"
-                });
+                    var template = Template.Parse(EmailTemplates.DeclineUser);
+
+                    var body = template.Render();
+
+                    await EmailService.SendEmailAsync(new MailRequest
+                    {
+                        ToEmail = user.Email,
+                        Body = body,
+                        Subject = $"Decline registration"
+                    });
+                }
             }
             return Unit.Value;
         }

@@ -19,5 +19,17 @@
             get;
             set;
         }
+
+        public bool GetPatientEnable
+        {
+            get;
+            set;
+        }
+
+        public bool GetPatientsEnable
+        {
+            get;
+            set;
+        }
     }
 }

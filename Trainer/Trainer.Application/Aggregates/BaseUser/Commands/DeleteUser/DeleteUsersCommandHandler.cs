@@ -46,17 +46,19 @@ namespace Trainer.Application.Aggregates.BaseUser.Commands.DeleteUser
 
                     user.RemovedAt = DateTime.UtcNow;
                     DbContext.BaseUsers.Update(user);
-
-                    var template = Template.Parse(EmailTemplates.DeleteUser);
-
-                    var body = template.Render();
-
-                    await EmailService.SendEmailAsync(new MailRequest
+                    if (BaseUserErrorSettings.DeclineUserEmailEnable)
                     {
-                        ToEmail = user.Email,
-                        Body = body,
-                        Subject = $"Delete your account"
-                    });
+                        var template = Template.Parse(EmailTemplates.DeleteUser);
+
+                        var body = template.Render();
+
+                        await EmailService.SendEmailAsync(new MailRequest
+                        {
+                            ToEmail = user.Email,
+                            Body = body,
+                            Subject = $"Delete your account"
+                        });
+                    }
                 }
                 await this.DbContext.SaveChangesAsync(cancellationToken);
             }

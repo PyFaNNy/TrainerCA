@@ -1,26 +1,4 @@
 {
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft.AspNetCore": "Warning"
-    }
-  },
-  "AllowedHosts": "*",
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=TrainerContext;Trusted_Connection=True;"
-  },
-
-  "MailSettings": {
-    "Mail": "puzyrev.artyom@gmail.com",
-    "DisplayName": "Trainer",
-    "Password": "mubvgoqdrinkggbh",
-    "Host": "smtp.gmail.com",
-    "Port": 587
-  },
-
-  "JWTEncryptionKey": "DRjd/GnduI3Efzen9V9BvbNUfc/VKgXltV7Kbk9sMkY=",
-  "Authority": "https://localhost:7248",
-
   "BaseUserErrorSettings": {
     "ApproveUserEnable": true,
     "ApproveUserEmailEnable": true,
@@ -33,9 +11,7 @@
     "DeleteUserEmailEnable": true,
     "UnBlockUserEnable": true,
     "UnBlockUserEmailEnable": true,
-    "ResetPasswordUserEnable": true,
-    "GetBaseUserEnable": true,
-    "GetBaseUsersEnable": true
+    "ResetPasswordUserEnable": true
   },
 
   "CSVErrorSettings": {
@@ -57,17 +33,13 @@
     "DeleteExaminationEnable": true,
     "FinishExaminationEnable": true,
     "UpdateExaminationEnable": true,
-    "UpdateEmailExaminationEnable": true,
-    "GetExaminationEnable": true,
-    "GetExaminationsEnable":  true 
+    "UpdateEmailExaminationEnable": true
   },
 
   "PatientErrorSettings": {
     "CreatePatientEnable": true,
     "DeletePatientEnable": true,
-    "UpdatePatientEnable": true,
-    "GetPatientEnable": true,
-    "GetPatientsEnable": true
+    "UpdatePatientEnable": true
   },
 
   "OTPCodesErrorSettings": {

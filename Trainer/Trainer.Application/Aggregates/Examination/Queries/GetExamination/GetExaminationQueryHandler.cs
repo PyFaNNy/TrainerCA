@@ -1,31 +1,41 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
+using Microsoft.Extensions.Options;
 using Trainer.Application.Abstractions;
 using Trainer.Application.Interfaces;
+using Trainer.Settings.Error;
 
 namespace Trainer.Application.Aggregates.Examination.Queries.GetExamination
 {
     public class GetExaminationQueryHandler : AbstractRequestHandler, IRequestHandler<GetExaminationQuery, Examination>
     {
+        private readonly ExaminationErrorSettings ExaminationErrorSettings;
         public GetExaminationQueryHandler(
             IMediator mediator,
             ITrainerDbContext dbContext,
-            IMapper mapper)
+            IMapper mapper,
+            IOptions<ExaminationErrorSettings> examinationErrorSettings)
             : base(mediator, dbContext, mapper)
         {
+            ExaminationErrorSettings = examinationErrorSettings.Value;
         }
 
         public async Task<Examination> Handle(GetExaminationQuery request, CancellationToken cancellationToken)
         {
-            var examination = DbContext.Examinations
-                .Where(x => x.Id == request.ExaminationId)
-                .ProjectTo<Examination>(this.Mapper.ConfigurationProvider)
-                .FirstOrDefault();
+            if (ExaminationErrorSettings.GetExaminationEnable)
+            {
+                var examination = DbContext.Examinations
+                    .Where(x => x.Id == request.ExaminationId)
+                    .ProjectTo<Examination>(this.Mapper.ConfigurationProvider)
+                    .FirstOrDefault();
 
-            InvCountIndicators(examination);
+                InvCountIndicators(examination);
 
-            return examination;
+                return examination;
+            }
+
+            return null;
         }
 
         private void InvCountIndicators(Examination model)

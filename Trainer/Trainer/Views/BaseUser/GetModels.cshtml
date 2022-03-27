@@ -3,7 +3,7 @@
 @model Trainer.Application.Models.PaginatedList<Trainer.Application.Aggregates.BaseUser.Queries.GetBaseUsers.BaseUser>;
 @inject IViewLocalizer Localizer
 @{
-    ViewBag.Title = "List of Users";
+    ViewBag.Title = @Localizer["ListOfUsers"];
 }
 <h2>@Localizer["ListOfUsers"]</h2>
 <form id='users' method="post">

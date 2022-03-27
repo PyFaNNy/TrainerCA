@@ -46,16 +46,19 @@ namespace Trainer.Application.Aggregates.BaseUser.Commands.UnBlockUser
 
                     user.Status = Enums.StatusUser.Active;
 
-                    var template = Template.Parse(EmailTemplates.UnBlockUser);
-
-                    var body = template.Render();
-
-                    await EmailService.SendEmailAsync(new MailRequest
+                    if (BaseUserErrorSettings.UnBlockUserEnable)
                     {
-                        ToEmail = user.Email,
-                        Body = body,
-                        Subject = $"Unblock your account"
-                    });
+                        var template = Template.Parse(EmailTemplates.UnBlockUser);
+
+                        var body = template.Render();
+
+                        await EmailService.SendEmailAsync(new MailRequest
+                        {
+                            ToEmail = user.Email,
+                            Body = body,
+                            Subject = $"Unblock your account"
+                        });
+                    }
                 }
                 await this.DbContext.SaveChangesAsync(cancellationToken);
             }

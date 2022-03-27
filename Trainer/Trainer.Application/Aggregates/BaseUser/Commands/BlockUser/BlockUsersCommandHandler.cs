@@ -45,17 +45,19 @@ namespace Trainer.Application.Aggregates.BaseUser.Commands.BlockUser
                     }
 
                     user.Status = Enums.StatusUser.Block;
-
-                    var template = Template.Parse(EmailTemplates.BlockUser);
-
-                    var body = template.Render();
-
-                    await EmailService.SendEmailAsync(new MailRequest
+                    if (BaseUserErrorSettings.BlockUserEmailEnable)
                     {
-                        ToEmail = user.Email,
-                        Body = body,
-                        Subject = $"Block your account"
-                    });
+                        var template = Template.Parse(EmailTemplates.BlockUser);
+
+                        var body = template.Render();
+
+                        await EmailService.SendEmailAsync(new MailRequest
+                        {
+                            ToEmail = user.Email,
+                            Body = body,
+                            Subject = $"Block your account"
+                        });
+                    }
                 }
                 await this.DbContext.SaveChangesAsync(cancellationToken);
             }
