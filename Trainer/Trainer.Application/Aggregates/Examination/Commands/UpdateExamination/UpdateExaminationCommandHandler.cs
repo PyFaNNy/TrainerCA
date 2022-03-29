@@ -34,16 +34,24 @@ namespace Trainer.Application.Aggregates.Examination.Commands.UpdateExamination
         {
             if (ExaminationErrorSettings.UpdateExaminationEnable)
             {
+                CountIndicators(request);
+
                 var examination = await this.DbContext.Examinations
-                .Where(x => x.Id == request.ExaminationId)
+                .Where(x => x.Id == request.Id)
                 .FirstOrDefaultAsync(cancellationToken);
 
                 if (examination == null)
                 {
-                    throw new NotFoundException(nameof(Domain.Entities.Examination.Examination), request.ExaminationId);
+                    throw new NotFoundException(nameof(Domain.Entities.Examination.Examination), request.Id);
                 }
 
                 this.Mapper.Map(request, examination);
+
+                if (examination.Indicators == 0)
+                {
+                    throw new ValidationException("Sensors","You must select at least one sensor");
+                }
+
                 await this.DbContext.SaveChangesAsync(cancellationToken);
 
                 var patient = await DbContext.Patients
@@ -73,6 +81,27 @@ namespace Trainer.Application.Aggregates.Examination.Commands.UpdateExamination
                 }
             }
             return Unit.Value;
+        }
+
+        private void CountIndicators(UpdateExaminationCommand model)
+        {
+            model.Indicators = 0;
+            if (model.Indicator1)
+            {
+                model.Indicators += 1;
+            }
+            if (model.Indicator2)
+            {
+                model.Indicators += 2;
+            }
+            if (model.Indicator3)
+            {
+                model.Indicators += 4;
+            }
+            if (model.Indicator4)
+            {
+                model.Indicators += 8;
+            }
         }
     }
 }

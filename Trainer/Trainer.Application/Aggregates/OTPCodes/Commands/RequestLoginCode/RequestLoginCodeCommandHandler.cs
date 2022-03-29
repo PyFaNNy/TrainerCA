@@ -14,13 +14,13 @@
     public class RequestLoginCodeCommandHandler
         : RequestSmsCodeAbstractCommandHandler, IRequestHandler<RequestLoginCodeCommand, Unit>
     {
-        private readonly OTPCodesErrorSettings OTPCodesErrorSettings;
-
-        public RequestLoginCodeCommandHandler(IMediator mediator, ITrainerDbContext dbContext, IMapper mapper, IMailService emailService,
-        IOptions<OTPCodesErrorSettings> otpCodesErrorSettings)
-            : base(mediator, dbContext, mapper, emailService)
+        public RequestLoginCodeCommandHandler(
+            IMediator mediator,
+            ITrainerDbContext dbContext,
+            IMapper mapper, IMailService emailService, 
+            IOptions<OTPCodesErrorSettings> otpCodesErrorSettings)
+            : base(mediator, dbContext, mapper, emailService, otpCodesErrorSettings)
         {
-            OTPCodesErrorSettings = otpCodesErrorSettings.Value;
         }
 
         public async Task<Unit> Handle(RequestLoginCodeCommand request, CancellationToken cancellationToken)
@@ -42,7 +42,7 @@
 
             if (user == null)
             {
-                throw new ValidationException(nameof(request.Email), "Wrong email");
+                throw new ValidationException( "Email","Wrong email");
             }
         }
     }

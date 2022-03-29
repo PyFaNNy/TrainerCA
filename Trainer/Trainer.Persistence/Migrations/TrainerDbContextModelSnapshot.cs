@@ -193,7 +193,7 @@ namespace Trainer.Persistence.Migrations
                     b.Property<double>("AverageTemperature")
                         .HasColumnType("float");
 
-                    b.Property<Guid?>("ExaminationId")
+                    b.Property<Guid?>("Id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("PatientId")
@@ -201,9 +201,9 @@ namespace Trainer.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ExaminationId")
+                    b.HasIndex("Id")
                         .IsUnique()
-                        .HasFilter("[ExaminationId] IS NOT NULL");
+                        .HasFilter("[Id] IS NOT NULL");
 
                     b.HasIndex("PatientId");
 
@@ -245,7 +245,7 @@ namespace Trainer.Persistence.Migrations
                 {
                     b.HasOne("Trainer.Domain.Entities.Examination.Examination", "Examination")
                         .WithOne("Result")
-                        .HasForeignKey("Trainer.Domain.Entities.Result.Result", "ExaminationId")
+                        .HasForeignKey("Trainer.Domain.Entities.Result.Result", "Id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Trainer.Domain.Entities.Patient.Patient", "Patient")

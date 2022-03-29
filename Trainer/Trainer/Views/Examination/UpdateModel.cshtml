@@ -7,7 +7,7 @@
 @model UpdateExaminationCommand
 <h2>@Localizer["UpdateExamination"]</h2>
 <form method="post" enctype="multipart/form-data" asp-controller="Examination" asp-action="UpdateModel" asp-route-id="@ViewBag.Examination.Id">
-    <div asp-validation-summary="ModelOnly"></div>
+    <div asp-validation-summary="All" class="text-danger"></div>
     <div class="col-md-4">
         <div class="form-group">
             <label asp-for="TypePhysicalActive">@Localizer["TypePhysicalActive"]</label><br />
@@ -30,7 +30,7 @@
                 {
                     <input type="checkbox" asp-for="Indicator1" class="form-check-input" />
                 }
-            <label class="form-check-label">@Localizer["DiaSis"]</label>
+                <label class="form-check-label">@Localizer["DiaSis"]</label>
             </div>
             <div class="form-check">
                 @if (ViewBag.Examination.Indicator2)
@@ -41,7 +41,7 @@
                 {
                     <input type="checkbox" asp-for="Indicator2" class="form-check-input" />
                 }
-            <label class="form-check-label">@Localizer["Tempareture"]</label>
+                <label class="form-check-label">@Localizer["Tempareture"]</label>
             </div>
             <div class="form-check">
                 @if (ViewBag.Examination.Indicator3)
@@ -52,7 +52,7 @@
                 {
                     <input type="checkbox" asp-for="Indicator3" class="form-check-input" />
                 }
-            <label class="form-check-label">@Localizer["HeartRate"]</label>
+                <label class="form-check-label">@Localizer["HeartRate"]</label>
             </div>
             <div class="form-check">
                 @if (ViewBag.Examination.Indicator4)
@@ -63,15 +63,19 @@
                 {
                     <input type="checkbox" asp-for="Indicator4" class="form-check-input" />
                 }
-            <label class="form-check-label">@Localizer["SpO2"]</label>
+                <label class="form-check-label">@Localizer["SpO2"]</label>
             </div>
         </div>
+        <div class="form-group">
+            <label asp-for="Date">@Localizer["DateExamination"]</label><br />
+            <input asp-for="Date" class="form-control" type="date" />
+        </div>
         <div>
-
             <div>
                 <button type="submit" class="btn btn-primary mt-1">@Localizer["Update"]</button>
             </div>
         </div>
+    </div>
 </form>
 
 <script>

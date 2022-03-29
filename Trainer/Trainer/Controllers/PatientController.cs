@@ -7,6 +7,7 @@ using Trainer.Application.Aggregates.Patient.Commands.DeletePatient;
 using Trainer.Application.Aggregates.Patient.Commands.UpdatePatient;
 using Trainer.Application.Aggregates.Patient.Queries.GetPatient;
 using Trainer.Application.Aggregates.Patient.Queries.GetPatients;
+using Trainer.Application.Exceptions;
 using Trainer.Common;
 using Trainer.Enums;
 using Trainer.Models;
@@ -58,8 +59,21 @@ namespace Trainer.Controllers
         [Authorize(Roles = "admin, manager")]
         public async Task<IActionResult> AddModel(CreatePatientCommand command)
         {
-            await Mediator.Send(command);
-            return RedirectToAction("GetModels");
+            try
+            {
+                await Mediator.Send(command);
+                return RedirectToAction("GetModels");
+            }
+            catch (ValidationException ex)
+            {
+                ModelState.AddModelError("All", ex.Errors.FirstOrDefault().Value);
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return View(command);
         }
 
         [HttpGet]
@@ -75,8 +89,22 @@ namespace Trainer.Controllers
         [Authorize(Roles = "admin, manager")]
         public async Task<IActionResult> UpdateModel(UpdatePatientCommand command)
         {
-            await Mediator.Send(command);
-            return RedirectToAction("GetModels");
+            try
+            {
+                await Mediator.Send(command);
+                return RedirectToAction("GetModels");
+            }
+            catch (ValidationException ex)
+            {
+                ModelState.AddModelError("All", ex.Errors.FirstOrDefault().Value);
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            ViewBag.Patient = command;
+            return View(command);
         }
 
         [Authorize(Roles = "admin, manager")]

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Trainer.Application.Exceptions;
 using Trainer.Application.Aggregates.CSV.Commands.CSVToExaminations;
 using Trainer.Application.Aggregates.CSV.Queries.ExaminationsToCSV;
 using Trainer.Application.Aggregates.Examination.Commands.CreateExamination;
@@ -61,11 +62,25 @@ namespace Trainer.Controllers
         [Authorize(Roles = "doctor")]
         public async Task<IActionResult> AddModel(CreateExaminationCommand command)
         {
-            var doctorId = this.HttpContext.User.GetUserId();
-            command.DoctorId = doctorId.Value;
-            await Mediator.Send(command);
+            try
+            {
+                var doctorId = this.HttpContext.User.GetUserId();
+                command.DoctorId = doctorId.Value;
+                await Mediator.Send(command);
 
-            return RedirectToAction("GetModels");
+                return RedirectToAction("GetModels");
+            }
+            catch (ValidationException ex)
+            {
+                ModelState.AddModelError("All", ex.Errors.FirstOrDefault().Value);
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            ViewBag.UserId = command.PatientId;
+            return View(command);
         }
 
         [HttpGet]
@@ -79,13 +94,26 @@ namespace Trainer.Controllers
 
         [HttpPost]
         [Authorize(Roles = "doctor")]
-        public async Task<IActionResult> UpdateModel(UpdateExaminationCommand command, Guid patientid)
+        public async Task<IActionResult> UpdateModel(UpdateExaminationCommand command)
         {
-            var doctorId = this.HttpContext.User.GetUserId();
-            command.DoctorId = doctorId.Value;
-            await Mediator.Send(command);
+            try
+            {
+                var doctorId = this.HttpContext.User.GetUserId();
+                command.DoctorId = doctorId.Value;
+                await Mediator.Send(command);
 
-            return RedirectToAction("GetModels");
+                return RedirectToAction("GetModels");
+            }
+            catch (ValidationException ex)
+            {
+                ModelState.AddModelError("All", ex.Errors.FirstOrDefault().Value);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            ViewBag.Examination = command;
+            return View(command);
         }
 
         [Authorize(Roles = "doctor")]

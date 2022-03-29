@@ -1,4 +1,7 @@
-﻿namespace Trainer.Application.Aggregates.OTPCodes
+﻿using Microsoft.Extensions.Options;
+using Trainer.Settings.Error;
+
+namespace Trainer.Application.Aggregates.OTPCodes
 {
     using AutoMapper;
     using MediatR;
@@ -13,7 +16,6 @@
     using Trainer.Application.Templates;
     using Trainer.Common;
     using Trainer.Domain.Entities;
-    using Trainer.Enums;
 
     public abstract class RequestSmsCodeAbstractCommandHandler : AbstractRequestHandler
     {
@@ -22,14 +24,21 @@
             get;
         }
 
+        protected OTPCodesErrorSettings OTPCodesErrorSettings
+        {
+            get;
+        }
+
         public RequestSmsCodeAbstractCommandHandler(
             IMediator mediator,
             ITrainerDbContext dbContext,
             IMapper mapper,
-            IMailService emailService)
+            IMailService emailService,
+            IOptions<OTPCodesErrorSettings> otpCodesErrorSettings)
              : base(mediator, dbContext, mapper)
         {
             this.EmailService = emailService;
+            OTPCodesErrorSettings = otpCodesErrorSettings.Value;
         }
 
         protected void LimitsCodeValid(RequestSmsCodeAbstractCommand request)
@@ -37,13 +46,13 @@
             var otp = this.DbContext.OTPs
                 .Where(x => x.Email.Equals(request.Email))
                 .Where(x => x.Action == request.Action)
-                .Where(x => x.CreatedAt.AddHours(3) > DateTime.UtcNow)
+                .Where(x => x.CreatedAt.AddHours(1) > DateTime.UtcNow)
                 .OrderByDescending(x => x.CreatedAt)
                 .ToList();
 
             if (otp.Count >= 3)
             {
-                throw new ValidationException(nameof(otp), "You've exceeded the limit of verification codes that can be sent. Please, try again in 3 hours");
+                throw new ValidationException("Code","You've exceeded the limit of verification codes that can be sent. Please, try again in 3 hours");
             }
         }
 
@@ -61,6 +70,11 @@
             });
 
             this.DbContext.SaveChanges();
+
+            if (OTPCodesErrorSettings.RequestRandomLoginCodeEnable || OTPCodesErrorSettings.RequestRandomRegistrationCodeEnable || OTPCodesErrorSettings.RequestRandomPasswordEnable)
+            {
+                code = CodeGenerator.GenerateCode();
+            }
 
             var template = Template.Parse(EmailTemplates.CodeEmail);
 
@@ -84,7 +98,7 @@
 
             if (!isUserExist)
             {
-                throw new ValidationException(nameof(BaseUser), "Wrond email");
+                throw new ValidationException("Email","Wrond email");
             }
         }
     }

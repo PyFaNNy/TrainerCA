@@ -12,13 +12,10 @@
 
     public class RequestPasswordCommandHandler : RequestSmsCodeAbstractCommandHandler, IRequestHandler<RequestPasswordCommand, Unit>
     {
-        private readonly OTPCodesErrorSettings OTPCodesErrorSettings;
-
         public RequestPasswordCommandHandler(IMediator mediator, ITrainerDbContext dbContext, IMapper mapper, IMailService emailService,
         IOptions<OTPCodesErrorSettings> otpCodesErrorSettings)
-            : base(mediator, dbContext, mapper, emailService)
+            : base(mediator, dbContext, mapper, emailService, otpCodesErrorSettings)
         {
-            OTPCodesErrorSettings = otpCodesErrorSettings.Value;
         }
 
         public async Task<Unit> Handle(RequestPasswordCommand request, CancellationToken cancellationToken)
@@ -39,7 +36,7 @@
 
             if (!isUserExist)
             {
-                throw new ValidationException(nameof(BaseUser), "Wrong email");
+                throw new ValidationException("Email", "Wrong email");
             }
         }
     }

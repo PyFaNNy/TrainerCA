@@ -6,7 +6,7 @@
     {
         public static Guid? GetUserId(this ClaimsPrincipal user)
         {
-            var idString = user?.Identities.FirstOrDefault()?.Claims.FirstOrDefault(x => x.Type.Equals("sub", StringComparison.InvariantCultureIgnoreCase))?.Value;
+            var idString = user?.Identities.FirstOrDefault()?.Claims.FirstOrDefault(x => x.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier", StringComparison.InvariantCultureIgnoreCase))?.Value;
 
             if (string.IsNullOrEmpty(idString) || !Guid.TryParse(idString, out Guid userId) || userId == Guid.Empty)
             {

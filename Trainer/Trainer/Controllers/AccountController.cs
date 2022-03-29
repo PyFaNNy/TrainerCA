@@ -47,16 +47,19 @@ namespace Trainer.Controllers
                             Email = user.Email,
                             Host = HttpContext.Request.Host.ToString()
                         });
-                        return RedirectToAction("VerifyCode", "OTP", new { otpAction = OTPAction.Login, email = user.Email });
+                        return RedirectToAction("VerifyCode", "OTP",
+                            new { otpAction = OTPAction.Login, email = user.Email });
                     }
-                    else
-                    {
-                        ModelState.AddModelError("All", "Error login/password");
-                    }
+
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("All", ex.Message);
+
+                }
+                finally
+                {
+
+                    ModelState.AddModelError("All", "Error login/password");
                 }
             }
 
@@ -64,7 +67,7 @@ namespace Trainer.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ReturnClaim(string Email, string Password)
+        public async Task<IActionResult> ReturnClaim(string Email)
         {
             var user = await Mediator.Send(new GetBaseUserQuery(Email));
             var claims = new List<Claim>

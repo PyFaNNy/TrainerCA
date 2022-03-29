@@ -188,9 +188,9 @@ namespace Trainer.Persistence.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Results_ExaminationId",
                 table: "Results",
-                column: "ExaminationId",
+                column: "Id",
                 unique: true,
-                filter: "[ExaminationId] IS NOT NULL");
+                filter: "[Id] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Results_PatientId",

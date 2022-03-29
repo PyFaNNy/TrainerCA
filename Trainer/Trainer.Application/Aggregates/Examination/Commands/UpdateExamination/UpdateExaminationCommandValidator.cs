@@ -11,8 +11,14 @@ namespace Trainer.Application.Aggregates.Examination.Commands.UpdateExamination
     {
         public UpdateExaminationCommandValidator()
         {
-            RuleFor(x => x.TypePhysicalActive)
-                 .NotEmpty();
+            RuleFor(x => x.Date)
+                .Must(ValidateDate)
+                .WithMessage("Wrong date");
+        }
+
+        private bool ValidateDate(DateTime date)
+        {
+            return date > DateTime.Now;
         }
     }
 }

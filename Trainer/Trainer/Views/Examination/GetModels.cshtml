@@ -42,8 +42,8 @@
                 @if (User.IsInRole("doctor") || User.IsInRole("admin") && (int)examination.Status == 0)
                 {
                     <td>
-                        <a class="btn btn-success" asp-controller="Examination" asp-action="GetModel" asp-route-id="@examination.Id"><i class="fas fa-check"></i></a>
-                        <a class="btn btn-primary" asp-controller="Examination" asp-action="UpdateModel" asp-route-id="@examination.Id"><i class="fas fa-pen"></i></a>
+                        <a class="btn btn-success btn-sm" asp-controller="Examination" asp-action="GetModel" asp-route-id="@examination.Id">@Localizer["Start"] </a>
+                        <a class="btn btn-primary btn-sm" asp-controller="Examination" asp-action="UpdateModel" asp-route-id="@examination.Id">@Localizer["Edit"] </a>
                     </td>
                     <td><input type="checkbox" class="examination" name="selectedExamination" value="@examination.Id" /></td>
                 }

@@ -7,8 +7,8 @@
 }
 
 <h2>@Localizer["SetExamination"]</h2>
-<form method="post" enctype="multipart/form-data" asp-controller="Examination" asp-action="AddModel" asp-route-patientid="@ViewBag.UserId">
-    <div asp-validation-summary="ModelOnly"></div>
+<form method="post" enctype="multipart/form-data" asp-controller="Examination" asp-action="AddModel" asp-route-PatientId="@ViewBag.UserId">
+    <div asp-validation-summary="All" class="text-danger"></div>
     <div class="col-md-4">
         <div class="form-group">
             <label asp-for="TypePhysicalActive">@Localizer["TypePhysicalActive"]</label><br />

@@ -8,13 +8,31 @@
             set;
         }
 
+        public bool RequestRandomLoginCodeEnable
+        {
+            get;
+            set;
+        }
+
         public bool RequestPasswordEnable
         {
             get;
             set;
         }
 
+        public bool RequestRandomPasswordEnable
+        {
+            get;
+            set;
+        }
+
         public bool RequestRegistrationCodeEnable
+        {
+            get;
+            set;
+        }
+
+        public bool RequestRandomRegistrationCodeEnable
         {
             get;
             set;

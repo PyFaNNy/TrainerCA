@@ -7,10 +7,13 @@ namespace Trainer.Application.Aggregates.Examination.Commands.CreateExamination
         public CreateExaminationCommandValidator()
         {
             RuleFor(x => x.Date)
-                .NotEmpty();
+                .Must(ValidateDate)
+                .WithMessage("Wrong date");
+        }
 
-            RuleFor(x => x.TypePhysicalActive)
-                 .NotEmpty();
+        private bool ValidateDate(DateTime date)
+        {
+            return date > DateTime.Now;
         }
     }
 }

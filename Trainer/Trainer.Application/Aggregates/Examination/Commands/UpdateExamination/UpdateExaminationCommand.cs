@@ -13,7 +13,7 @@ namespace Trainer.Application.Aggregates.Examination.Commands.UpdateExamination
             set;
         }
 
-        public Guid ExaminationId
+        public Guid Id
         {
             get;
             set;
@@ -43,7 +43,19 @@ namespace Trainer.Application.Aggregates.Examination.Commands.UpdateExamination
             set;
         }
 
+        public int Indicators
+        {
+            get;
+            set;
+        }
+
         public TypePhysicalActive TypePhysicalActive
+        {
+            get;
+            set;
+        }
+
+        public DateTime Date
         {
             get;
             set;
@@ -52,7 +64,9 @@ namespace Trainer.Application.Aggregates.Examination.Commands.UpdateExamination
         public void Mapping(Profile profile)
         {
             profile.CreateMap<UpdateExaminationCommand, Domain.Entities.Examination.Examination>()
-                .ForMember(d => d.TypePhysicalActive, opt => opt.MapFrom(s => s.TypePhysicalActive));
+                .ForMember(d => d.TypePhysicalActive, opt => opt.MapFrom(s => s.TypePhysicalActive))
+                .ForMember(d => d.Indicators, opt => opt.MapFrom(s => s.Indicators))
+                .ForMember(d => d.Date, opt => opt.MapFrom(s => s.Date));
         }
     }
 }

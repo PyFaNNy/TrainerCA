@@ -64,7 +64,7 @@ namespace Trainer.Controllers
                     return RedirectToAction("ConfirmEmail", "BaseUser", new { email });
                 }
 
-                if (result.IsValid)
+                if (OTPaction == OTPAction.Login)
                 {
                     return RedirectToAction("ReturnClaim", "Account", new { email });
                 }
@@ -74,6 +74,8 @@ namespace Trainer.Controllers
                 ModelState.AddModelError("All", "Wrong Code");
             }
 
+            ViewBag.Email = email;
+            ViewBag.Action = OTPaction;
             return View();
         }
     }
