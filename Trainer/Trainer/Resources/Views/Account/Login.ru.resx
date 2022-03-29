@@ -120,6 +120,9 @@
   <data name="ExternalLogin" xml:space="preserve">
     <value>Войти с помощью сторонних сайтов</value>
   </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Забыли пароль?</value>
+  </data>
   <data name="Login" xml:space="preserve">
     <value>Логин</value>
   </data>

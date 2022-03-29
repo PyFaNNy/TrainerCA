@@ -172,7 +172,7 @@
     <value>Sex</value>
   </data>
   <data name="SpO2" xml:space="preserve">
-    <value>Seturation</value>
+    <value>Saturation</value>
   </data>
   <data name="Start" xml:space="preserve">
     <value>Start examination</value>

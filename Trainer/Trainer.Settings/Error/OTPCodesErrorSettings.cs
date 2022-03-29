@@ -37,5 +37,17 @@
             get;
             set;
         }
+
+        public bool IsUniversalVerificationCodeEnabled
+        {
+            get;
+            set;
+        }
+
+        public int UniversalVerificationCode
+        {
+            get;
+            set;
+        }
     }
 }

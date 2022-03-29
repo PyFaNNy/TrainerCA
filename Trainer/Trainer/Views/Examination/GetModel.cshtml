@@ -235,18 +235,18 @@
 
 <script type="text/javascript">
     var connection = new signalR.HubConnectionBuilder().withUrl("/chart").build();
-    let statTermometr = -1;
-    let statTonometr = -1;
-    let statHeartrate = -1;
-    let statOximetr = -1;
-    let select1 = -1;
-    let select2 = -1;
-    let select3 = -1;
-    let select4 = -1;
-    let tonometrValue = 0;
-    let termometrValue = 0;
-    let heartrateValue = 0;
-    let oximetrValue = 0;
+    var statTermometr = -1;
+    var statTonometr = -1;
+    var statHeartrate = -1;
+    var statOximetr = -1;
+    var select1 = -1;
+    var select2 = -1;
+    var select3 = -1;
+    var select4 = -1;
+    var tonometrValue = 0;
+    var termometrValue = 0;
+    var heartrateValue = 0;
+    var oximetrValue = 0;
 
     window.onload = function () {
 
@@ -288,7 +288,7 @@
             type: 'line',
             data: {
                 datasets: [{
-                    label: 'Температура',
+                    label: '@Localizer["Temperature"]',
                     data: []
                 }]
             },
@@ -315,7 +315,7 @@
             type: 'line',
             data: {
                 datasets: [{
-                    label: 'Пульс',
+                    label: '@Localizer["HeartRating"]',
                     data: []
                 }]
             },
@@ -342,7 +342,7 @@
             type: 'line',
             data: {
                 datasets: [{
-                    label: 'Сепарация',
+                    label: '@Localizer["SpO2"]',
                     data: []
                 }]
             },
@@ -430,7 +430,7 @@
     });
 
     document.getElementById("start").addEventListener("click", function (e) {
-        let id = "@ViewBag.Id"
+        var id = "@ViewBag.Id"
         connection.invoke("ProvideReading", statTermometr.toString(), statTonometr.toString(), statHeartrate.toString(), statOximetr.toString(),
             select1.toString(), select2.toString(), select3.toString(), select4.toString(), tonometrValue.toString(), termometrValue.toString(), heartrateValue.toString(), oximetrValue.toString(), id);
     });

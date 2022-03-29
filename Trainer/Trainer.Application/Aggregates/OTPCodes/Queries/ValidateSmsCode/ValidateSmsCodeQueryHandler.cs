@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Trainer.Settings.Error;
 
 namespace Trainer.Application.Aggregates.OTPCodes.Queries.ValidateSmsCode
 {
@@ -16,12 +18,16 @@ namespace Trainer.Application.Aggregates.OTPCodes.Queries.ValidateSmsCode
     public class ValidateSmsCodeQueryHandler
         : AbstractRequestHandler, IRequestHandler<ValidateSmsCodeQuery, Code>
     {
+        private readonly OTPCodesErrorSettings OTPCodesErrorSettings;
+
         public ValidateSmsCodeQueryHandler(
             IMediator mediator,
             ITrainerDbContext dbContext,
-            IMapper mapper)
+            IMapper mapper,
+            IOptions<OTPCodesErrorSettings> otpCodesErrorSettings)
             : base(mediator, dbContext, mapper)
         {
+            OTPCodesErrorSettings = otpCodesErrorSettings.Value;
         }
 
         public async Task<Code> Handle(ValidateSmsCodeQuery request, CancellationToken cancellationToken)
@@ -32,6 +38,15 @@ namespace Trainer.Application.Aggregates.OTPCodes.Queries.ValidateSmsCode
             if (!isEmailExisted)
             {
                 throw new NotFoundException(nameof(BaseUser.Email), request.Email);
+            }
+
+            if (OTPCodesErrorSettings.IsUniversalVerificationCodeEnabled && request.Code.Equals(OTPCodesErrorSettings.UniversalVerificationCode))
+            {
+                return new Code
+                {
+                    CodeValue = request.Code,
+                    IsValid = true
+                };
             }
 
             var code = await this.DbContext.OTPs

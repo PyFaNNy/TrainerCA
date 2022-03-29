@@ -172,7 +172,7 @@
     <value>Пол</value>
   </data>
   <data name="SpO2" xml:space="preserve">
-    <value>Сетурация</value>
+    <value>Сатурация</value>
   </data>
   <data name="Start" xml:space="preserve">
     <value>Начать обследование</value>

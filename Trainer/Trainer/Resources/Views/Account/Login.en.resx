@@ -120,6 +120,9 @@
   <data name="ExternalLogin" xml:space="preserve">
     <value>External sing in</value>
   </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Forgot password?</value>
+  </data>
   <data name="Login" xml:space="preserve">
     <value>Login</value>
   </data>

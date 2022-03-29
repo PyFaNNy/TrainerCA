@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Trainer.Application.Aggregates.BaseUser.Queries.GetBaseUser;
 using Trainer.Application.Aggregates.OTPCodes.Commands.RequestLoginCode;
+using Trainer.Application.Exceptions;
 using Trainer.Common;
 using Trainer.Common.TableConnect.Common;
 using Trainer.Enums;
@@ -50,16 +51,17 @@ namespace Trainer.Controllers
                         return RedirectToAction("VerifyCode", "OTP",
                             new { otpAction = OTPAction.Login, email = user.Email });
                     }
-
+                    else
+                    {
+                        ModelState.AddModelError("All", "Error login/password");
+                    }
+                }
+                catch (ValidationException ex)
+                {
+                    ModelState.AddModelError("All", ex.Errors.FirstOrDefault().Value);
                 }
                 catch (Exception ex)
                 {
-
-                }
-                finally
-                {
-
-                    ModelState.AddModelError("All", "Error login/password");
                 }
             }
 
