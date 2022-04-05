@@ -36,7 +36,7 @@
 
             if (!isUserExist)
             {
-                throw new ValidationException("Email", "Wrong email");
+                throw new ValidationException("IncorrectEmail", "Incorrect email");
             }
         }
     }

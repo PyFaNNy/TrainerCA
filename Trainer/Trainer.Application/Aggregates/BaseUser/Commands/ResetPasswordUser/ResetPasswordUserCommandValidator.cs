@@ -8,11 +8,13 @@ namespace Trainer.Application.Aggregates.BaseUser.Commands.ResetPasswordUser
         public ResetPasswordUserCommandValidator()
         {
             RuleFor(x => x.Password)
-                .Must(PasswordsHelper.IsMeetsRequirements);
+                .Must(PasswordsHelper.IsMeetsRequirements)
+                .WithMessage("IncorrectPassword");
 
             RuleFor(x => x.ConfirmPassword)
                 .NotEmpty()
-                .Equal(x => x.Password);
+                .Equal(x => x.Password)
+                .WithMessage("IncorrectConfirmPassword");
         }
     }
 }

@@ -2,16 +2,16 @@
 using Trainer.Application.Interfaces;
 using Trainer.Common;
 
-namespace Trainer.Application.Aggregates.Doctor.Commands.SignInDoctor
+namespace Trainer.Application.Aggregates.BaseUser.Commands.SignIn
 {
-    public class SignInDoctorCommandValidator : AbstractValidator<SignInDoctorCommand>
+    public class SignInCommandValidator : AbstractValidator<SignInCommand>
     {
         private ITrainerDbContext DbContext
         {
             get;
         }
 
-        public SignInDoctorCommandValidator(ITrainerDbContext dbContext)
+        public SignInCommandValidator(ITrainerDbContext dbContext)
         {
             this.DbContext = dbContext;
 
@@ -21,14 +21,14 @@ namespace Trainer.Application.Aggregates.Doctor.Commands.SignInDoctor
                 .WithMessage("Wrong email");
 
             RuleFor(x => x.LastName)
-                 .NotNull()
-                 .Matches(@"^([А-Я]{1}[а-яё]{1,49}|[A-Z]{1}[a-z]{1,49})$")
-                 .WithMessage("Wrong last name");
+                .NotNull()
+                .Matches(@"^([А-Я]{1}[а-яё]{1,49}|[A-Z]{1}[a-z]{1,49})$")
+                .WithMessage("Wrong last name");
 
             RuleFor(x => x.FirstName)
-                 .NotNull()
-                 .Matches(@"^([А-Я]{1}[а-яё]{1,49}|[A-Z]{1}[a-z]{1,49})$")
-                 .WithMessage("Wrong first name");
+                .NotNull()
+                .Matches(@"^([А-Я]{1}[а-яё]{1,49}|[A-Z]{1}[a-z]{1,49})$")
+                .WithMessage("Wrong first name");
 
             RuleFor(x => x.MiddleName)
                 .NotNull()
@@ -36,10 +36,13 @@ namespace Trainer.Application.Aggregates.Doctor.Commands.SignInDoctor
                 .WithMessage("Wrong middle name");
 
             RuleFor(x => x.Password)
+                .NotNull()
+                .NotEmpty()
                 .Must(PasswordsHelper.IsMeetsRequirements)
                 .WithMessage("Wrong password");
 
             RuleFor(x => x.ConfirmPassword)
+                .NotNull()
                 .NotEmpty()
                 .Equal(x => x.Password)
                 .WithMessage("Wrong ConfirmPassword");

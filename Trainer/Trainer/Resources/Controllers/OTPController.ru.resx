@@ -117,34 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Date" xml:space="preserve">
-    <value>Date</value>
+  <data name="IncorrectCode" xml:space="preserve">
+    <value>Некорректный код</value>
   </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Delete</value>
-  </data>
-  <data name="Edit" xml:space="preserve">
-    <value>Edit</value>
-  </data>
-  <data name="Examination" xml:space="preserve">
-    <value>Examinations</value>
-  </data>
-  <data name="Export" xml:space="preserve">
-    <value> Export to CSV</value>
-  </data>
-  <data name="FirstName" xml:space="preserve">
-    <value>First Name</value>
-  </data>
-  <data name="LastName" xml:space="preserve">
-    <value>Last Name</value>
-  </data>
-  <data name="MiddleName" xml:space="preserve">
-    <value>Middle Name</value>
-  </data>
-  <data name="Start" xml:space="preserve">
-    <value>Start</value>
-  </data>
-  <data name="TypePhysicalActive" xml:space="preserve">
-    <value>Type physical active</value>
+  <data name="IncorrectEmail" xml:space="preserve">
+    <value>Некорректная электронная почта</value>
   </data>
 </root>

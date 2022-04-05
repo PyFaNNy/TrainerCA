@@ -22,9 +22,7 @@
 
             services.Configure<BaseUserErrorSettings>(configuration.GetSection("BaseUserErrorSettings"));
             services.Configure<CSVErrorSettings>(configuration.GetSection("CSVErrorSettings"));
-            services.Configure<DoctorErrorSettings>(configuration.GetSection("DoctorErrorSettings"));
             services.Configure<ExaminationErrorSettings>(configuration.GetSection("ExaminationErrorSettings"));
-            services.Configure<ManagerErrorSettings>(configuration.GetSection("ManagerErrorSettings"));
             services.Configure<OTPCodesErrorSettings>(configuration.GetSection("OTPCodesErrorSettings"));
             services.Configure<PatientErrorSettings>(configuration.GetSection("PatientErrorSettings"));
             services.Configure<ResultsErrorSettings>(configuration.GetSection("ResultsErrorSettings"));

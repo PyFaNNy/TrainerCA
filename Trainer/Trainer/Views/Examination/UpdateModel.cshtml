@@ -7,7 +7,7 @@
 @model UpdateExaminationCommand
 <h2>@Localizer["UpdateExamination"]</h2>
 <form method="post" enctype="multipart/form-data" asp-controller="Examination" asp-action="UpdateModel" asp-route-id="@ViewBag.Examination.Id">
-    <div asp-validation-summary="All" class="text-danger"></div>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="col-md-4">
         <div class="form-group">
             <label asp-for="TypePhysicalActive">@Localizer["TypePhysicalActive"]</label><br />

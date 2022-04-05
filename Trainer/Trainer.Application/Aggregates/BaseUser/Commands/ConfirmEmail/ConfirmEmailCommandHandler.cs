@@ -29,6 +29,7 @@ namespace Trainer.Application.Aggregates.BaseUser.Commands.ConfirmEmail
             }
 
             user.EmailConfirmed = true;
+            user.Status = Enums.StatusUser.Pending;
 
             await DbContext.SaveChangesAsync(cancellationToken);
 

@@ -44,7 +44,7 @@
             set;
         }
 
-        public int UniversalVerificationCode
+        public string UniversalVerificationCode
         {
             get;
             set;

@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Admin" xml:space="preserve">
+    <value>Администратор</value>
+  </data>
   <data name="BtnRegister" xml:space="preserve">
     <value>Регистрация</value>
   </data>
@@ -146,6 +149,9 @@
   </data>
   <data name="PasswordConfirm" xml:space="preserve">
     <value>Подтвердите пароль</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Роль</value>
   </data>
   <data name="UserReg" xml:space="preserve">
     <value>Регистрация нового пользователя</value>

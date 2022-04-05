@@ -9,7 +9,7 @@
     <form method="post" asp-controller="OTP" asp-action="VerifyCode" asp-route-email="@ViewBag.Email"  asp-route-OTPaction="@ViewBag.Action">
         <h3>@Localizer["CheckCode"]</h3>
         <hr />
-        <div asp-validation-summary="All" class="text-danger"></div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
             <label asp-for="Codes">@Localizer["Code"]</label>
             <input asp-for="Codes" class="form-control" />

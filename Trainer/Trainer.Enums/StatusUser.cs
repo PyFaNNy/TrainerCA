@@ -16,6 +16,9 @@ namespace Trainer.Enums
         [EnumMember(Value = "Pending")]
         Pending =3,
 
+        [EnumMember(Value = "WaitEmailConfirm")]
+        WaitEmailConfirm = 5,
+
         [EnumMember(Value = "Decline")]
         Decline = 4,
     }

@@ -117,34 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Date" xml:space="preserve">
-    <value>Date</value>
+  <data name="'First Name' должно быть заполнено." xml:space="preserve">
+    <value>"Имя" должно быть заполнено.</value>
   </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Delete</value>
+  <data name="'Last Name' должно быть заполнено." xml:space="preserve">
+    <value>"Фамилия" должна быть заполнено.</value>
   </data>
-  <data name="Edit" xml:space="preserve">
-    <value>Edit</value>
+  <data name="'Middle Name' должно быть заполнено." xml:space="preserve">
+    <value>"Отчество" должно быть заполнено.</value>
   </data>
-  <data name="Examination" xml:space="preserve">
-    <value>Examinations</value>
+  <data name="Wrong age" xml:space="preserve">
+    <value>Некорректный возраст.</value>
   </data>
-  <data name="Export" xml:space="preserve">
-    <value> Export to CSV</value>
+  <data name="Wrong email" xml:space="preserve">
+    <value>Некорректная почта.</value>
   </data>
-  <data name="FirstName" xml:space="preserve">
-    <value>First Name</value>
+  <data name="Wrong first name" xml:space="preserve">
+    <value>Некорректное имя.</value>
   </data>
-  <data name="LastName" xml:space="preserve">
-    <value>Last Name</value>
+  <data name="Wrong last name" xml:space="preserve">
+    <value>Некорректная фамилия.</value>
   </data>
-  <data name="MiddleName" xml:space="preserve">
-    <value>Middle Name</value>
-  </data>
-  <data name="Start" xml:space="preserve">
-    <value>Start</value>
-  </data>
-  <data name="TypePhysicalActive" xml:space="preserve">
-    <value>Type physical active</value>
+  <data name="Wrong middle name" xml:space="preserve">
+    <value>Некорректная отчество.</value>
   </data>
 </root>

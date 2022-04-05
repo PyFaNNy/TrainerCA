@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Trainer.Application.Aggregates.OTPCodes.Commands.RequestPassword;
 using Trainer.Application.Aggregates.OTPCodes.Queries.ValidateSmsCode;
+using Trainer.Application.Exceptions;
 using Trainer.Enums;
 using Trainer.Models;
 
@@ -8,8 +10,11 @@ namespace Trainer.Controllers
 {
     public class OTPController : BaseController
     {
-        public OTPController(ILogger<OTPController> logger) : base(logger)
+        private readonly IStringLocalizer<OTPController> Localizer;
+
+        public OTPController(ILogger<OTPController> logger, IStringLocalizer<OTPController> localizer) : base(logger)
         {
+            Localizer = localizer;
         }
 
         [HttpGet]
@@ -23,13 +28,21 @@ namespace Trainer.Controllers
         {
             try
             {
-                command.Host = HttpContext.Request.Host.ToString();
+                command.Host = HttpContext.Request.Host.Value;
                 await Mediator.Send(command);
                 return RedirectToAction("VerifyCode", "OTP", new { otpAction = OTPAction.ResetPassword, email = command.Email });
             }
-            catch (Exception ex)
+            catch (ValidationException ex)
             {
-                ModelState.AddModelError("All", ex.Message);
+                ModelState.AddModelError(string.Empty, Localizer[ex.Errors.FirstOrDefault().Key]);
+            }
+            catch (FluentValidation.ValidationException ex)
+            {
+                foreach (var modelValue in ModelState.Values)
+                {
+                    modelValue.Errors.Clear();
+                }
+                ModelState.AddModelError(string.Empty, Localizer[ex.Errors.First().ErrorMessage]);
             }
 
             return View(command);
@@ -71,7 +84,7 @@ namespace Trainer.Controllers
             }
             else
             {
-                ModelState.AddModelError("All", "Wrong Code");
+                ModelState.AddModelError("All", Localizer["IncorrectCode"]);
             }
 
             ViewBag.Email = email;

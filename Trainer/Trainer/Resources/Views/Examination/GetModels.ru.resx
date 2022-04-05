@@ -123,11 +123,14 @@
   <data name="Delete" xml:space="preserve">
     <value>Удалить</value>
   </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Изменить</value>
+  </data>
   <data name="Examination" xml:space="preserve">
     <value>Обследования</value>
   </data>
   <data name="Export" xml:space="preserve">
-    <value>Экспортировать в CSV</value>
+    <value>Экспорт в CSV</value>
   </data>
   <data name="FirstName" xml:space="preserve">
     <value>Имя</value>
@@ -137,6 +140,9 @@
   </data>
   <data name="MiddleName" xml:space="preserve">
     <value>Отчество</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Начать</value>
   </data>
   <data name="TypePhysicalActive" xml:space="preserve">
     <value>Тип физической активности</value>

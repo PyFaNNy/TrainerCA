@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using Trainer.Application.Exceptions;
 using Trainer.Application.Aggregates.CSV.Commands.CSVToExaminations;
 using Trainer.Application.Aggregates.CSV.Queries.ExaminationsToCSV;
@@ -19,9 +22,12 @@ namespace Trainer.Controllers
 
     public class ExaminationController : BaseController
     {
-        public ExaminationController(ILogger<ExaminationController> logger, ICsvParserService csv)
+        private readonly IStringLocalizer<ExaminationController> Localizer;
+
+        public ExaminationController(ILogger<ExaminationController> logger, IStringLocalizer<ExaminationController> localizer)
             : base(logger)
         {
+            Localizer = localizer;
         }
 
         [HttpGet]
@@ -72,11 +78,15 @@ namespace Trainer.Controllers
             }
             catch (ValidationException ex)
             {
-                ModelState.AddModelError("All", ex.Errors.FirstOrDefault().Value);
+                ModelState.AddModelError(string.Empty, Localizer[ex.Errors.FirstOrDefault().Key]);
             }
-            catch (Exception ex)
+            catch (FluentValidation.ValidationException ex)
             {
-
+                foreach (var modelValue in ModelState.Values)
+                {
+                    modelValue.Errors.Clear();
+                }
+                ModelState.AddModelError(string.Empty, Localizer[ex.Errors.First().ErrorMessage]);
             }
 
             ViewBag.UserId = command.PatientId;
@@ -106,11 +116,15 @@ namespace Trainer.Controllers
             }
             catch (ValidationException ex)
             {
-                ModelState.AddModelError("All", ex.Errors.FirstOrDefault().Value);
+                ModelState.AddModelError(string.Empty, Localizer[ex.Errors.FirstOrDefault().Key]);
             }
-            catch (Exception ex)
+            catch (FluentValidation.ValidationException ex)
             {
-
+                foreach (var modelValue in ModelState.Values)
+                {
+                    modelValue.Errors.Clear();
+                }
+                ModelState.AddModelError(string.Empty, Localizer[ex.Errors.First().ErrorMessage]);
             }
             ViewBag.Examination = command;
             return View(command);

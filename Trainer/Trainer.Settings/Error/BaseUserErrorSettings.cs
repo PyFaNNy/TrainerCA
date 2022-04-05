@@ -97,5 +97,11 @@
             get;
             set;
         }
+
+        public bool SignInEnable
+        {
+            get;
+            set;
+        }
     }
 }

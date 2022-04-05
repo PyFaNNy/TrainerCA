@@ -11,22 +11,15 @@
     "DeleteUserEmailEnable": true,
     "UnBlockUserEnable": true,
     "UnBlockUserEmailEnable": true,
-    "ResetPasswordUserEnable": true
+    "ResetPasswordUserEnable": true,
+    "SignInEnable": true
   },
 
   "CSVErrorSettings": {
     "CSVToExaminationsEnable": true,
     "CSVToPatientsEnable": true
   },
-
-  "DoctorErrorSettings": {
-    "SignInDoctorEnable": true
-  },
-
-  "ManagerErrorSettings": {
-    "SignInManagerEnable": true
-  },
-
+  
   "ExaminationErrorSettings": {
     "CreateExaminationEnable": true,
     "CreateEmailExaminationEnable": true,

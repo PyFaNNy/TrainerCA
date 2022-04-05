@@ -7,6 +7,11 @@
     {
         public static bool IsMeetsRequirements(string password)
         {
+            if (password == null)
+            {
+                return false;
+            }
+
             if (password.Length < 8)
             {
                 return false;

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Trainer.Application.Aggregates.CSV.Commands.CSVToPatients;
 using Trainer.Application.Aggregates.CSV.Queries.PatientsToCSV;
 using Trainer.Application.Aggregates.Patient.Commands.CreatePatient;
@@ -16,10 +17,12 @@ namespace Trainer.Controllers
 {
     public class PatientController : BaseController
     {
+        private readonly IStringLocalizer<PatientController> Localizer;
 
-        public PatientController(ILogger<PatientController> logger)
+        public PatientController(ILogger<PatientController> logger, IStringLocalizer<PatientController> localizer)
             : base(logger)
         {
+            Localizer = localizer;
         }
 
         [HttpGet]
@@ -68,9 +71,16 @@ namespace Trainer.Controllers
             {
                 ModelState.AddModelError("All", ex.Errors.FirstOrDefault().Value);
             }
-            catch (Exception ex)
+            catch (FluentValidation.ValidationException ex)
             {
-
+                foreach (var modelValue in ModelState.Values)
+                {
+                    modelValue.Errors.Clear();
+                }
+                foreach (var er in ex.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, Localizer[er.ErrorMessage]);
+                }
             }
 
             return View(command);
@@ -98,9 +108,17 @@ namespace Trainer.Controllers
             {
                 ModelState.AddModelError("All", ex.Errors.FirstOrDefault().Value);
             }
-            catch (Exception ex)
+            catch (FluentValidation.ValidationException ex)
             {
+                foreach (var modelValue in ModelState.Values)
+                {
+                    modelValue.Errors.Clear();
+                }
 
+                foreach (var er in ex.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, Localizer[er.ErrorMessage]);
+                }
             }
 
             ViewBag.Patient = command;

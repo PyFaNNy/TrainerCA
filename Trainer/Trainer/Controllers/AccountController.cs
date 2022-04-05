@@ -2,8 +2,11 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Microsoft.Extensions.Localization;
+using Trainer.Application.Aggregates.BaseUser.Commands.SignIn;
 using Trainer.Application.Aggregates.BaseUser.Queries.GetBaseUser;
 using Trainer.Application.Aggregates.OTPCodes.Commands.RequestLoginCode;
+using Trainer.Application.Aggregates.OTPCodes.Commands.RequestRegistrationCode;
 using Trainer.Application.Exceptions;
 using Trainer.Common;
 using Trainer.Common.TableConnect.Common;
@@ -14,13 +17,43 @@ namespace Trainer.Controllers
 {
     public class AccountController : BaseController
     {
-        public AccountController(ILogger<AccountController> logger) : base(logger)
+        private readonly IStringLocalizer<AccountController> Localizer;
+        public AccountController(ILogger<AccountController> logger, IStringLocalizer<AccountController> localizer) : base(logger)
         {
+            Localizer = localizer;
         }
 
         [HttpGet]
         public IActionResult Register()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(SignInCommand command)
+        {
+            try
+            {
+                await Mediator.Send(command);
+                await Mediator.Send(new RequestRegistrationCodeCommand
+                {
+                    Email = command.Email,
+                    Host = HttpContext.Request.Host.ToString()
+                });
+
+                return RedirectToAction("VerifyCode", "OTP",
+                    new { otpAction = OTPAction.Registration, email = command.Email });
+
+            }
+            catch (FluentValidation.ValidationException ex)
+            {
+                foreach (var modelValue in ModelState.Values)
+                {
+                    modelValue.Errors.Clear();
+                }
+                ModelState.AddModelError(string.Empty, Localizer[ex.Errors.First().ErrorMessage]);
+            }
+
             return View();
         }
 
@@ -34,35 +67,29 @@ namespace Trainer.Controllers
 
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
-                    var user = await Mediator.Send(new GetBaseUserQuery(model.UserName));
-                    var result = CryptoHelper.VerifyHashedPassword(user.PasswordHash, model.Password);
+                var user = await Mediator.Send(new GetBaseUserQuery(model.UserName));
+                var result = CryptoHelper.VerifyHashedPassword(user.PasswordHash, model.Password);
 
-                    if (result)
-                    {
-                        await Mediator.Send(new RequestLoginCodeCommand
-                        {
-                            Email = user.Email,
-                            Host = HttpContext.Request.Host.ToString()
-                        });
-                        return RedirectToAction("VerifyCode", "OTP",
-                            new { otpAction = OTPAction.Login, email = user.Email });
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("All", "Error login/password");
-                    }
-                }
-                catch (ValidationException ex)
+                if (result)
                 {
-                    ModelState.AddModelError("All", ex.Errors.FirstOrDefault().Value);
+                    await Mediator.Send(new RequestLoginCodeCommand
+                    {
+                        Email = user.Email,
+                        Host = HttpContext.Request.Host.ToString()
+                    });
+                    return RedirectToAction("VerifyCode", "OTP",
+                        new { otpAction = OTPAction.Login, email = user.Email });
                 }
-                catch (Exception ex)
+                else
                 {
+                    ModelState.AddModelError("", Localizer["Error login/password"]);
                 }
+            }
+            catch (NotFoundException ex)
+            {
+                ModelState.AddModelError("", Localizer["Error login/password"]);
             }
 
             return View(model);
