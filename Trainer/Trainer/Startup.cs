@@ -1,10 +1,8 @@
-﻿using FluentValidation;
-using FluentValidation.AspNetCore;
-using MediatR;
+﻿using FluentValidation.AspNetCore;
+using Jdenticon.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
-using System.Reflection;
 using Trainer.Application;
 using Trainer.Chart;
 using Trainer.CSVParserService;
@@ -72,6 +70,7 @@ namespace Trainer
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+            app.UseJdenticon();
             app.UseStaticFiles();
 
             app.UseRouting();

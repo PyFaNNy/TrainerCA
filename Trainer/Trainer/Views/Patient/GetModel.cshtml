@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
 @using Trainer.Application.Aggregates.Patient.Queries.GetPatient
+@using Jdenticon.AspNetCore
 @inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = @Localizer["Profil"];
@@ -172,7 +173,7 @@
         </div>
     </div>
     <div class="col-lg-4 order-lg-1 text-center">
-        <img src="~/picture/icons/256x256/256_15.png" class="mx-auto img-fluid img-circle d-block" alt="avatar">
+        <img identicon-value="@Model.Id"  class="mx-auto img-fluid img-circle d-block"  alt="Avatar" />
     </div>
 </div>
 
