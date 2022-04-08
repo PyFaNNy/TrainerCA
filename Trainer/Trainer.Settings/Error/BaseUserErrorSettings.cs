@@ -1,6 +1,6 @@
 ﻿namespace Trainer.Settings.Error
 {
-    public class BaseUserErrorSettings
+    public class BaseUserErrorSettings : IApplicationSettings
     {
         public bool ApproveUserEnable
         {

@@ -1,6 +1,6 @@
 ﻿namespace Trainer.Settings.Error
 {
-    public class ResultsErrorSettings
-    {
+    public class ResultsErrorSettings : IApplicationSettings
+    { 
     }
 }

@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Trainer.Persistence;
 
 namespace Trainer
@@ -14,6 +15,10 @@ namespace Trainer
                 try
                 {
                     var dbContext = services.GetRequiredService<TrainerDbContext>();
+                    if (dbContext.Database.IsSqlServer())
+                    {
+                        dbContext.Database.Migrate();
+                    }
                     await DefaultInitializer.InitializeAsync(dbContext);
                 }
                 catch (Exception ex)

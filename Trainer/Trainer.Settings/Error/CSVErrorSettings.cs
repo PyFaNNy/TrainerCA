@@ -1,6 +1,6 @@
 ﻿namespace Trainer.Settings.Error
 {
-    public class CSVErrorSettings
+    public class CSVErrorSettings : IApplicationSettings
     {
         public bool CSVToExaminationsEnable
         {

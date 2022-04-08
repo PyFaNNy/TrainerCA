@@ -1,6 +1,6 @@
 ﻿namespace Trainer.Settings.Error
 {
-    public class ExaminationErrorSettings
+    public class ExaminationErrorSettings : IApplicationSettings
     {
         public bool CreateExaminationEnable
         {

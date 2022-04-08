@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  db:
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Trainer_Password11
+  trainer:
+    image: ${DOCKER_REGISTRY-}trainer
+    build:
+      context: .
+      dockerfile: Trainer/Dockerfile
+    depends_on:
+      - db

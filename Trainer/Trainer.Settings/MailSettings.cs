@@ -1,6 +1,6 @@
 ﻿namespace Trainer.Settings
 {
-    public class MailSettings
+    public class MailSettings : IApplicationSettings
     {
         public string Mail { get; set; }
         public string DisplayName { get; set; }

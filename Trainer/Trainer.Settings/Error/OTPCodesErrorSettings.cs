@@ -1,6 +1,6 @@
 ﻿namespace Trainer.Settings.Error
 {
-    public class OTPCodesErrorSettings
+    public class OTPCodesErrorSettings : IApplicationSettings
     {
         public bool RequestLoginCodeEnable
         {

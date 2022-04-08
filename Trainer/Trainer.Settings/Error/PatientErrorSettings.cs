@@ -1,6 +1,6 @@
 ﻿namespace Trainer.Settings.Error
 {
-    public class PatientErrorSettings
+    public class PatientErrorSettings : IApplicationSettings
     {
         public bool CreatePatientEnable
         {
