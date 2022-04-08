@@ -120,6 +120,9 @@
   <data name="AboutMe" xml:space="preserve">
     <value>Обо мне</value>
   </data>
+  <data name="Change" xml:space="preserve">
+    <value>Изменить</value>
+  </data>
   <data name="Date" xml:space="preserve">
     <value>Дата</value>
   </data>
@@ -135,8 +138,11 @@
   <data name="Hobby" xml:space="preserve">
     <value>Хобби</value>
   </data>
+  <data name="Info" xml:space="preserve">
+    <value>Информация</value>
+  </data>
   <data name="Oxigen" xml:space="preserve">
-    <value>Сетурация</value>
+    <value>Сатурация</value>
   </data>
   <data name="Profil" xml:space="preserve">
     <value>Профиль</value>

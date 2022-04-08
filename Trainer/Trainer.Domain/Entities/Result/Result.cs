@@ -1,4 +1,6 @@
-﻿namespace Trainer.Domain.Entities.Result
+﻿using Trainer.Enums;
+
+namespace Trainer.Domain.Entities.Result
 {
     public class Result
     {
@@ -43,6 +45,18 @@
             set;
         }
         public double AverageTemperature
+        {
+            get;
+            set;
+        }
+
+        public DateTime Date
+        {
+            get;
+            set;
+        }
+
+        public TypePhysicalActive TypePhysicalActive
         {
             get;
             set;

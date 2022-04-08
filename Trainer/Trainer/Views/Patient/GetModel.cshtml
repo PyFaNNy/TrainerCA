@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
 @using Trainer.Application.Aggregates.Patient.Queries.GetPatient
 @using Jdenticon.AspNetCore
+@addTagHelper "*, Jdenticon.AspNetCore"
 @inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = @Localizer["Profil"];
@@ -48,11 +49,11 @@
                                 <th>@Localizer["HeartRate"]</th>
                                 </thead>
                                 <tbody>
-                                    @foreach (var active in ViewBag.Results)
+                                    @foreach (var active in @Model.Results)
                                     {
                                         <tr>
-                                            <td>@active.Examination.TypePhysicalActive</td>
-                                            <td>@active.Examination.Date.ToString()</td>
+                                            <td>@active.TypePhysicalActive</td>
+                                            <td>@active.Date.ToString()</td>
                                             <td>@active.AverageDia</td>
                                             <td>@active.AverageSis</td>
                                             <td>@active.AverageOxigen</td>
@@ -84,7 +85,7 @@
                     <div class="form-group row">
                         <label asp-for="FirstName" class="col-lg-3 col-form-label form-control-label">@Localizer["FirstName"]</label>
                         <div class="col-lg-9">
-                            @if (User.IsInRole("Admin, Manager"))
+                            @if (User.IsInRole("manager"))
                             {
                                 <input asp-for="FirstName" class="form-control" type="text" value="@Model.FirstName">
                             }
@@ -97,7 +98,7 @@
                     <div class="form-group row">
                         <label asp-for="MiddleName" class="col-lg-3 col-form-label form-control-label">@Localizer["MiddleName"]</label>
                         <div class="col-lg-9">
-                            @if (User.IsInRole("Admin, Manager"))
+                            @if (User.IsInRole("manager"))
                             {
                                 <input asp-for="MiddleName" class="form-control" type="text" value="@Model.MiddleName">
                             }
@@ -110,7 +111,7 @@
                     <div class="form-group row">
                         <label asp-for="Email" class="col-lg-3 col-form-label form-control-label">@Localizer["Email"]</label>
                         <div class="col-lg-9">
-                            @if (User.IsInRole("Admin, Manager"))
+                            @if (User.IsInRole("manager"))
                             {
                                 <input asp-for="Email" class="form-control" type="text" value="@Model.Email">
                             }
@@ -123,7 +124,7 @@
                     <div class="form-group row">
                         <label asp-for="Age" class="col-lg-3 col-form-label form-control-label">@Localizer["Age"]</label>
                         <div class="col-lg-9">
-                            @if (User.IsInRole("Admin, Manager"))
+                            @if (User.IsInRole("manager"))
                             {
                                 <input asp-for="Age" class="form-control" value="@Model.Age">
                             }
@@ -136,7 +137,7 @@
                     <div class="form-group row">
                         <label asp-for="About" class="col-lg-3 col-form-label form-control-label">@Localizer["AboutMe"]</label>
                         <div class="col-lg-9">
-                            @if (User.IsInRole("Admin, Manager"))
+                            @if (User.IsInRole("manager"))
                             {
                                 <input asp-for="About" class="form-control" type="text" value="@Model.About">
                             }
@@ -149,7 +150,7 @@
                     <div class="form-group row">
                         <label asp-for="Hobbies" class="col-lg-3 col-form-label form-control-label">@Localizer["Hobby"]</label>
                         <div class="col-lg-9">
-                            @if (User.IsInRole("Admin, Manager"))
+                            @if (User.IsInRole("manager"))
                             {
                                 <input asp-for="Hobbies" class="form-control" type="text" value="@Model.Hobbies">
                             }
@@ -162,7 +163,7 @@
                     <div class="form-group row">
                         <label class="col-lg-3 col-form-label form-control-label"></label>
                         <div class="col-lg-9">
-                            @if (User.IsInRole("Admin, Manager"))
+                            @if (User.IsInRole("manager"))
                             {
                                 <button type="submit" class="btn btn-primary">@Localizer["Change"]</button>
                             }
@@ -173,7 +174,7 @@
         </div>
     </div>
     <div class="col-lg-4 order-lg-1 text-center">
-        <img identicon-value="@Model.Id"  class="mx-auto img-fluid img-circle d-block"  alt="Avatar" />
+        <img identicon-value="@Url.Identicon(@Model.Id, size: 256)" width="256" alt="Identicon" class="mx-auto" />
     </div>
 </div>
 

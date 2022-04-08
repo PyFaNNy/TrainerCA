@@ -110,6 +110,18 @@ namespace Trainer.Application.Aggregates.Patient.Queries.GetPatient
             set;
         }
 
+        public DateTime Date
+        {
+            get;
+            set;
+        }
+
+        public TypePhysicalActive TypePhysicalActive
+        {
+            get;
+            set;
+        }
+
         public void Mapping(Profile profile)
         {
             profile.CreateMap<Domain.Entities.Result.Result, Result>()
@@ -117,6 +129,8 @@ namespace Trainer.Application.Aggregates.Patient.Queries.GetPatient
                 .ForMember(d => d.AverageOxigen, opt => opt.MapFrom(s => s.AverageOxigen))
                 .ForMember(d => d.AverageSis, opt => opt.MapFrom(s => s.AverageSis))
                 .ForMember(d => d.AverageDia, opt => opt.MapFrom(s => s.AverageDia))
+                .ForMember(d => d.Date, opt => opt.MapFrom(s => s.Date))
+                .ForMember(d => d.TypePhysicalActive, opt => opt.MapFrom(s => s.TypePhysicalActive))
                 .ForMember(d => d.AverageHeartRate, opt => opt.MapFrom(s => s.AverageHeartRate));
         }
     }

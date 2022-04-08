@@ -15,10 +15,10 @@ namespace Trainer
                 try
                 {
                     var dbContext = services.GetRequiredService<TrainerDbContext>();
-                    if (dbContext.Database.IsSqlServer())
-                    {
-                        dbContext.Database.Migrate();
-                    }
+                    //if (dbContext.Database.IsSqlServer())
+                    //{
+                    //    dbContext.Database.Migrate();
+                    //}
                     await DefaultInitializer.InitializeAsync(dbContext);
                 }
                 catch (Exception ex)

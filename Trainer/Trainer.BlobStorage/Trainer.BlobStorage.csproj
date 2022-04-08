@@ -14,8 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Trainer\Trainer.Application\Trainer.Application.csproj" />
-    <ProjectReference Include="..\Trainer\Trainer.Settings\Trainer.Settings.csproj" />
+    <ProjectReference Include="..\Trainer.Application\Trainer.Application.csproj" />
+    <ProjectReference Include="..\Trainer.Settings\Trainer.Settings.csproj" />
   </ItemGroup>
 
 </Project>

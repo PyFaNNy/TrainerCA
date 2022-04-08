@@ -12,8 +12,8 @@ using Trainer.Persistence;
 namespace Trainer.Persistence.Migrations
 {
     [DbContext(typeof(TrainerDbContext))]
-    [Migration("20220316210028_Initial")]
-    partial class Initial
+    [Migration("20220408161045_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -195,17 +195,24 @@ namespace Trainer.Persistence.Migrations
                     b.Property<double>("AverageTemperature")
                         .HasColumnType("float");
 
-                    b.Property<Guid?>("Id")
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ExaminationId")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("PatientId")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("TypePhysicalActive")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Id")
-                        .IsUnique()
-                        .HasFilter("[Id] IS NOT NULL");
+                    b.HasIndex("ExaminationId")
+                        .IsUnique();
 
                     b.HasIndex("PatientId");
 
@@ -247,13 +254,15 @@ namespace Trainer.Persistence.Migrations
                 {
                     b.HasOne("Trainer.Domain.Entities.Examination.Examination", "Examination")
                         .WithOne("Result")
-                        .HasForeignKey("Trainer.Domain.Entities.Result.Result", "Id")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .HasForeignKey("Trainer.Domain.Entities.Result.Result", "ExaminationId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.HasOne("Trainer.Domain.Entities.Patient.Patient", "Patient")
                         .WithMany("Results")
                         .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("Examination");
 

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Trainer.Persistence.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -156,13 +156,15 @@ namespace Trainer.Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PatientId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ExaminationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    PatientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ExaminationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     AverageHeartRate = table.Column<int>(type: "int", nullable: false),
                     AverageDia = table.Column<int>(type: "int", nullable: false),
                     AverageSis = table.Column<int>(type: "int", nullable: false),
                     AverageOxigen = table.Column<int>(type: "int", nullable: false),
-                    AverageTemperature = table.Column<double>(type: "float", nullable: false)
+                    AverageTemperature = table.Column<double>(type: "float", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TypePhysicalActive = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -188,9 +190,8 @@ namespace Trainer.Persistence.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Results_ExaminationId",
                 table: "Results",
-                column: "Id",
-                unique: true,
-                filter: "[Id] IS NOT NULL");
+                column: "ExaminationId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Results_PatientId",

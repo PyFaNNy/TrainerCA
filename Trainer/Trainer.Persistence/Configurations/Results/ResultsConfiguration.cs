@@ -11,13 +11,13 @@ namespace Trainer.Persistence.Configurations.Results
                 .WithOne(x => x.Result)
                 .HasForeignKey<Domain.Entities.Result.Result>(x => x.ExaminationId)
                 .OnDelete(DeleteBehavior.NoAction)
-                .IsRequired(false);
+                .IsRequired();
 
             builder.HasOne(x => x.Patient)
                 .WithMany(x => x.Results)
                 .HasForeignKey(x => x.PatientId)
                 .OnDelete(DeleteBehavior.NoAction)
-                .IsRequired(false);
+                .IsRequired();
         }
     }
 }
